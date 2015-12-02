@@ -11,13 +11,6 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-
-        try {
-            $this->get('WSC')->sendRequest(new PingRequest(), 'toto');
-        } catch(ConnectionException $e){
-            return new Response($e->getMessage());
-        }
-
         return $this->render('MaxcraftDefaultBundle:Default:index.html.twig');
     }
 
