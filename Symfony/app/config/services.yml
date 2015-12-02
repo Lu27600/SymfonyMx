@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
+      WSC:
+        class: Maxcraft\DefaultBundle\Service\SymfonyWSC
+                            arguments:
+                                - %serverKey%
+
+
       maxcraft.websocket_server:
                     class: Maxcraft\DefaultBundle\Service\SymfonyWSS
                     arguments:
