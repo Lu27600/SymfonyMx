@@ -1,0 +1,4 @@
+maxcraft_default:
+    resource: "@MaxcraftDefaultBundle/Resources/config/routing.yml"
+    prefix:   /
+

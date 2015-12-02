@@ -1,0 +1,6 @@
+maxcraft_homepage:
+    path:     /
+    defaults: { _controller: MaxcraftDefaultBundle:Default:index }
+    requirements:
+
+
