@@ -9,7 +9,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $this->get('WSC')->sendRequest(new PingRequest());
+        $this->get('WSC')->sendRequest(new PingRequest(), 'toto');
 
         return $this->render('MaxcraftDefaultBundle:Default:index.html.twig');
     }
