@@ -2,17 +2,30 @@
 
 namespace Maxcraft\DefaultBundle\Controller;
 
-use NathemWS\PingRequest;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use WebSocket\ConnectionException;
+
 
 class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('MaxcraftDefaultBundle:Default:index.html.twig');
+        $id = 1;
+
+        $zone = $this->getDoctrine()->getManager()->find('MaxcraftDefaultBundle:Zone', $id);
+
+
+        $repContent = array(
+            "id" => $zone->getId(),
+            "owner" => $zone->getOwner()
+        ) ;
+        $rep = new Response(json_encode($repContent));
+        return $rep;
+
+        //return $this->render('MaxcraftDefaultBundle:Default:index.html.twig');
     }
+
 
 
 

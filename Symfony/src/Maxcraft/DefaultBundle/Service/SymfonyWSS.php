@@ -4,6 +4,7 @@
 namespace Maxcraft\DefaultBundle\Service;
 
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use NathemWS\NathemWSS;
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
@@ -19,6 +20,7 @@ class SymfonyWSS extends NathemWSS
         $this->container = $container;
 
         //Handlers :
+        $this->registerHandler("ZONE-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ZoneHandler');
 
     }
 
@@ -29,6 +31,8 @@ class SymfonyWSS extends NathemWSS
     {
         return $this->container;
     }
+
+
 
     public function start()
     {
