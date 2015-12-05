@@ -468,5 +468,29 @@ class Faction
     {
         $this->uuid = $uuid;
     }
+
+    public  function objectToString(Faction $faction){
+
+        $id = "id=".'"'.$faction->getId().'",';
+        $uuid = 'uuid="'.$faction->getUuid().'",';
+        if($faction->getName()== null){$name = null;} else{$name = "name=".'"'.$faction->getName().'",';}
+        $tag="tag=".'"'.$faction->getTag().'",';
+        $balance = 'balance="'.$faction->getBalance().'",';
+        if ($faction->getSpawn()==null){$spawn = null;} else{$spawn = 'spawn="'.$faction->getSpawn().'",';}
+        if ($faction->getJail() == null){$jail = null;} else {$jail = 'jail:"'.$faction->getJail().'",';}
+        $owner = "owner=".'"'.$faction->getOwner().'",';
+        if ($faction->getHeads()==null){$heads = null;} else{$heads = "heads=".'"'.$faction->getHeads().'",';}
+        if ($faction->getMembers()==null){$members = null;} else{$members = "members=".'"'.$faction->getMembers().'",';}
+        if ($faction->getRecruits()==null){$recruits = null;} else{$recruits = "recruits=".'"'.$faction->getRecruits().'",';}
+        if ($faction->getEnemies()==null){$enemies = null;} else{$enemies = "enemies=".'"'.$faction->getEnemies().'",';}
+        if ($faction->getAllies()==null){$allies = null;} else{$allies = "allies=".'"'.$faction->getAllies().'",';}
+        if ($faction->getIcon()==null){$icon = null;} else{$icon = "icon=".'"'.$faction->getIcon().'",';}
+        if ($faction->getBanner()==null){$banner = null;} else{$banner = "banner=".'"'.$faction->getBanner().'",';}
+
+        $str = "-faction:".$id.$uuid.$name.$tag.$balance.$spawn.$jail.$owner.$heads.$members.$recruits.$enemies.$allies.$icon.$banner;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 

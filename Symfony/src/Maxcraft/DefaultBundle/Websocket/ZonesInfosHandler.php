@@ -6,7 +6,7 @@ namespace Maxcraft\DefaultBundle\Websocket;
 
 
 
-use Maxcraft\DefaultBundle\Entity\Zone;
+
 use Symfony\Component\HttpFoundation\Response;
 
 class ZonesInfosHandler extends MaxcraftHandler
@@ -31,7 +31,6 @@ class ZonesInfosHandler extends MaxcraftHandler
 
         foreach($zones as $zone){
             $repContent = $repContent . $zone->objectToString($zone);
-
         }
 
         $rep = new Response(json_encode($repContent));
