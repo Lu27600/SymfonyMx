@@ -469,6 +469,10 @@ class Faction
         $this->uuid = $uuid;
     }
 
+    /**
+     * @param Faction $faction
+     * @return string
+     */
     public  function objectToString(Faction $faction){
 
         $id = "id=".'"'.$faction->getId().'",';

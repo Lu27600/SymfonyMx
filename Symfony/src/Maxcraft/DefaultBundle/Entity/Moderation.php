@@ -253,5 +253,25 @@ class Moderation
     {
         $this->uuid = $uuid;
     }
+
+    /**
+     * @param Moderation $moderation
+     * @return string
+     */
+    public function objectToString(Moderation $moderation){
+        $id = 'id="'.$moderation->getId().'",';
+        $uuid = 'uuid="'.$moderation->getUuid().'",';
+        $ismute = 'ismute="'.$moderation->getIsmute().'",';
+        $muteend = 'muteend="'.$moderation->getMuteend().'",';
+        $isjail = 'isjail="'.$moderation->getIsjail().'",';
+        $jailend  ='jailend="'.$moderation->getJailend().'",';
+        $isban = 'isban="'.$moderation->getIsban().'",';
+        $banend = 'banend="'.$moderation->getBanend().'",';
+
+        $str = '-moderation:'.$id.$uuid.$ismute.$muteend.$isjail.$jailend.$isban.$banend;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 

@@ -288,6 +288,10 @@ class Zone
         return $this->cuboiders;
     }
 
+    /**
+     * @param Zone $zone
+     * @return string
+     */
     public  function objectToString(Zone $zone){
 
         $id = "id=".'"'.$zone->getId().'",';

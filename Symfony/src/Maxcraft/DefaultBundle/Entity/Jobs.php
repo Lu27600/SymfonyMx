@@ -99,5 +99,22 @@ class Jobs
     {
         return $this->xp;
     }
+
+    /**
+     * @param Jobs $job
+     * @return string
+     */
+    public function objectToString(Jobs $job){
+
+        $id = 'id="'.$job->getId().'",';
+        $metier = 'metier="'.$job->getMetier().'",';
+        $xp = 'xp="'.$job->getXp().'",';
+
+        $str = '-jobs:'.$id.$metier.$xp;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
+
 }
 
