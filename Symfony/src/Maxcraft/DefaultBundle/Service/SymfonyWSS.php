@@ -20,7 +20,7 @@ class SymfonyWSS extends NathemWSS
         $this->container = $container;
 
         //Handlers :
-        $this->registerHandler("ZONE-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ZoneHandler');
+        $this->registerHandler("ZONES-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ZonesInfosHandler');
 
     }
 

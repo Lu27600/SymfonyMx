@@ -3,4 +3,7 @@ maxcraft_homepage:
     defaults: { _controller: MaxcraftDefaultBundle:Default:index }
     requirements:
 
+maxcraft_new_zone:
+    path: /new/zone
+    defaults: { _controller: MaxcraftDefaultBundle:Default:addZone }
 
