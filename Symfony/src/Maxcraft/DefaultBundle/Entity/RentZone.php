@@ -193,5 +193,19 @@ class RentZone
     {
         return $this->location;
     }
+
+    public function objectToString(RentZone $rentZone){
+        $id = 'id="'.$rentZone->getId();
+        $zoneId = 'zoneid="'.$rentZone->getZoneId().'",';
+        $tenant = 'tenant="'.$rentZone->getTenant().'",';
+        $price = 'price="'.$rentZone->getPrice().'",';
+        if($rentZone->getLastpay()==null){$lastPay = null;} else{$lastPay = 'lastpay="'.$rentZone->getLastpay().'",';}
+        $location = 'location="'.$rentZone->getLocation().'",';
+
+        $str = '-rentzone:'.$id.$zoneId.$tenant.$price.$lastPay.$location;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 

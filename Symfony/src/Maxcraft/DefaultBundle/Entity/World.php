@@ -98,5 +98,16 @@ class World
     {
         return $this->groupNumber;
     }
+
+    public function objectToString(World $world){
+        $id = 'id="'.$world->getId();
+        $name = 'name="'.$world->getName().'",';
+        $groupNumber = 'groupnumber="'.$world->getGroupNumber().'",';
+
+        $str = '-world:'.$id.$name.$groupNumber;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 

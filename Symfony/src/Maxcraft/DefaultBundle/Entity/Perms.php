@@ -97,5 +97,16 @@ class Perms
     {
         return $this->perms;
     }
+
+    public function objectToString(Perms $perm){
+        $id = 'id="'.$perm->getId().'",';
+        $groupName = 'groupname="'.$perm->getGroupName().'",';
+        $perms = 'perms="'.$perm->getPerms().'",';
+
+        $str = '-perms:'.$id.$groupName.$perms;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 

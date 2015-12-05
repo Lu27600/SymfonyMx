@@ -165,5 +165,18 @@ class Player
     {
         return $this->actif;
     }
+
+    public function objectToString(Player $player){
+        $id = 'id="'.$player->getId().'",';
+        $uuid = 'uuid="'.$player->getUuid().'",';
+        $pseudo = 'pseudo="'.$player->getPseudo().'",';
+        $balance = 'balance="'.$player->getBalance().'",';
+        $actif = 'actif="'.$player->getActif().'",';
+
+        $str = '-player:'.$id.$uuid.$pseudo.$balance.$actif;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 
