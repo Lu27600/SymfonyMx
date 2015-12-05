@@ -14,6 +14,10 @@ class SymfonyWSS extends NathemWSS
 {
     private  $container;
 
+    /**
+     * @param $container
+     * @param $key
+     */
     public function __construct($container, $key)
     {
         parent::__construct("MaxcraftPhpServer", $key);
@@ -21,7 +25,10 @@ class SymfonyWSS extends NathemWSS
 
         //Handlers :
         $this->registerHandler("ZONES-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ZonesInfosHandler');
-
+        $this->registerHandler("MODERATIONS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ModerationsInfosHandler');
+        $this->registerHandler("JOBS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\JobsInfosHandler');
+        $this->registerHandler("FACTIONS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\FactionsInfosHandler');
+        $this->registerHandler("ALLONSALEZONE-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\AllOnSaleZoneInfosHandler');
     }
 
     /**

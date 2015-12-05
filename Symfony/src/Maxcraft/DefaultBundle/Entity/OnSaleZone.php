@@ -161,5 +161,18 @@ class OnSaleZone
     {
         return $this->location;
     }
+
+    public function objectToString(OnSaleZone $saleZone){
+        $id = 'id="'.$saleZone->getId().'",';
+        $zoneId = 'zoneid="'.$saleZone->getZoneId().'",';
+        $price = 'price="'.$saleZone->getPrice().'",';
+        $forrent = 'forrent="'.$saleZone->getForRent().'",';
+        $location = 'location="'.$saleZone->getLocation().'",';
+
+        $str = '-onsalezone:'.$id.$zoneId.$price.$forrent.$location;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 }
 
