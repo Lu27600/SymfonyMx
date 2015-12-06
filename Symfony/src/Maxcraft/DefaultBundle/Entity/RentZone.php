@@ -199,7 +199,7 @@ class RentZone
         $zoneId = 'zoneid="'.$rentZone->getZoneId().'",';
         $tenant = 'tenant="'.$rentZone->getTenant().'",';
         $price = 'price="'.$rentZone->getPrice().'",';
-        if($rentZone->getLastpay()==null){$lastPay = null;} else{$lastPay = 'lastpay="'.$rentZone->getLastpay().'",';}
+        if($rentZone->getLastpay()==null){$lastPay = 'lastpay="null",';} else{$lastPay = 'lastpay="'.$rentZone->getLastpay().'",';}
         $location = 'location="'.$rentZone->getLocation().'",';
 
         $str = '-rentzone:'.$id.$zoneId.$tenant.$price.$lastPay.$location;

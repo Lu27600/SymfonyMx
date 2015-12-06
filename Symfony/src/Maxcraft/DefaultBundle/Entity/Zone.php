@@ -295,14 +295,14 @@ class Zone
     public  function objectToString(Zone $zone){
 
         $id = "id=".'"'.$zone->getId().'",';
-        if($zone->getName()== null){$name = null;} else{$name = "name=".'"'.$zone->getName().'",';}
-        if($zone->getParent()==null){$parent = null;} else{$parent = "parent=".'"'.$zone->getParent().'",';}
+        if($zone->getName()== null){$name = 'name="null",';} else{$name = "name=".'"'.$zone->getName().'",';}
+        if($zone->getParent()==null){$parent = 'parent="null",';} else{$parent = "parent=".'"'.$zone->getParent().'",';}
         $points = "points=".'"'.$zone->getPoints().'",';
-        if ($zone->getOwner()==null){$owner = null;} else{$owner = "owner=".'"'.$zone->getOwner().'",';}
+        if ($zone->getOwner()==null){$owner = 'owner="null",';} else{$owner = "owner=".'"'.$zone->getOwner().'",';}
         $world = 'world="'.$zone->getWorld().'",';
-        if ($zone->getTags()==null) { $tags=null;} else{$tags="tags=".'"'.$zone->getTags().'",';}
-        if ($zone->getBuilders()==null) { $builders=null;} else{$builders="builders=".'"'.$zone->getBuilders().'",';}
-        if ($zone->getCuboiders()==null) {$cuboiders=null;} else{$cuboiders="cuboiders=".'"'.$zone->getCuboiders().'"';}
+        if ($zone->getTags()==null) { $tags='tags="null",';} else{$tags="tags=".'"'.$zone->getTags().'",';}
+        if ($zone->getBuilders()==null) { $builders='builders="null",';} else{$builders="builders=".'"'.$zone->getBuilders().'",';}
+        if ($zone->getCuboiders()==null) {$cuboiders='cuboiders="null",';} else{$cuboiders="cuboiders=".'"'.$zone->getCuboiders().'"';}
 
         $str = "-zone:".$id.$name.$parent.$points.$owner.$world.$tags.$builders.$cuboiders;
         strval($str);

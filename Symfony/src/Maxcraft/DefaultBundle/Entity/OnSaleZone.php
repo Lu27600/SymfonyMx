@@ -167,7 +167,7 @@ class OnSaleZone
         $zoneId = 'zoneid="'.$saleZone->getZoneId().'",';
         $price = 'price="'.$saleZone->getPrice().'",';
         $forrent = 'forrent="'.$saleZone->getForRent().'",';
-        if ($saleZone->getLocation()==null){$location = null;}else{$location = 'location="'.$saleZone->getLocation().'",';}
+        if ($saleZone->getLocation()==null){$location = 'location="null",';}else{$location = 'location="'.$saleZone->getLocation().'",';}
 
         $str = '-onsalezone:'.$id.$zoneId.$price.$forrent.$location;
         strval($str);
