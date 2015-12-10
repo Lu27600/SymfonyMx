@@ -33,6 +33,8 @@ class SymfonyWSS extends NathemWSS
         $this->registerHandler("PLAYERS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\PlayersInfosHandler');
         $this->registerHandler("ALLRENTZONE-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\AllRentZoneInfosHandler');
         $this->registerHandler("WORLDS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\WorldInfosHandler');
+        $this->registerHandler("ZONE-PERSIST",'Maxcraft\\DefaultBundle\\Websocket\\PersistZoneHandler');
+        $this->registerHandler("FACTION-PERSIST",'Maxcraft\\DefaultBundle\\Websocket\\PersistFactionHandler');
     }
 
     /**
