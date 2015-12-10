@@ -7,3 +7,7 @@ maxcraft_new_zone:
     path: /new/zone
     defaults: { _controller: MaxcraftDefaultBundle:Default:addZone }
 
+regex_test:
+    path: /regex
+    defaults: { _controller: MaxcraftDefaultBundle:Default:testRegex }
+

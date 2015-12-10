@@ -33,6 +33,20 @@ class DefaultController extends Controller
        $rep = new Response('coucou');
        return $rep;*/
 
+    public function testRegexAction(){
+        $json = '-world:id="67",name="maxcraft",groupnumber="35",';
+        $regex = '#^-world:id="(.+)",name="(.+)",groupnumber="(.+)",$#';
+
+        if (preg_match($regex, $json)){
+            $text = preg_replace($regex,'$1,$2,$3' ,$json);
+            $repContent = 'ca marche :  ' .$text;
+            $rep = new Response(json_encode($repContent));
+            return $rep;
+        } else{
+            return new Response(json_encode('rate'));
+        }
+    }
+
 
 }
 
