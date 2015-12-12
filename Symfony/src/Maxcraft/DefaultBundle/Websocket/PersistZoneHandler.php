@@ -35,7 +35,7 @@ class PersistZoneHandler extends MaxcraftHandler
             }
 
             if ($name == 'null'){$zone->setName(null);} else{$zone->setName($name);}
-            if ($parent == 'null') {$zone->setParent(null);} else {$zone->setParent($parent);}
+            if ($parent == 'null') {$zone->setParent(null);} else {$zone->setParent(intval($parent));}
             $zone->setPoints($points);
             if ($owner == 'null'){$zone->setOwner(null);}else {$zone->setOwner($owner);}
             $zone->setWorld($world);
@@ -46,7 +46,7 @@ class PersistZoneHandler extends MaxcraftHandler
             $em->persist($zone);
             $em->flush();
 
-            return new Response(json_encode('error=false'));
+            return new Response(json_encode(array('error'=>false)));
         }
         elseif (substr_count($data, '-')>1){
             //Plusieurs objets
@@ -68,7 +68,7 @@ class PersistZoneHandler extends MaxcraftHandler
                 }
 
                 if ($name == 'null'){$zone->setName(null);} else{$zone->setName($name);}
-                if ($parent == 'null') {$zone->setParent(null);} else {$zone->setParent($parent);}
+                if ($parent == 'null') {$zone->setParent(null);} else {$zone->setParent(intval($parent));}
                 $zone->setPoints($points);
                 if ($owner == 'null'){$zone->setOwner(null);}else {$zone->setOwner($owner);}
                 $zone->setWorld($world);
@@ -79,6 +79,7 @@ class PersistZoneHandler extends MaxcraftHandler
                 $em->persist($zone);
                 $em->flush();
             }
+            return new Response(json_encode(array('error'=> false)));
         }
         else{
             //erreur

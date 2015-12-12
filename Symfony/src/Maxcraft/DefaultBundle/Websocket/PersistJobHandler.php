@@ -69,6 +69,7 @@ class PersistJobHandler extends MaxcraftHandler
                 $em->persist($job);
                 $em->flush();
             }
+            return new Response(json_encode(array('error'=> false)));
         }
         else{
             //erreur
