@@ -11,5 +11,7 @@ regex_test:
     path: /regex
     defaults: { _controller: MaxcraftDefaultBundle:Default:testRegex }
 
-
+int_test:
+    path: /int
+    defaults: { _controller: MaxcraftDefaultBundle:Default:testInt }
 

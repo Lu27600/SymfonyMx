@@ -47,7 +47,11 @@ class DefaultController extends Controller
         }
     }
 
-
+    public function testIntAction(){
+        $str = '56.88';
+        $int = doubleval($str);
+        return $int;
+    }
 
 
 }
