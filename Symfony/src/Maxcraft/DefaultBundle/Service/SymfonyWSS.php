@@ -38,6 +38,9 @@ class SymfonyWSS extends NathemWSS
         $this->registerHandler("JOB-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistJobHandler');
         $this->registerHandler("MODERATION-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistModerationHandler');
         $this->registerHandler("ONSALEZONE-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistOnSaleZoneHandler');
+        $this->registerHandler("PERMS-PERSIST",'Maxcraft\\DefaultBundle\\Websocket\\PersistPermsHandler');
+        $this->registerHandler("RENTZONE-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistPermsHandler');
+        $this->registerHandler("WORLD-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistWorldHandler');
     }
 
     /**
