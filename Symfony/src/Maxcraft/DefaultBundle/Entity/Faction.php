@@ -495,4 +495,3 @@ class Faction
         return $str;
     }
 }
-

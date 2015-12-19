@@ -174,4 +174,3 @@ class Player
         return $str;
     }
 }
-

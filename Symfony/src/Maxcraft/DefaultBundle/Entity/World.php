@@ -105,4 +105,3 @@ class World
         return $str;
     }
 }
-

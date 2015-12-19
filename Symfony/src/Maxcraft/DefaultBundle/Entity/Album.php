@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\Type;
  * Album
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\AlbumRepository")
  */
 class Album
 {
@@ -227,4 +227,3 @@ class Album
         return $this->display;
     }
 }
-

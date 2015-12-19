@@ -168,4 +168,3 @@ class OnSaleZone
         return $str;
     }
 }
-

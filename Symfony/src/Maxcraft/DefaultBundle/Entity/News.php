@@ -227,4 +227,3 @@ class News
         return $this->display;
     }
 }
-

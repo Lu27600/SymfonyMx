@@ -106,4 +106,3 @@ class Perms
         return $str;
     }
 }
-

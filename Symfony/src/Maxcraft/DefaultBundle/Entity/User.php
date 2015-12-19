@@ -806,4 +806,3 @@ class User implements UserInterface
     }
 
 }
-

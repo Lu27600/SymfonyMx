@@ -167,4 +167,3 @@ class WebZone
         return $this->description;
     }
 }
-

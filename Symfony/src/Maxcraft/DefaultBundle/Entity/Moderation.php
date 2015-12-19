@@ -266,4 +266,3 @@ class Moderation
         return $str;
     }
 }
-
