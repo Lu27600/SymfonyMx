@@ -29,7 +29,7 @@ security:
                     domain: ~
                 http_basic: ~
                 pattern: ^/
-                anonymous: ~
+                anonymous: true
                 form_login:
                     login_path: /
                     check_path: /login_check
