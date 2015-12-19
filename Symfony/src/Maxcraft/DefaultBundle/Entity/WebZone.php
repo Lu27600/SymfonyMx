@@ -28,14 +28,14 @@ class WebZone
 
     /**
      * @var integer
-     * @ORM\Column(name="zoneId", type="integer", unique="true")
+     * @ORM\Column(name="zoneId", type="integer", unique=true)
      */
     private $zoneId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="album", type="integer", nullable="true")
+     * @ORM\Column(name="album", type="integer", nullable=true)
      */
     private $album;
 
@@ -49,7 +49,7 @@ class WebZone
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable="true")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 

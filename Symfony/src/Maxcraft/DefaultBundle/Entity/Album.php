@@ -35,7 +35,7 @@ class Album
     /**
      * @var integer
      *
-     * @ORM\Column(name="albumimage", type="integer", nullable="true")
+     * @ORM\Column(name="albumimage", type="integer", nullable=true)
      */
     private $albumimage;
 

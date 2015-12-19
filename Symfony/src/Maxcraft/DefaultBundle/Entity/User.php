@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Email;
 
 /**
@@ -40,7 +39,7 @@ class User implements UserInterface
     /**
      * @var string
      * @Assert\NotBlank(message = "Vous devez entrer un pseudo !")
-     * @Assert\MinLenght(limit=2, message="Le pseudo doit contenir au moins 2 caractères !")
+     * @Assert\Length(min=2, minMessage="Le pseudo doit contenir au moins 2 caractères !")
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
@@ -138,7 +137,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @Assert\Length(max = 255, maxMessage = "Le champs <loisirs> doit contenir moins de 255 caractères"")
+     * @Assert\Length(max = 255, maxMessage = "Le champs <loisirs> doit contenir moins de 255 caractères.")
      * @ORM\Column(name="loisirs", type="string", length=300)
      */
     private $loisirs;

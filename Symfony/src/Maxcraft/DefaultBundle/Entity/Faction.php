@@ -23,7 +23,6 @@ class Faction
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-   //TODO voir pour la génération de l'uuid
     /**
      * @var string
      * @ORM\Column(name="uuid", type="string", length=255, unique=true)
@@ -126,7 +125,7 @@ class Faction
 
     public function __construct(){
         $this->balance = 0;
-        //TODO générer uuid?
+        $this->uuid = uniqid("fac",false);
     }
 
 

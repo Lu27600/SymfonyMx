@@ -34,14 +34,14 @@ class Image
     /**
      * @var integer
      *
-     * @ORM\Column(name="x", type="integer", nullable="true")
+     * @ORM\Column(name="x", type="integer", nullable=true)
      */
     private $x;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="y", type="integer", nullable="true")
+     * @ORM\Column(name="y", type="integer", nullable=true)
      */
     private $y;
 
