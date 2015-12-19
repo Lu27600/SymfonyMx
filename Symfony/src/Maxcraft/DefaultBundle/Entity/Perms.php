@@ -5,7 +5,6 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Perms
@@ -26,8 +25,6 @@ class Perms
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="groupName", type="string", length=255, unique=true)
      */
     private $groupName;

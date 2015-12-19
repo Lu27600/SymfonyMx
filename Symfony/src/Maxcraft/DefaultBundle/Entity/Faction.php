@@ -5,7 +5,7 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * Faction
@@ -23,27 +23,25 @@ class Faction
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
+   //TODO voir pour la génération de l'uuid
     /**
      * @var string
      * @ORM\Column(name="uuid", type="string", length=255, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      */
     private $uuid;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
+     * @Assert\NotBlank(message = "Vous devez donner un nom à votre faction !")
+     * @Assert\Length(min = 3, minMessage = "Le nom de votre faction doit contenir au minimum 3 caractères !")
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
+     * @Assert\NotBlank(message = "Vous n'avez pas créé de tag pour votre faction !")
+     * @Assert\Length(min = 2, max = 6, minMessage="Le tag doit contenir 2 caractères au minimum.", maxMessage = "Le tag doit contenir moins de 6 caractères.")
      * @ORM\Column(name="tag", type="string", length=255, unique=true)
      */
     private $tag;
@@ -128,6 +126,7 @@ class Faction
 
     public function __construct(){
         $this->balance = 0;
+        //TODO générer uuid?
     }
 
 

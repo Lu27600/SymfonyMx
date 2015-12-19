@@ -5,7 +5,6 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Zone
@@ -41,8 +40,6 @@ class Zone
 
     /**
      * @var string
-     * @Assert\NotNull()
-     * @Assert\NotBlank()
      * @ORM\Column(name="points", type="string", length=255)
      */
     private $points;
@@ -56,8 +53,6 @@ class Zone
 
     /**
      * @var string
-     * @Assert\NotNull()
-     * @Assert\NotBlank()
      * @ORM\Column(name="world", type="string", length=255)
      */
     private $world;

@@ -5,7 +5,6 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * Player
@@ -26,16 +25,12 @@ class Player
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="uuid", type="string", length=255, unique=true)
      */
     private $uuid;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
      */
     private $pseudo;

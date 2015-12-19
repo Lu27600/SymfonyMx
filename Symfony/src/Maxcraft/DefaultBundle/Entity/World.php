@@ -5,7 +5,6 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * World
@@ -26,16 +25,12 @@ class World
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var integer
-     * @Assert\NotNull()
-     * @Assert\NotBlank()
      * @ORM\Column(name="groupNumber", type="integer")
      */
     private $groupNumber;

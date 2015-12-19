@@ -3,7 +3,6 @@
 namespace Maxcraft\DefaultBundle\Controller;
 
 
-use Maxcraft\DefaultBundle\Entity\Zone;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 

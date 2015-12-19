@@ -5,7 +5,7 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * Moderation
@@ -26,50 +26,42 @@ class Moderation
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="uuid", type="string", length=255)
      */
     private $uuid;
 
     /**
      * @var boolean
-     * @Assert\NotNull()
      * @ORM\Column(name="ismute", type="boolean")
      */
     private $ismute;
 
     /**
      * @var integer
-     * @Assert\NotNull()
      * @ORM\Column(name="muteend", type="bigint")
      */
     private $muteend;
 
     /**
      * @var boolean
-     * @Assert\NotNull()
      * @ORM\Column(name="isjail", type="boolean")
      */
     private $isjail;
 
     /**
      * @var integer
-     * @Assert\NotNull()
      * @ORM\Column(name="jailend", type="bigint")
      */
     private $jailend;
 
     /**
      * @var boolean
-     * @Assert\NotNull()
      * @ORM\Column(name="isban", type="boolean")
      */
     private $isban;
 
     /**
      * @var integer
-     * @Assert\NotNull()
      * @ORM\Column(name="banend", type="bigint")
      */
     private $banend;

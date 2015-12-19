@@ -3,9 +3,7 @@
 namespace Maxcraft\DefaultBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
+
 
 
 /**
@@ -27,16 +25,12 @@ class Jobs
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="metier", type="string", length=255)
      */
     private $metier;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="xp", type="decimal", precision=64, scale=11)
      */
     private $xp;

@@ -5,7 +5,6 @@ namespace Maxcraft\DefaultBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
  * RentZone
@@ -26,39 +25,30 @@ class RentZone
 
     /**
      * @var integer
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="zone_id", type="integer", unique=true)
      */
     private $zoneId;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="tenant", type="string", length=255)
      */
     private $tenant;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="price", type="decimal", precision=64, scale=2)
      */
     private $price;
 
     /**
      * @var string
-     * @Assert\NotBlank()
      * @ORM\Column(name="lastpay", type="string", length=255, nullable=true)
      */
     private $lastpay;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
      * @ORM\Column(name="location", type="string", length=50)
      */
     private $location;
