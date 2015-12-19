@@ -40,7 +40,7 @@ class User implements UserInterface
     /**
      * @var string
      * @Assert\NotBlank(message = "Vous devez entrer un pseudo !")
-     * @Assert\Lenght(min=2, minMessage="Le pseudo doit contenir au moins 2 caractères !")
+     * @Assert\MinLenght(limit=2, message="Le pseudo doit contenir au moins 2 caractères !")
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
