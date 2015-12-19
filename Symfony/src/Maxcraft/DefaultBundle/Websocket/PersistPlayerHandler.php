@@ -24,11 +24,11 @@ class PersistPlayerHandler extends MaxcraftHandler
         if ( (substr_count($data, '-'))==1){
             //Un objet
 
-            $regex = '/-player:id="(\d+)",uuid="(.+)",pseudo="(.+)",balance="(.+),actif="(.+)",?/';
+            $regex = '/-player:id="(\d+)",uuid="(.+)",pseudo="(.+)",balance="(.+),actif="(.+)",vanished="(.+)",?/';
             if ( !(preg_match($regex,$data))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
-            $str = preg_replace($regex,'$1;$2;$3;$4;$5',$data);
-            list ($id,$uuid,$pseudo,$balance,$actif) = explode(';',$str);
+            $str = preg_replace($regex,'$1;$2;$3;$4;$5;$6',$data);
+            list ($id,$uuid,$pseudo,$balance,$actif,$vanished) = explode(';',$str);
 
             $em = $this->getDoctrine()->getManager();
 
@@ -39,6 +39,7 @@ class PersistPlayerHandler extends MaxcraftHandler
             $player->setPseudo($pseudo);
             $player->setBalance(doubleval($balance));
             if ($actif == 'true'){$player->setActif(true);}elseif($actif == 'false'){$player->setActif(false);}else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
+            if ($vanished == 'true') {$player->setVanished(true);} elseif ($vanished == 'false') {$player->setVanished(false);} else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
 
             $em->persist($player);
             $em->flush();
@@ -53,11 +54,11 @@ class PersistPlayerHandler extends MaxcraftHandler
             $players = explode('-',$str);
 
             foreach ($players as $p){
-                $regex = '/-?player:id="(\d+)",uuid="(.+)",pseudo="(.+)",balance="(.+),actif="(.+)",?/';
+                $regex = '/-?player:id="(\d+)",uuid="(.+)",pseudo="(.+)",balance="(.+),actif="(.+)",vanished="(.+)",?/';
                 if ( !(preg_match($regex,$p))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
-                $string = preg_replace($regex,'$1;$2;$3;$4;$5',$p);
-                list ($id,$uuid,$pseudo,$balance,$actif) = explode(';',$string);
+                $string = preg_replace($regex,'$1;$2;$3;$4;$5;$6',$p);
+                list ($id,$uuid,$pseudo,$balance,$actif,$vanished) = explode(';',$string);
 
                 $em = $this->getDoctrine()->getManager();
 
@@ -68,6 +69,8 @@ class PersistPlayerHandler extends MaxcraftHandler
                 $player->setPseudo($pseudo);
                 $player->setBalance(doubleval($balance));
                 if ($actif == 'true'){$player->setActif(true);}elseif($actif == 'false'){$player->setActif(false);}else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
+                if ($vanished == 'true') {$player->setVanished(true);} elseif ($vanished == 'false') {$player->setVanished(false);} else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
+
 
                 $em->persist($player);
                 $em->flush();
