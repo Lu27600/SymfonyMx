@@ -9,8 +9,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction($page) //TODO fnr
     {
+        //Récupération Album principal
+        $albumid = $this->container->getParameter('index_album');
+        $album = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Album')->findOneById($albumid);
+        if ($album != null) {
+            $images = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Album')->findImages($album);
+        }
+        else {
+            $images = null;
+        }
+
+        //news par page
+        $parpage = $this->container->getParameter('news_par_page');
+
+        //Récupération des news
+        $repNews = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:News');
+        $news = $repNews->findByPage($page,$parpage);
+        $totalNews = $repNews->countDisplay();
+        $totalPages = ceil(($totalNews)/($parpage));
+
+
+
+
         return $this->render('MaxcraftDefaultBundle:Default:index.html.twig');
     }
 

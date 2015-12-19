@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * News
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\NewsRepository")
  */
 class News
 {

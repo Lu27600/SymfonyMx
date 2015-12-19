@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class User implements UserInterface
 {
+    //TODO isVanished
+
     /**
      * @var integer
      *
@@ -176,6 +178,8 @@ class User implements UserInterface
      * @ORM\Column(name="gametime", type="integer")
      */
     private $gametime;
+
+
 
     public $controller;
 

@@ -49,6 +49,12 @@ class Player
      */
     private $actif;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="vanished", type="boolean")
+     */
+    private $vanished;
+
     public function __contrsuct(){
         $this->balance = 0;
         $this->actif = true;
@@ -161,14 +167,29 @@ class Player
         return $this->actif;
     }
 
+    /**
+     * @return bool
+     */
+    public function getVanished(){
+        return $this->vanished;
+    }
+
+    /**
+     * @param $vanished
+     */
+    public function setVanished($vanished){
+        $this->vanished = $vanished;
+    }
+
     public function objectToString(Player $player){
         $id = 'id="'.$player->getId().'",';
         $uuid = 'uuid="'.$player->getUuid().'",';
         $pseudo = 'pseudo="'.$player->getPseudo().'",';
         $balance = 'balance="'.$player->getBalance().'",';
         $actif = 'actif="'.$player->getActif().'",';
+        $vanished = 'vanished="'.$player->getVanished().'",';
 
-        $str = '-player:'.$id.$uuid.$pseudo.$balance.$actif;
+        $str = '-player:'.$id.$uuid.$pseudo.$balance.$actif.$vanished;
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
