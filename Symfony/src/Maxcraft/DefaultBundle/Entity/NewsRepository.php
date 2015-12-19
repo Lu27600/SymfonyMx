@@ -31,4 +31,13 @@ class NewsRepository extends EntityRepository
 
         return count($totalNews);
     }
+
+    public function getComments(News $newsId){
+        return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:News')->findBy(
+          array('news'=> $newsId),
+          array('date' => 'desc'),
+          null,
+          0
+        );
+    }
 }

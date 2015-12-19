@@ -1,11 +1,133 @@
-<html>
-    <head>
-        <title>Maxcraft.fr - Accueil</title>
-    </head>
+{% extends "MaxcraftDefaultBundle::layout.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{ asset('js/sceditor/development/jquery.sceditor.bbcode.js') }}"></script>
+
+<script>
+$(function() {
+    // Replace all textarea
+    // with SCEditor
+    $("textarea").sceditor({
+        plugins: "bbcode",
+        width: "587px",
+   		height: "200px",
+   		resizeWidth: false,
+        toolbar: "bold,italic,underline|link,unlink|source",
+	style: "{{ asset('js/sceditor/minified/jquery.sceditor.default.min.css') }}"
+    });
+});
+</script>
 
 
-    <body>
-        <p>Hello World !</p>
-    </body>
 
-</html>
+{% endblock %}
+
+{% block corps %}
+<script src="{{ path('maxcraft_default_news') }}"></script>
+
+<div style="clear: both;height:0px;"></div>
+
+<div id="slider">
+<div id="mainslider">
+{% for image in images %}
+<img src="{{ asset(image.sliderPath) }}" width="525" height="285" alt="{{ image.name }}" />
+{% endfor %}
+</div>
+
+</div>
+
+<div id="edito">
+<h1>Bienvenue sur Maxcraft !</h1>
+<p>
+
+Bienvenue {% if not  is_granted("IS_AUTHENTICATED_REMEMBERED") %}étranger{% else %}<strong>{{ app.user.username }}</strong>{% endif %} ! Maxcraft est un serveur minecraft <strong>RP</strong> où chacun a sa chance de réussir. Rejoins nous si tu aimes <strong>combattre, construire et faire du commerce</strong> ! Sur maxcraft tu peux créer ta <strong>faction</strong>
+ et recruter ta propre équipe.<br/><br/>
+
+Pour nous rejoindre commence par visiter le serveur, l'ip est <strong>maxcraft.fr</strong> puis <a href="">inscris toi</a> sur le site !<br/><br>
+<em>L'équipe de maxcraft.fr</em>
+</p>
+</div>
+
+<div id="gallerie" style="	margin-top:10px;">
+
+
+
+{% render "MaxcraftDefaultBundle:Default:wrap" %}
+</div>
+
+<div id="newsspace">
+{% for new in newslist %}
+
+<div class="news">
+
+{% if new.news.album %}
+<div id="news{{ new.news.id }}">
+{% if new.news.album %}
+{% for image in new.news.album.images %}
+<img src="{{ asset(image.sliderPath) }}"/>
+{% endfor %}
+{% endif %}
+</div>
+{% endif %}
+<h3>{{ new.news.title }}</h3>
+<p class="date">Le {{ new.news.date|date('d M Y à H:i') }} par <strong>{{ new.news.user.username }}</strong></p>
+
+<p class="newscontent">
+{{ new.news.content|bbcode_filter('guide')|raw }}
+
+</p>
+<br/>
+<h3 style="background-color: rgb(111, 111, 111);cursor:pointer;" class="commentbutton">Commentaires ({{ new.nbcomments }})</h3>
+<div class="comments" style="display: none;">
+
+ {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+<p style="cursor:pointer; line-height:40px; padding:15px;min-height: 40px;background-color: rgb(207, 207, 207); margin-bottom:8px; " class="commentformbutton"  >
+<img style="float:left;  padding-right:10px;" src="{{ app.user.avatar(40) }}"/>
+<strong>Poster un commentaire</strong>
+</p>
+
+ <form style="display:none; widht:100%" class="commentform" action="{{ path('maxcraft_default_blog', {'page': page}) }}" method="POST">
+
+{{ form_widget(new.commentform.content) }}
+
+{{ form_rest(new.commentform) }}
+<input type="submit" value="Poster !" class="button-bevel red"><br/><br/>
+</form>
+
+
+{% endif %}
+
+{% for comment in new.comments %}
+
+<p class="date" style="text-align:left;background-color: rgb(228, 228, 228);" >Le {{ comment.date|date('d M Y à H:i') }} par <strong>{{  comment.user.username }}</strong></p>
+<p style="padding:15px;min-height: 70px;background-color: rgb(218, 218, 218); margin-bottom:8px; " class="newscomment" >
+<img style="float:left;  padding-right:10px;" src="{{ comment.user.avatar(70) }}"/>
+
+{{ comment.content|bbcode_filter('comment')}}
+</p>
+{% endfor %}
+</div>
+
+</div>
+{% endfor %}
+
+
+
+<div class="news" style="text-align:center">
+{% for i in 1..totalpages%}
+{% if page == i %}
+<strong style="font-size:20px; text-decoration:underline;">{{ i }}</strong>
+{% else %}
+<a style="font-size:18px; text-decoration:none; color:black;" href="{{ path('maxcraft_default_blog', {'page': i })}}">
+{{ i }}
+</a>
+{% endif %}
+{% endfor %}
+</div>
+
+</div>
+
+{% endblock %}
