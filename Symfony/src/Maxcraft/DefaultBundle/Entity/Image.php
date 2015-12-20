@@ -26,8 +26,10 @@ class Image
     private $id;
 
     /**
-     * @var integer
-     * @ORM\Column(name="album", type="integer")
+     * @var Album
+     *
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $album;
 
@@ -77,30 +79,6 @@ class Image
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set album
-     *
-     * @param integer $album
-     *
-     * @return Image
-     */
-    public function setAlbum($album)
-    {
-        $this->album = $album;
-
-        return $this;
-    }
-
-    /**
-     * Get album
-     *
-     * @return integer
-     */
-    public function getAlbum()
-    {
-        return $this->album;
     }
 
     /**
@@ -221,5 +199,29 @@ class Image
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set album
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Album $album
+     *
+     * @return Image
+     */
+    public function setAlbum(Album $album)
+    {
+        $this->album = $album;
+
+        return $this;
+    }
+
+    /**
+     * Get album
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Album
+     */
+    public function getAlbum()
+    {
+        return $this->album;
     }
 }

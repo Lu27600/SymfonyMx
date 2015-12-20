@@ -32,9 +32,9 @@ class Comment
     private $user;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="news", type="integer")
+     * @var News
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\News")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $news;
 
@@ -90,31 +90,7 @@ class Comment
     {
         return $this->user;
     }
-
-    /**
-     * Set news
-     *
-     * @param integer $news
-     *
-     * @return Comment
-     */
-    public function setNews($news)
-    {
-        $this->news = $news;
-
-        return $this;
-    }
-
-    /**
-     * Get news
-     *
-     * @return integer
-     */
-    public function getNews()
-    {
-        return $this->news;
-    }
-
+    
     /**
      * Set date
      *
@@ -161,5 +137,29 @@ class Comment
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set news
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\News $news
+     *
+     * @return Comment
+     */
+    public function setNews(News $news)
+    {
+        $this->news = $news;
+
+        return $this;
+    }
+
+    /**
+     * Get news
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\News
+     */
+    public function getNews()
+    {
+        return $this->news;
     }
 }
