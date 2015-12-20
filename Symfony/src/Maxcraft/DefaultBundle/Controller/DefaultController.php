@@ -76,17 +76,18 @@ class DefaultController extends Controller
         }
 
 
+        $form = $this->createFormBuilder(array())->add('champs_formulaire', "froala")->getForm();
 
+        return $this->render('MaxcraftDefaultBundle:Tests:froala.html.twig',array('form' => $form->createView()));
 
-
-        return $this->render('MaxcraftDefaultBundle:Default:index.html.twig', array(
+        /*return $this->render('MaxcraftDefaultBundle:Default:index.html.twig', array(
             'newslist' => $newslist,
             'totalpages' => $totalPages,
             'page' => $page,
             'album' => $album,
             'images' => $images,
 
-        ));
+        ));*/
     }
 
 

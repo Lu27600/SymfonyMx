@@ -78,3 +78,20 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+kms_froala_editor:
+
+    language: "fr"
+    toolbarInline: false
+    toolbarSticky: true
+    tableColors: [ "#FFFFFF", "#FF0000" ]
+    saveParams: { "id" : "myEditorField" }
+    toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize',  'color', '|','emoticons',  'paragraphFormat', 'align',   'insertHR', 'insertLink', 'insertImage',  'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll']
+    toolbarButtonsMD: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'color','|', 'emoticons','paragraphFormat', 'align', 'insertHR', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll']
+    toolbarButtonsSM: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize','color', '|','emoticons','paragraphFormat', 'align', 'insertHR', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll']
+    toolbarButtonsXS: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', 'color','|',  'emoticons','paragraphFormat', 'align', 'insertHR', 'insertLink', 'insertImage', 'insertTable', 'undo', 'redo', 'clearFormatting', 'selectAll']
+    pluginsEnabled: [ "colors", 'align', 'emoticons', 'font_family', 'font_size', 'lists', 'code_view',   'image', 'link', 'table''paragraph_format']
+
+exercise_html_purifier:
+    HTML.MaxImgLength: [300]
+    HTML.Allowed: [p,strong,s,u,em,sub,sup,span]
