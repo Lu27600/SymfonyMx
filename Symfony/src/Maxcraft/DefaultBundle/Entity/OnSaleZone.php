@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * OnSaleZone
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\OnSaleZoneRepository")
+ * @ORM\Entity()
  */
 class OnSaleZone
 {
@@ -24,10 +24,11 @@ class OnSaleZone
     private $id;
 
     /**
-     * @var integer
-     * @ORM\Column(name="zone_id", type="integer", unique=true)
+     * @var \Maxcraft\DefaultBundle\Entity\Zone
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $zoneId;
+    private $zone;
 
     /**
      * @var string
@@ -59,29 +60,7 @@ class OnSaleZone
         return $this->id;
     }
 
-    /**
-     * Set zoneId
-     *
-     * @param integer $zoneId
-     *
-     * @return OnSaleZone
-     */
-    public function setZoneId($zoneId)
-    {
-        $this->zoneId = $zoneId;
-
-        return $this;
-    }
-
-    /**
-     * Get zoneId
-     *
-     * @return integer
-     */
-    public function getZoneId()
-    {
-        return $this->zoneId;
-    }
+    
 
     /**
      * Set price
@@ -157,7 +136,7 @@ class OnSaleZone
 
     public function objectToString(OnSaleZone $saleZone){
         $id = 'id="'.$saleZone->getId().'",';
-        $zoneId = 'zoneid="'.$saleZone->getZoneId().'",';
+        $zoneId = 'zoneid="'.$saleZone->getZone()->getId().'",';
         $price = 'price="'.$saleZone->getPrice().'",';
         $forrent = 'forrent="'.$saleZone->getForRent().'",';
         if ($saleZone->getLocation()==null){$location = 'location="null",';}else{$location = 'location="'.$saleZone->getLocation().'",';}
@@ -166,5 +145,29 @@ class OnSaleZone
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
+    }
+
+    /**
+     * Set zone
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Zone $zone
+     *
+     * @return OnSaleZone
+     */
+    public function setZone(Zone $zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * Get zone
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Zone
+     */
+    public function getZone()
+    {
+        return $this->zone;
     }
 }

@@ -27,10 +27,11 @@ class WebZone
     private $id;
 
     /**
-     * @var integer
-     * @ORM\Column(name="zoneId", type="integer", unique=true)
+     * @var \Maxcraft\DefaultBundle\Entity\Zone
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $zoneId;
+    private $servZone;
 
     /**
      * @var integer
@@ -53,8 +54,11 @@ class WebZone
      */
     private $description;
 
-    public function __construct($zoneId){
-        $this->setZoneId($zoneId);
+    /**
+     * @param Zone $servZone
+     */
+    public function __construct(Zone $servZone){
+        $this->setServZone($servZone);
         $this->setAlbum(null);
         $this->setShopDemand(false);
         $this->setDescription(null);
@@ -69,30 +73,6 @@ class WebZone
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set zoneId
-     *
-     * @param integer $zoneId
-     *
-     * @return WebZone
-     */
-    public function setZoneId($zoneId)
-    {
-        $this->zoneId = $zoneId;
-
-        return $this;
-    }
-
-    /**
-     * Get zoneId
-     *
-     * @return integer
-     */
-    public function getZoneId()
-    {
-        return $this->zoneId;
     }
 
     /**
@@ -165,5 +145,29 @@ class WebZone
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set servZone
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Zone $servZone
+     *
+     * @return WebZone
+     */
+    public function setServZone(Zone $servZone)
+    {
+        $this->servZone = $servZone;
+
+        return $this;
+    }
+
+    /**
+     * Get servZone
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Zone
+     */
+    public function getServZone()
+    {
+        return $this->servZone;
     }
 }

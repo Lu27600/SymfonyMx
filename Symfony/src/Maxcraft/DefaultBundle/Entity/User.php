@@ -32,6 +32,14 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var Player
+     *
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Player", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $player;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="uuid", type="string", length=255, unique=true)
@@ -183,7 +191,11 @@ class User implements UserInterface
 
     public $controller;
 
-    function __construct(DefaultController $controller){
+    /**
+     * @param DefaultController $controller
+     * @param Player $player
+     */
+    function __construct(DefaultController $controller, Player $player){
         $this->controller = $controller;
         $this->registerDate = new \DateTime();
         $this->password = NULL;
@@ -197,6 +209,7 @@ class User implements UserInterface
         $this->factionrole = 1;
         $this->gametime = 0;
         $this->note = null;
+        $this->player = $player;
     }
 
 
@@ -809,4 +822,28 @@ class User implements UserInterface
         return false;
     }
 
+
+    /**
+     * Set player
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Player $player
+     *
+     * @return User
+     */
+    public function setPlayer(Player $player)
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * Get player
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
 }

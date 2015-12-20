@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * Faction
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\FactionRepository")
+ * @ORM\Entity()
  */
 class Faction
 {
@@ -67,9 +67,10 @@ class Faction
     private $jail;
 
     /**
-     * @var string
+     * @var User
      *
-     * @ORM\Column(name="owner", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 
@@ -262,11 +263,10 @@ class Faction
     /**
      * Set owner
      *
-     * @param string $owner
-     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $owner
      * @return Faction
      */
-    public function setOwner($owner)
+    public function setOwner(User $owner)
     {
         $this->owner = $owner;
 
@@ -276,7 +276,7 @@ class Faction
     /**
      * Get owner
      *
-     * @return string
+     * @return \Maxcraft\DefaultBundle\Entity\User
      */
     public function getOwner()
     {
@@ -480,7 +480,7 @@ class Faction
         $balance = 'balance="'.$faction->getBalance().'",';
         if ($faction->getSpawn()==null){$spawn = 'spawn="null",';} else{$spawn = 'spawn="'.$faction->getSpawn().'",';}
         if ($faction->getJail() == null){$jail = 'jail="null",';} else {$jail = 'jail:"'.$faction->getJail().'",';}
-        $owner = "owner=".'"'.$faction->getOwner().'",';
+        $owner = "owner=".'"'.$faction->getOwner()->getUsername().'",';
         if ($faction->getHeads()==null){$heads = 'heads="null",';} else{$heads = "heads=".'"'.$faction->getHeads().'",';}
         if ($faction->getMembers()==null){$members = 'members="null",';} else{$members = "members=".'"'.$faction->getMembers().'",';}
         if ($faction->getRecruits()==null){$recruits = 'recruits="null",';} else{$recruits = "recruits=".'"'.$faction->getRecruits().'",';}

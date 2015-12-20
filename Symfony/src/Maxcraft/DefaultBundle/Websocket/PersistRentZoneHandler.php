@@ -24,7 +24,7 @@ class PersistRentZoneHandler extends MaxcraftHandler
         if ( (substr_count($data, '-'))==1){
             //Un objet
 
-            $regex = '/-rentzone:id="(\d+)",zoneid="(\d+)",tenant="(.+)",price="(.+)",lastpay="(.+)",location="(.+)",?/';
+            $regex = '/-rentzone:id="(\d+)",zone="(\d+)",tenant="(.+)",price="(.+)",lastpay="(.+)",location="(.+)",?/';
             if ( !(preg_match($regex,$data))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
             $str = preg_replace($regex,'$1;$2;$3;$4;$5;$6',$data);
@@ -35,7 +35,7 @@ class PersistRentZoneHandler extends MaxcraftHandler
             if (!($rentZone = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:RentZone')->find($id))){
                 $rentZone = new RentZone();
             }
-            $rentZone->setZoneId(intval($zoneId));
+            $rentZone->setZone($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->find($zoneId));
             $rentZone->setTenant($tenant);
             $rentZone->setPrice(doubleval($price));
             if ($lastpay=='null'){$rentZone->setLastpay(null);}else{$rentZone->setLastpay($lastpay);}
@@ -54,18 +54,18 @@ class PersistRentZoneHandler extends MaxcraftHandler
             $rZones = explode('-',$str);
 
             foreach ($rZones as $rz){
-                $regex = '/-?rentzone:id="(\d+)",zoneid="(\d+)",tenant="(.+)",price="(.+)",lastpay="(.+)",location="(.+)",?/';
+                $regex = '/-?rentzone:id="(\d+)",zone="(\d+)",tenant="(.+)",price="(.+)",lastpay="(.+)",location="(.+)",?/';
                 if ( !(preg_match($regex,$rz))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
                 $string = preg_replace($regex,'$1;$2;$3;$4;$5;$6',$rz);
-                list ($id,$zoneId,$tenant,$price,$lastpay,$location) = explode(';',$string);
+                list ($id,$zoneid,$tenant,$price,$lastpay,$location) = explode(';',$string);
 
                 $em = $this->getDoctrine()->getManager();
 
                 if (!($rentZone = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:RentZone')->find($id))){
                     $rentZone = new RentZone();
                 }
-                $rentZone->setZoneId(intval($zoneId));
+                $rentZone->setZone($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->find($zoneid));
                 $rentZone->setTenant($tenant);
                 $rentZone->setPrice(doubleval($price));
                 if ($lastpay=='null'){$rentZone->setLastpay(null);}else{$rentZone->setLastpay($lastpay);}

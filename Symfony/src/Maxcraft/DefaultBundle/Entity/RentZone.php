@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * RentZone
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\RentZoneRepository")
+ * @ORM\Entity()
  */
 class RentZone
 {
@@ -25,9 +25,10 @@ class RentZone
 
     /**
      * @var integer
-     * @ORM\Column(name="zone_id", type="integer", unique=true)
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $zoneId;
+    private $zone;
 
     /**
      * @var string
@@ -63,31 +64,7 @@ class RentZone
     {
         return $this->id;
     }
-
-    /**
-     * Set zoneId
-     *
-     * @param integer $zoneId
-     *
-     * @return RentZone
-     */
-    public function setZoneId($zoneId)
-    {
-        $this->zoneId = $zoneId;
-
-        return $this;
-    }
-
-    /**
-     * Get zoneId
-     *
-     * @return integer
-     */
-    public function getZoneId()
-    {
-        return $this->zoneId;
-    }
-
+    
     /**
      * Set tenant
      *
@@ -186,7 +163,7 @@ class RentZone
 
     public function objectToString(RentZone $rentZone){
         $id = 'id="'.$rentZone->getId();
-        $zoneId = 'zoneid="'.$rentZone->getZoneId().'",';
+        $zoneId = 'zoneid="'.$rentZone->getZone()->getId().'",';
         $tenant = 'tenant="'.$rentZone->getTenant().'",';
         $price = 'price="'.$rentZone->getPrice().'",';
         if($rentZone->getLastpay()==null){$lastPay = 'lastpay="null",';} else{$lastPay = 'lastpay="'.$rentZone->getLastpay().'",';}
@@ -196,5 +173,29 @@ class RentZone
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
+    }
+
+    /**
+     * Set zone
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Zone $zone
+     *
+     * @return RentZone
+     */
+    public function setZone(Zone $zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * Get zone
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Zone
+     */
+    public function getZone()
+    {
+        return $this->zone;
     }
 }

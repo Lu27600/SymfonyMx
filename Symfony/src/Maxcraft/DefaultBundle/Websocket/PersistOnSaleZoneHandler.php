@@ -24,7 +24,7 @@ class PersistOnSaleZoneHandler extends MaxcraftHandler
         if ( (substr_count($data, '-'))==1){
             //Un objet
 
-            $regex = '/-onsalezone:id="(\d+)",zoneid="(\d+)",price="(.+)",forrent="(.+)",location="(.+)",?/';
+            $regex = '/-onsalezone:id="(\d+)",zone="(\d+)",price="(.+)",forrent="(.+)",location="(.+)",?/';
             if ( !(preg_match($regex,$data))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
             $str = preg_replace($regex,'$1;$2;$3;$4;$5',$data);
@@ -35,7 +35,7 @@ class PersistOnSaleZoneHandler extends MaxcraftHandler
             if (!($oSaleZ = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:OnSaleZone')->find($id))){
                 $oSaleZ = new OnSaleZone();
             }
-            $oSaleZ->setZoneId(intval($zoneid));
+            $oSaleZ->setZone($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->find($zoneid));
             $oSaleZ->setPrice(doubleval($price));
             if ($forRent == 'true'){$oSaleZ->setForRent(true);}elseif($forRent == 'false'){$oSaleZ->setForRent(false);}else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
             if ($location == 'null'){$oSaleZ->setLocation(null);}else{$oSaleZ->setLocation($location);}
@@ -53,7 +53,7 @@ class PersistOnSaleZoneHandler extends MaxcraftHandler
             $oSaleZones = explode('-',$str);
 
             foreach ($oSaleZones as $osz){
-                $regex = '/-?onsalezone:id="(\d+)",zoneid="(\d+)",price="(.+)",forrent="(.+)",location="(.+)",?/';
+                $regex = '/-?onsalezone:id="(\d+)",zone="(\d+)",price="(.+)",forrent="(.+)",location="(.+)",?/';
                 if ( !(preg_match($regex,$osz))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
                 $string = preg_replace($regex,'$1;$2;$3;$4;$5',$osz);
@@ -64,7 +64,7 @@ class PersistOnSaleZoneHandler extends MaxcraftHandler
                 if (!($oSaleZ = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:OnSaleZone')->find($id))){
                     $oSaleZ = new OnSaleZone();
                 }
-                $oSaleZ->setZoneId(intval($zoneid));
+                $oSaleZ->setZone($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->find($zoneid));
                 $oSaleZ->setPrice(doubleval($price));
                 if ($forRent == 'true'){$oSaleZ->setForRent(true);}elseif($forRent == 'false'){$oSaleZ->setForRent(false);}else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
                 if ($location == 'null'){$oSaleZ->setLocation(null);}else{$oSaleZ->setLocation($location);}

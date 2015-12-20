@@ -46,7 +46,7 @@ class PersistFactionHandler extends MaxcraftHandler
             $faction->setBalance($balance1);
             if ($spawn == 'null'){$faction->setSpawn(null);}else{$faction->setSpawn($spawn);}
             if ($jail == 'null'){$faction->setJail(null);}else{$faction->setJail($jail);}
-            $faction->setOwner($owner);
+            $faction->setOwner($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByName($owner));
             if ($heads == 'null'){$faction->setHeads(null);}else{$faction->setHeads($heads);}
             if ($members == 'null'){$faction->setMembers(null);}else{$faction->setMembers($members);}
             if ($recruits == 'null'){$faction->setRecruits(null);}else{$faction->setRecruits($recruits);}
@@ -90,7 +90,7 @@ class PersistFactionHandler extends MaxcraftHandler
                 $faction->setBalance($balance1);
                 if ($spawn == 'null'){$faction->setSpawn(null);}else{$faction->setSpawn($spawn);}
                 if ($jail == 'null'){$faction->setJail(null);}else{$faction->setJail($jail);}
-                $faction->setOwner($owner);
+                $faction->setOwner($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByName($owner));
                 if ($heads == 'null'){$faction->setHeads(null);}else{$faction->setHeads($heads);}
                 if ($members == 'null'){$faction->setMembers(null);}else{$faction->setMembers($members);}
                 if ($recruits == 'null'){$faction->setRecruits(null);}else{$faction->setRecruits($recruits);}
