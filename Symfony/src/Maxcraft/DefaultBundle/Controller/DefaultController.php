@@ -89,6 +89,8 @@ class DefaultController extends Controller
             'images' => $images,
 
         ));
+
+
     }
 
 
@@ -135,6 +137,14 @@ class DefaultController extends Controller
 
         $em->persist($comment);
         $em->flush();
+    }
+
+    public function newsTestAction($newsId){
+        $news = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:News')->find($newsId);
+
+        return $this->render('MaxcraftDefaultBundle:Tests:news.html.twig', array(
+            'news' => $news
+        ));
     }
 
 

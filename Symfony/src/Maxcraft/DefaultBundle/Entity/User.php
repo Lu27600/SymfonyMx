@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class User implements UserInterface
 {
-    //TODO isVanished
 
     /**
      * @var integer
@@ -34,7 +33,7 @@ class User implements UserInterface
     /**
      * @var Player
      *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Player", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Player")
      * @ORM\JoinColumn(nullable=false)
      */
     private $player;
@@ -55,9 +54,10 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @var integer
+     * @var Faction
      *
-     * @ORM\Column(name="faction", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $faction;
 
@@ -269,30 +269,6 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->username;
-    }
-
-    /**
-     * Set faction
-     *
-     * @param integer $faction
-     *
-     * @return User
-     */
-    public function setFaction($faction)
-    {
-        $this->faction = $faction;
-
-        return $this;
-    }
-
-    /**
-     * Get faction
-     *
-     * @return integer
-     */
-    public function getFaction()
-    {
-        return $this->faction;
     }
 
     /**
@@ -845,5 +821,29 @@ class User implements UserInterface
     public function getPlayer()
     {
         return $this->player;
+    }
+
+    /**
+     * Set faction
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Faction $faction
+     *
+     * @return User
+     */
+    public function setFaction(\Maxcraft\DefaultBundle\Entity\Faction $faction = null)
+    {
+        $this->faction = $faction;
+
+        return $this;
+    }
+
+    /**
+     * Get faction
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Faction
+     */
+    public function getFaction()
+    {
+        return $this->faction;
     }
 }

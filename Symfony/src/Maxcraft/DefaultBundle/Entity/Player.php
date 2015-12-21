@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Player
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\PlayerRepository")
+ * @ORM\Entity()
  */
 class Player
 {
@@ -55,9 +55,17 @@ class Player
      */
     private $vanished;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="gametime", type="integer")
+     */
+    private $gametime;
+
     public function __contrsuct(){
         $this->balance = 0;
         $this->actif = true;
+        $this->gametime = 0;
     }
 
 
@@ -188,10 +196,35 @@ class Player
         $balance = 'balance="'.$player->getBalance().'",';
         $actif = 'actif="'.$player->getActif().'",';
         $vanished = 'vanished="'.$player->getVanished().'",';
+        $gametime = 'gametime="'.$player->getGametime().'",';
 
-        $str = '-player:'.$id.$uuid.$pseudo.$balance.$actif.$vanished;
+        $str = '-player:'.$id.$uuid.$pseudo.$balance.$actif.$vanished.$gametime;
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
+    }
+
+    /**
+     * Set gametime
+     *
+     * @param integer $gametime
+     *
+     * @return Player
+     */
+    public function setGametime($gametime)
+    {
+        $this->gametime = $gametime;
+
+        return $this;
+    }
+
+    /**
+     * Get gametime
+     *
+     * @return integer
+     */
+    public function getGametime()
+    {
+        return $this->gametime;
     }
 }

@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class Faction
 {
+
     /**
      * @var integer
      *
@@ -25,7 +26,7 @@ class Faction
     private $id;
     /**
      * @var string
-     * @ORM\Column(name="uuid", type="string", length=255, unique=true)
+     * @ORM\Column(name="uuid", type="string", length=255, unique=true, nullable=false)
      */
     private $uuid;
 
@@ -69,7 +70,7 @@ class Faction
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
@@ -480,7 +481,7 @@ class Faction
         $balance = 'balance="'.$faction->getBalance().'",';
         if ($faction->getSpawn()==null){$spawn = 'spawn="null",';} else{$spawn = 'spawn="'.$faction->getSpawn().'",';}
         if ($faction->getJail() == null){$jail = 'jail="null",';} else {$jail = 'jail:"'.$faction->getJail().'",';}
-        $owner = "owner=".'"'.$faction->getOwner()->getUsername().'",';
+        $owner = "owner=".'"'.$faction->getOwner()->getUuid().'",';
         if ($faction->getHeads()==null){$heads = 'heads="null",';} else{$heads = "heads=".'"'.$faction->getHeads().'",';}
         if ($faction->getMembers()==null){$members = 'members="null",';} else{$members = "members=".'"'.$faction->getMembers().'",';}
         if ($faction->getRecruits()==null){$recruits = 'recruits="null",';} else{$recruits = "recruits=".'"'.$faction->getRecruits().'",';}

@@ -10,10 +10,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Perms
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\PermsRepository")
+ * @ORM\Entity()
  */
 class Perms
 {
+
     /**
      * @var integer
      *
@@ -22,6 +23,13 @@ class Perms
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /** @var User
+     *
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     */
+    private $user;
 
     /**
      * @var string
@@ -97,12 +105,37 @@ class Perms
 
     public function objectToString(Perms $perm){
         $id = 'id="'.$perm->getId().'",';
+        $user = 'uuid="'.$perm->getUser()->getUuid().'",';
         $groupName = 'groupname="'.$perm->getGroupName().'",';
         $perms = 'perms="'.$perm->getPerms().'",';
 
-        $str = '-perms:'.$id.$groupName.$perms;
+        $str = '-perms:'.$id.$user.$groupName.$perms;
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $user
+     *
+     * @return Perms
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

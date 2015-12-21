@@ -25,7 +25,7 @@ class News
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
      * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
@@ -203,5 +203,29 @@ class News
     public function getAlbum()
     {
         return $this->album;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $user
+     *
+     * @return News
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

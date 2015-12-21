@@ -35,7 +35,7 @@ class PersistModerationHandler extends MaxcraftHandler
             if (!($moderation = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:Moderation')->find($id))){
                 $moderation = new Moderation();
             }
-            $moderation->setUuid($uuid);
+            $moderation->setUser($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($uuid));
             if ($ismute == 'true'){$moderation->setIsmute(true);}elseif($ismute == 'false'){$moderation->setIsmute(false);}else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
             $moderation->setMuteend(intval($muteend));
             if ($isjail == 'true'){$moderation->setIsjail(true);}elseif($isjail == 'false'){$moderation->setIsjail(false);}else {return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
@@ -67,7 +67,7 @@ class PersistModerationHandler extends MaxcraftHandler
                 if (!($moderation = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:Moderation')->find($id))){
                     $moderation = new Moderation();
                 }
-                $moderation->setUuid($uuid);
+                $moderation->setUser($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($uuid));
                 if ($ismute == 'true'){$moderation->setIsmute(true);}elseif($ismute == 'false'){$moderation->setIsmute(false);}else{return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}
                 $moderation->setMuteend(intval($muteend));
                 if ($isjail == 'true'){$moderation->setIsjail(true);}elseif($isjail == 'false'){$moderation->setIsjail(false);}else {return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));}

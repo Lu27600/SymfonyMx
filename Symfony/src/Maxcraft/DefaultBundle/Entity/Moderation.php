@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * Moderation
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\ModerationRepository")
+ * @ORM\Entity()
  */
 class Moderation
 {
@@ -25,10 +25,11 @@ class Moderation
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(name="uuid", type="string", length=255)
+     * @var User
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $uuid;
+    private $user;
 
     /**
      * @var boolean
@@ -231,28 +232,12 @@ class Moderation
     }
 
     /**
-     * @return string
-     */
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
-
-    /**
-     * @param string $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
-    }
-
-    /**
      * @param Moderation $moderation
      * @return string
      */
     public function objectToString(Moderation $moderation){
         $id = 'id="'.$moderation->getId().'",';
-        $uuid = 'uuid="'.$moderation->getUuid().'",';
+        $user = 'uuid="'.$moderation->getUser()->getUuid().'",';
         $ismute = 'ismute="'.$moderation->getIsmute().'",';
         $muteend = 'muteend="'.$moderation->getMuteend().'",';
         $isjail = 'isjail="'.$moderation->getIsjail().'",';
@@ -260,9 +245,33 @@ class Moderation
         $isban = 'isban="'.$moderation->getIsban().'",';
         $banend = 'banend="'.$moderation->getBanend().'",';
 
-        $str = '-moderation:'.$id.$uuid.$ismute.$muteend.$isjail.$jailend.$isban.$banend;
+        $str = '-moderation:'.$id.$user.$ismute.$muteend.$isjail.$jailend.$isban.$banend;
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $user
+     *
+     * @return Moderation
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

@@ -26,16 +26,18 @@ class Album
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
-     * @ORM\Column(name="user", type="integer")
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @var integer
+     * @var Image
      *
-     * @ORM\Column(name="albumimage", type="integer", nullable=true)
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Image")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $albumimage;
 
@@ -105,30 +107,6 @@ class Album
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set albumimage
-     *
-     * @param integer $albumimage
-     *
-     * @return Album
-     */
-    public function setAlbumimage($albumimage)
-    {
-        $this->albumimage = $albumimage;
-
-        return $this;
-    }
-
-    /**
-     * Get albumimage
-     *
-     * @return integer
-     */
-    public function getAlbumimage()
-    {
-        return $this->albumimage;
     }
 
     /**
@@ -225,5 +203,29 @@ class Album
     public function getDisplay()
     {
         return $this->display;
+    }
+
+    /**
+     * Set albumimage
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Image $albumimage
+     *
+     * @return Album
+     */
+    public function setAlbumimage(Image $albumimage = null)
+    {
+        $this->albumimage = $albumimage;
+
+        return $this;
+    }
+
+    /**
+     * Get albumimage
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Image
+     */
+    public function getAlbumimage()
+    {
+        return $this->albumimage;
     }
 }

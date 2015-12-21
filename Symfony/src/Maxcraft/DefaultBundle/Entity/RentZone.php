@@ -25,14 +25,15 @@ class RentZone
 
     /**
      * @var integer
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $zone;
 
     /**
-     * @var string
-     * @ORM\Column(name="tenant", type="string", length=255)
+     * @var User
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $tenant;
 
@@ -63,30 +64,6 @@ class RentZone
     public function getId()
     {
         return $this->id;
-    }
-    
-    /**
-     * Set tenant
-     *
-     * @param string $tenant
-     *
-     * @return RentZone
-     */
-    public function setTenant($tenant)
-    {
-        $this->tenant = $tenant;
-
-        return $this;
-    }
-
-    /**
-     * Get tenant
-     *
-     * @return string
-     */
-    public function getTenant()
-    {
-        return $this->tenant;
     }
 
     /**
@@ -164,7 +141,7 @@ class RentZone
     public function objectToString(RentZone $rentZone){
         $id = 'id="'.$rentZone->getId();
         $zoneId = 'zoneid="'.$rentZone->getZone()->getId().'",';
-        $tenant = 'tenant="'.$rentZone->getTenant().'",';
+        $tenant = 'tenant="'.$rentZone->getTenant()->getUuid().'",';
         $price = 'price="'.$rentZone->getPrice().'",';
         if($rentZone->getLastpay()==null){$lastPay = 'lastpay="null",';} else{$lastPay = 'lastpay="'.$rentZone->getLastpay().'",';}
         $location = 'location="'.$rentZone->getLocation().'",';
@@ -197,5 +174,29 @@ class RentZone
     public function getZone()
     {
         return $this->zone;
+    }
+
+    /**
+     * Set tenant
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $tenant
+     *
+     * @return RentZone
+     */
+    public function setTenant(User $tenant)
+    {
+        $this->tenant = $tenant;
+
+        return $this;
+    }
+
+    /**
+     * Get tenant
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getTenant()
+    {
+        return $this->tenant;
     }
 }

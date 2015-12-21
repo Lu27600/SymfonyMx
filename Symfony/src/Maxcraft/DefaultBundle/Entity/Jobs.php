@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Jobs
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\JobsRepository")
+ * @ORM\Entity()
  */
 class Jobs
 {
@@ -24,6 +24,13 @@ class Jobs
     private $id;
 
     /**
+     * @var User
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     */
+    private $user;
+
+    /**
      * @var string
      * @ORM\Column(name="metier", type="string", length=255)
      */
@@ -34,7 +41,6 @@ class Jobs
      * @ORM\Column(name="xp", type="decimal", precision=64, scale=11)
      */
     private $xp;
-
 
     /**
      * Get id
@@ -101,13 +107,39 @@ class Jobs
     public function objectToString(Jobs $job){
 
         $id = 'id="'.$job->getId().'",';
+        $user = 'uuid="'.$job->getUser()->getUuid().'",';
         $metier = 'metier="'.$job->getMetier().'",';
         $xp = 'xp="'.$job->getXp().'",';
 
-        $str = '-jobs:'.$id.$metier.$xp;
+        $str = '-jobs:'.$id.$user.$metier.$xp;
         strval($str);
         if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
         return $str;
     }
 
+    
+
+    /**
+     * Set user
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $user
+     *
+     * @return Jobs
+     */
+    public function setUser(\Maxcraft\DefaultBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

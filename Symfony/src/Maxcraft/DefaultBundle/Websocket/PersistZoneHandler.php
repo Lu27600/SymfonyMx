@@ -37,7 +37,7 @@ class PersistZoneHandler extends MaxcraftHandler
             if ($name == 'null'){$zone->setName(null);} else{$zone->setName($name);}
             if ($parent == 'null') {$zone->setParent(null);} else {$zone->setParent(intval($parent));}
             $zone->setPoints($points);
-            if ($owner == 'null'){$zone->setOwner(null);}else {$zone->setOwner($owner);}
+            if ($owner == 'null'){$zone->setOwner(null);}else {$zone->setOwner($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($owner));}
             $zone->setWorld($world);
             if($tags == 'null'){$zone->setTags(null);}else{$zone->setTags($tags);}
             if ($builders == 'null'){$zone->setBuilders(null);}else{$zone->setBuilders($builders);}
@@ -70,7 +70,7 @@ class PersistZoneHandler extends MaxcraftHandler
                 if ($name == 'null'){$zone->setName(null);} else{$zone->setName($name);}
                 if ($parent == 'null') {$zone->setParent(null);} else {$zone->setParent(intval($parent));}
                 $zone->setPoints($points);
-                if ($owner == 'null'){$zone->setOwner(null);}else {$zone->setOwner($owner);}
+                if ($owner == 'null'){$zone->setOwner(null);}else {$zone->setOwner($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($owner));}
                 $zone->setWorld($world);
                 if($tags == 'null'){$zone->setTags(null);}else{$zone->setTags($tags);}
                 if ($builders == 'null'){$zone->setBuilders(null);}else{$zone->setBuilders($builders);}

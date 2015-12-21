@@ -22,3 +22,9 @@ maxcraft_new_comment:
 
 maxcraft_new_news:
       path: /new/news/{user}
+
+maxcraft_news_test:
+      path: /test/news/{newsId}
+      defaults: {_controller: MaxcraftDefaultBundle:Default:newsTest, newsId:1}
+      requirements:
+        newsId: \d+

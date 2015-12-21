@@ -27,16 +27,17 @@ class WebZone
     private $id;
 
     /**
-     * @var \Maxcraft\DefaultBundle\Entity\Zone
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @var Zone
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $servZone;
 
     /**
-     * @var integer
+     * @var Album
      *
-     * @ORM\Column(name="album", type="integer", nullable=true)
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $album;
 
@@ -74,31 +75,7 @@ class WebZone
     {
         return $this->id;
     }
-
-    /**
-     * Set album
-     *
-     * @param integer $album
-     *
-     * @return WebZone
-     */
-    public function setAlbum($album)
-    {
-        $this->album = $album;
-
-        return $this;
-    }
-
-    /**
-     * Get album
-     *
-     * @return integer
-     */
-    public function getAlbum()
-    {
-        return $this->album;
-    }
-
+    
     /**
      * Set shopDemand
      *
@@ -169,5 +146,31 @@ class WebZone
     public function getServZone()
     {
         return $this->servZone;
+    }
+
+    
+
+    /**
+     * Set album
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Album $album
+     *
+     * @return WebZone
+     */
+    public function setAlbum(Album $album = null)
+    {
+        $this->album = $album;
+
+        return $this;
+    }
+
+    /**
+     * Get album
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Album
+     */
+    public function getAlbum()
+    {
+        return $this->album;
     }
 }

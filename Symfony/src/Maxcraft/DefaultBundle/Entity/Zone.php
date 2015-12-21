@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Zone
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\ZoneRepository")
+ * @ORM\Entity()
  */
 class Zone
 {
@@ -32,9 +32,10 @@ class Zone
     private $name;
 
     /**
-     * @var integer
+     * @var Zone
      *
-     * @ORM\Column(name="parent", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $parent;
 
@@ -45,9 +46,10 @@ class Zone
     private $points;
 
     /**
-     * @var string
+     * @var User
      *
-     * @ORM\Column(name="owner", type="string", length=255, nullable=true)
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $owner;
 
@@ -114,31 +116,7 @@ class Zone
     {
         return $this->name;
     }
-
-    /**
-     * Set parent
-     *
-     * @param integer $parent
-     *
-     * @return Zone
-     */
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return integer
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
+    
     /**
      * Set points
      *
@@ -162,30 +140,7 @@ class Zone
     {
         return $this->points;
     }
-
-    /**
-     * Set owner
-     *
-     * @param string $owner
-     *
-     * @return Zone
-     */
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return string
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
+    
 
     /**
      * Set world
@@ -291,9 +246,9 @@ class Zone
 
         $id = "id=".'"'.$zone->getId().'",';
         if($zone->getName()== null){$name = 'name="null",';} else{$name = "name=".'"'.$zone->getName().'",';}
-        if($zone->getParent()==null){$parent = 'parent="null",';} else{$parent = "parent=".'"'.$zone->getParent().'",';}
+        if($zone->getParent()==null){$parent = 'parent="null",';} else{$parent = "parent=".'"'.$zone->getParent()->getId().'",';}
         $points = "points=".'"'.$zone->getPoints().'",';
-        if ($zone->getOwner()==null){$owner = 'owner="null",';} else{$owner = "owner=".'"'.$zone->getOwner().'",';}
+        if ($zone->getOwner()==null){$owner = 'owner="null",';} else{$owner = "owner=".'"'.$zone->getOwner()->getUuid().'",';}
         $world = 'world="'.$zone->getWorld().'",';
         if ($zone->getTags()==null) { $tags='tags="null",';} else{$tags="tags=".'"'.$zone->getTags().'",';}
         if ($zone->getBuilders()==null) { $builders='builders="null",';} else{$builders="builders=".'"'.$zone->getBuilders().'",';}
@@ -305,4 +260,52 @@ class Zone
         return $str;
     }
 
+
+    /**
+     * Set parent
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Zone $parent
+     *
+     * @return Zone
+     */
+    public function setParent(Zone $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Zone
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $owner
+     *
+     * @return Zone
+     */
+    public function setOwner(User $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
 }

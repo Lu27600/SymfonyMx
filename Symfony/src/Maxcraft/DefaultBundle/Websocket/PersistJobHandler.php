@@ -25,17 +25,18 @@ class PersistJobHandler extends MaxcraftHandler
         if ( (substr_count($data, '-'))==1){
             //Un objet
 
-            $regex = '/-jobs:id="(\d+)",metier="(.+)",xp="(.+)",?/';
+            $regex = '/-jobs:id="(\d+)",uuid="(.+)",metier="(.+)",xp="(.+)",?/';
             if ( !(preg_match($regex,$data))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
-            $str = preg_replace($regex,'$1;$2;$3',$data);
-            list ($id,$metier,$xp) = explode(';',$str);
+            $str = preg_replace($regex,'$1;$2;$3;$4',$data);
+            list ($id,$uuid,$metier,$xp) = explode(';',$str);
 
             $em = $this->getDoctrine()->getManager();
 
             if (!($job = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:Jobs')->find($id))){
                 $job = new Jobs();
             }
+            $job->setUser($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($uuid));
             $job->setMetier($metier);
             $job->setXp(doubleval($xp));
 
@@ -52,17 +53,18 @@ class PersistJobHandler extends MaxcraftHandler
             $jobs = explode('-',$str);
 
             foreach ($jobs as $j){
-                $regex = '/-?jobs:id="(\d+)",metier="(.+)",xp="(.+)",?/';
+                $regex = '/-?jobs:id="(\d+)",uuid="(.+)",metier="(.+)",xp="(.+)",?/';
                 if ( !(preg_match($regex,$j))) return new Response(json_encode(array('error'=>true,'errorMessage'=>'La chaine de caractère envoyée ne match pas avec le pattern ')));
 
-                $string = preg_replace($regex,'$1;$2;$3',$j);
-                list ($id,$metier,$xp) = explode(';',$string);
+                $string = preg_replace($regex,'$1;$2;$3;$4',$j);
+                list ($id,$uuid,$metier,$xp) = explode(';',$string);
 
                 $em = $this->getDoctrine()->getManager();
 
                 if (!($job = $this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:Jobs')->find($id))){
                     $job = new Jobs();
                 }
+                $job->setUser($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($uuid));
                 $job->setMetier($metier);
                 $job->setXp(doubleval($xp));
 

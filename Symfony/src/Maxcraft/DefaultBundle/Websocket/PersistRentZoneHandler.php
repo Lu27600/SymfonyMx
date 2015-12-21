@@ -36,7 +36,7 @@ class PersistRentZoneHandler extends MaxcraftHandler
                 $rentZone = new RentZone();
             }
             $rentZone->setZone($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->find($zoneId));
-            $rentZone->setTenant($tenant);
+            $rentZone->setTenant($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($tenant));
             $rentZone->setPrice(doubleval($price));
             if ($lastpay=='null'){$rentZone->setLastpay(null);}else{$rentZone->setLastpay($lastpay);}
             $rentZone->setLocation($location);
@@ -66,7 +66,7 @@ class PersistRentZoneHandler extends MaxcraftHandler
                     $rentZone = new RentZone();
                 }
                 $rentZone->setZone($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->find($zoneid));
-                $rentZone->setTenant($tenant);
+                $rentZone->setTenant($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($tenant));
                 $rentZone->setPrice(doubleval($price));
                 if ($lastpay=='null'){$rentZone->setLastpay(null);}else{$rentZone->setLastpay($lastpay);}
                 $rentZone->setLocation($location);

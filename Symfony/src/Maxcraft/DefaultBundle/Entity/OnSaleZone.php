@@ -24,9 +24,9 @@ class OnSaleZone
     private $id;
 
     /**
-     * @var \Maxcraft\DefaultBundle\Entity\Zone
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @var Zone
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $zone;
 
