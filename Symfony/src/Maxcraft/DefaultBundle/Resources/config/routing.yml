@@ -4,20 +4,21 @@ maxcraft_homepage:
     requirements:
 
 maxcraft_default_blog:
-    pattern:  /page/{page}
+    path:  /page/{page}
     defaults: { _controller: MaxcraftDefaultBundle:Default:index, page: 1  }
     requirements:
         page:  \d+
 
-maxcraft_new_zone:
-    path: /new/zone
-    defaults: { _controller: MaxcraftDefaultBundle:Default:addZone }
+maxcraft_new_user_and_player:
+    path: /new/user
+    defaults: { _controller: MaxcraftDefaultBundle:Default:userCreate}
 
-regex_test:
-    path: /regex
-    defaults: { _controller: MaxcraftDefaultBundle:Default:testRegex }
+maxcraft_new_comment:
+    path:     /new/comment/{user}/{newsId}
+    defaults: { _controller: MaxcraftDefaultBundle:Default:commentCreate, user: 1, news: 1}
+    requirements:
+      user: .+
+      newsId: \d+
 
-bool_test:
-    path: /bool
-    defaults: { _controller: MaxcraftDefaultBundle:Default:testBool }
-
+maxcraft_new_news:
+      path: /new/news/{user}

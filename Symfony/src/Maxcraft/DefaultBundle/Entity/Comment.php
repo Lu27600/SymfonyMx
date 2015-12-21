@@ -25,9 +25,9 @@ class Comment
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="user", type="integer")
+     * @var User
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -65,30 +65,6 @@ class Comment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set user
-     *
-     * @param integer $user
-     *
-     * @return Comment
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return integer
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
     
     /**
@@ -161,5 +137,29 @@ class Comment
     public function getNews()
     {
         return $this->news;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $user
+     *
+     * @return Comment
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

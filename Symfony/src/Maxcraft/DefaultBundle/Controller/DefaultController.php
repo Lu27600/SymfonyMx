@@ -4,6 +4,9 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 
 use Maxcraft\DefaultBundle\Entity\Comment;
+use Maxcraft\DefaultBundle\Entity\News;
+use Maxcraft\DefaultBundle\Entity\Player;
+use Maxcraft\DefaultBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,41 +92,49 @@ class DefaultController extends Controller
     }
 
 
-   /*public function addZoneAction(){
-       $zone = new Zone();
-       $zone->setName("Mannheim");
-       $zone->setWorld("Event2");
-       $zone->setPoints("45;67;90");
-       $zone->setOwner('Crevebedaine');
-       $zone->setParent(1);
-       $zone->setTags('public;no-spawn-horse');
-       $zone->setBuilders('Mwa;Twa');
+    public function userCreateAction(){
 
-       $em = $this->getDoctrine()->getManager();
-       $em->persist($zone);
-       $em->flush();
+        $em = $this->getDoctrine()->getManager();
 
-       $rep = new Response('coucou');
-       return $rep;*/
+        $player = new Player();
+        $player->setUuid(uniqid('test'));
+        $player->setPseudo('Crevebedaine');
+        $player->setBalance('1000');
+        $player->setActif(true);
+        $player->setVanished(false);
 
-    public function testRegexAction(){
-        $json = '-world:id="67",name="maxcraft",groupnumber="35",';
-        $regex = '#^-world:id="(.+)",name="(.+)",groupnumber="(.+)",$#';
+        $em->persist($player);
+        $em->flush();
 
-        if (preg_match($regex, $json)){
-            $text = preg_replace($regex,'$1,$2,$3' ,$json);
-            $repContent = 'ca marche :  ' .$text;
-            $rep = new Response(json_encode($repContent));
-            return $rep;
-        } else{
-            return new Response(json_encode('rate'));
-        }
+        $user = new User($this, $player);
+        $user->setUuid($player->getUuid());
+        $user->setUsername($player->getPseudo());
+        $user->setEmail('mail@maxcraft.fr');
+        $user->setPassword('motdepasse');
+        $user->cryptePassword($user->getPassword());
+        $user->setRole('ROLE_ADMIN');
+        $user->setNaissance('3050');
+        $user->setIp($this->container->get('request')->getClientIp());
+        $user->setGametime('4678975');
+        $user->setSpleeping(false);
+        $user->setLoisirs('loisirs');
+
+        $em->persist($user);
+        $em->flush();
+
+        return array('OK');
+
     }
 
-    public function testBoolAction(){
-        $str = '';
-        $bool = boolval($str);
-        return $bool;
+    public function commentCreateAction( $user,  $newsId){
+        $em = $this->getDoctrine()->getManager();
+        $comment = new Comment();
+        $comment->setUser($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->find($user));
+        $comment->setNews($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:News')->find($newsId));
+        $comment->setContent("Coucou, ceci <strong>est</strong> un commentaire !");
+
+        $em->persist($comment);
+        $em->flush();
     }
 
 
