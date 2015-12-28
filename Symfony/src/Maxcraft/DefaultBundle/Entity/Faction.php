@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class Faction
 {
-
     /**
      * @var integer
      *

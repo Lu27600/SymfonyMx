@@ -14,10 +14,10 @@ class NewsRepository extends EntityRepository
 
     public function findByPage($page, $parpage){
         return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:News')->findBy(
-            array('display' => 'true'),
+            array('display' => true),
             array('date' => 'desc'),
-            ($page-1)*$parpage,
-            $parpage
+            $parpage,
+            ($page-1)*$parpage
         );
     }
 
@@ -32,8 +32,8 @@ class NewsRepository extends EntityRepository
         return count($totalNews);
     }
 
-    public function getComments(News $newsId){
-        return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:News')->findBy(
+    public function getComments($newsId){
+        return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:Comment')->findBy(
           array('news'=> $newsId),
           array('date' => 'desc'),
           null,

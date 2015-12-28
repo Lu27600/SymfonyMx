@@ -28,3 +28,7 @@ maxcraft_news_test:
       defaults: {_controller: MaxcraftDefaultBundle:Default:newsTest, newsId:1}
       requirements:
         newsId: \d+
+
+maxcraft_test_builder:
+        path: /test/builder
+        defaults: { _controller : MaxcraftDefaultBundle:Default:testBuilder}

@@ -26,7 +26,7 @@ class Comment
 
     /**
      * @var User
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

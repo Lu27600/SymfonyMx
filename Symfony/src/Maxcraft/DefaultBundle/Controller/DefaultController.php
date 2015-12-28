@@ -3,13 +3,13 @@
 namespace Maxcraft\DefaultBundle\Controller;
 
 
+use Maxcraft\DefaultBundle\Entity\Builder;
 use Maxcraft\DefaultBundle\Entity\Comment;
-use Maxcraft\DefaultBundle\Entity\News;
 use Maxcraft\DefaultBundle\Entity\Player;
 use Maxcraft\DefaultBundle\Entity\User;
+use Maxcraft\DefaultBundle\Entity\Zone;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -32,6 +32,7 @@ class DefaultController extends Controller
         //Récupération des news
         $repNews = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:News');
         $news = $repNews->findByPage($page,$parpage);
+
         $totalNews = $repNews->countDisplay();
         $totalPages = ceil(($totalNews)/($parpage));
         $newslist = array();
@@ -42,11 +43,11 @@ class DefaultController extends Controller
 
             //préparation ajout commentaire
             $comment = new Comment();
-            $comment->setNews($new->getId());
+            $comment->setNews($new);
             $newslist[$new->getId()]['comment'] = $comment;
             $newslist[$new->getId()]['form'] = $this->createFormBuilder($comment)
-                ->add('content', 'textarea', array('required' => true))
-                ->add('newsid', 'hidden', array('data' => $new->getId()) )
+                ->add('content', 'froala', array('required' => true))
+                ->add('news', 'hidden', array('data' => $new) )
                 ->getForm();
             $newslist[$new->getId()]['commentform'] =  $newslist[$new->getId()]['form']
                 ->createView();
@@ -80,7 +81,6 @@ class DefaultController extends Controller
 
 
 
-
         return $this->render('MaxcraftDefaultBundle:Default:index.html.twig', array(
             'newslist' => $newslist,
             'totalpages' => $totalPages,
@@ -89,6 +89,12 @@ class DefaultController extends Controller
             'images' => $images,
 
         ));
+
+
+    }
+
+    public function loginspaceAction(Request $request){
+        $session = $request->getSession();
 
 
     }
@@ -147,7 +153,27 @@ class DefaultController extends Controller
         ));
     }
 
+    public function testBuilderAction(){
+        $builder = new Builder();
+        $builder->setUser($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->find(1));
+        $builder->setRole('BUILD');
 
+        $zone = new Zone();
+        $zone->setPoints('test');
+        $zone->setWorld(1);
+        $zone->addBuilder($builder);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($zone, $builder);
+        $em->flush();
+
+       /* $zone->removeBuilder($builder);
+
+        $em->persist($zone);
+        $em->remove($builder);
+        $em->flush();*/
+
+    }
 
 }
 

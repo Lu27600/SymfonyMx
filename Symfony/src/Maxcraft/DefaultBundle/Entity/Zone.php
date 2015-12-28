@@ -2,6 +2,7 @@
 
 namespace Maxcraft\DefaultBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -10,10 +11,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Zone
  *
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\ZoneRepository")
  */
 class Zone
 {
+
     /**
      * @var integer
      *
@@ -54,8 +56,9 @@ class Zone
     private $owner;
 
     /**
-     * @var string
-     * @ORM\Column(name="world", type="string", length=255)
+     * @var World
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\World")
+     * @ORM\Column(nullable=false)
      */
     private $world;
 
@@ -67,21 +70,11 @@ class Zone
     private $tags;
 
     /**
-     * @var string
+     * @var Builder
      *
-     * @ORM\Column(name="builders", type="text", nullable=true)
+     * @ORM\OneToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Builder", mappedBy="zone", cascade={"persist"})
      */
     private $builders;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="cuboiders", type="text", nullable=true)
-     */
-    private $cuboiders;
-
-
-
 
     /**
      * Get id
@@ -140,31 +133,6 @@ class Zone
     {
         return $this->points;
     }
-    
-
-    /**
-     * Set world
-     *
-     * @param string $world
-     *
-     * @return Zone
-     */
-    public function setWorld($world)
-    {
-        $this->world = $world;
-
-        return $this;
-    }
-
-    /**
-     * Get world
-     *
-     * @return string
-     */
-    public function getWorld()
-    {
-        return $this->world;
-    }
 
     /**
      * Set tags
@@ -189,77 +157,6 @@ class Zone
     {
         return $this->tags;
     }
-
-    /**
-     * Set builders
-     *
-     * @param string $builders
-     *
-     * @return Zone
-     */
-    public function setBuilders($builders)
-    {
-        $this->builders = $builders;
-
-        return $this;
-    }
-
-    /**
-     * Get builders
-     *
-     * @return string
-     */
-    public function getBuilders()
-    {
-        return $this->builders;
-    }
-
-    /**
-     * Set cuboiders
-     *
-     * @param string $cuboiders
-     *
-     * @return Zone
-     */
-    public function setCuboiders($cuboiders)
-    {
-        $this->cuboiders = $cuboiders;
-
-        return $this;
-    }
-
-    /**
-     * Get cuboiders
-     *
-     * @return string
-     */
-    public function getCuboiders()
-    {
-        return $this->cuboiders;
-    }
-
-    /**
-     * @param Zone $zone
-     * @return string
-     */
-    public  function objectToString(Zone $zone){
-
-        $id = "id=".'"'.$zone->getId().'",';
-        if($zone->getName()== null){$name = 'name="null",';} else{$name = "name=".'"'.$zone->getName().'",';}
-        if($zone->getParent()==null){$parent = 'parent="null",';} else{$parent = "parent=".'"'.$zone->getParent()->getId().'",';}
-        $points = "points=".'"'.$zone->getPoints().'",';
-        if ($zone->getOwner()==null){$owner = 'owner="null",';} else{$owner = "owner=".'"'.$zone->getOwner()->getUuid().'",';}
-        $world = 'world="'.$zone->getWorld().'",';
-        if ($zone->getTags()==null) { $tags='tags="null",';} else{$tags="tags=".'"'.$zone->getTags().'",';}
-        if ($zone->getBuilders()==null) { $builders='builders="null",';} else{$builders="builders=".'"'.$zone->getBuilders().'",';}
-        if ($zone->getCuboiders()==null) {$cuboiders='cuboiders="null",';} else{$cuboiders="cuboiders=".'"'.$zone->getCuboiders().'"';}
-
-        $str = "-zone:".$id.$name.$parent.$points.$owner.$world.$tags.$builders.$cuboiders;
-        strval($str);
-        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
-        return $str;
-    }
-
 
     /**
      * Set parent
@@ -307,5 +204,75 @@ class Zone
     public function getOwner()
     {
         return $this->owner;
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->builders = new ArrayCollection();
+    }
+
+    /**
+     * Add builder
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Builder $builder
+     *
+     * @return Zone
+     */
+    public function addBuilder(Builder $builder)
+    {
+        $this->builders[] = $builder;
+        $builder->setZone($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove builder
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Builder $builder
+     * @return $this
+     */
+    public function removeBuilder(Builder $builder)
+    {
+        $this->builders->removeElement($builder);
+
+    }
+
+    /**
+     * Get builders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBuilders()
+    {
+        return $this->builders;
+    }
+
+    /**
+     * Set world
+     *
+     * @param string $world
+     *
+     * @return Zone
+     */
+    public function setWorld($world)
+    {
+        $this->world = $world;
+
+        return $this;
+    }
+
+    /**
+     * Get world
+     *
+     * @return string
+     */
+    public function getWorld()
+    {
+        return $this->world;
     }
 }
