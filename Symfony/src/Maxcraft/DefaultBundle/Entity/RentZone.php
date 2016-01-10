@@ -32,7 +32,7 @@ class RentZone
 
     /**
      * @var User
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tenant;
@@ -138,7 +138,7 @@ class RentZone
         return $this->location;
     }
 
-    public function objectToString(RentZone $rentZone){
+    public function objectToString(RentZone $rentZone){ //TODO Refaire (tenant)
         $id = 'id="'.$rentZone->getId();
         $zoneId = 'zoneid="'.$rentZone->getZone()->getId().'",';
         $tenant = 'tenant="'.$rentZone->getTenant()->getUuid().'",';

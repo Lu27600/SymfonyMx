@@ -27,9 +27,9 @@ class Album
 
     /**
      * @var User
-     *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Le joueur n'a pas été précisé !")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(name="user", nullable=false)
      */
     private $user;
 
@@ -37,7 +37,7 @@ class Album
      * @var Image
      *
      * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Image")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(name="albumimage", nullable=true)
      */
     private $albumimage;
 
@@ -52,6 +52,7 @@ class Album
     /**
      * @var string
      * @Assert\NotBlank(message = "Veuillez entrer une description de votre album.")
+     * @Assert\Length(min="3", max="254", minMessage="La description de l'album doit contenir au moins 3 caractères !", maxMessage="La description de l'album doit contenir moins de 254 caractères !")
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
@@ -71,8 +72,9 @@ class Album
 
     public function __construct(){
         $this->creationDate = new \DateTime();
-        $this->display = true;
+        $this->display = false;
     }
+
 
 
     /**
@@ -83,30 +85,6 @@ class Album
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set user
-     *
-     * @param integer $user
-     *
-     * @return Album
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return integer
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**
@@ -203,6 +181,30 @@ class Album
     public function getDisplay()
     {
         return $this->display;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $user
+     *
+     * @return Album
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

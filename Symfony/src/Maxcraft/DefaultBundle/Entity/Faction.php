@@ -75,37 +75,42 @@ class Faction
     private $owner;
 
     /**
-     * @var string
+     * @var User
      *
-     * @ORM\Column(name="heads", type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(name="heads", nullable=true)
      */
     private $heads;
 
     /**
-     * @var string
+     * @var User
      *
-     * @ORM\Column(name="members", type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(name="members", nullable=true)
      */
     private $members;
 
     /**
-     * @var string
+     * @var User
      *
-     * @ORM\Column(name="recruits", type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\JoinColumn(name="recruits", nullable=true)
      */
     private $recruits;
 
     /**
-     * @var string
+     * @var Faction
      *
-     * @ORM\Column(name="enemies", type="text", nullable=true)
+     * @ORM\ManyToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
+     * @ORM\JoinColumn(name="enemies", nullable=true)
      */
     private $enemies;
 
     /**
-     * @var string
+     * @var Faction
      *
-     * @ORM\Column(name="allies", type="text", nullable=true)
+     * @ORM\ManyToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
+     * @ORM\JoinColumn(name="allies", nullable=true)
      */
     private $allies;
 
@@ -129,6 +134,33 @@ class Faction
         $this->uuid = uniqid("fac",false);
     }
 
+    /**
+     * @param Faction $faction
+     * @return string
+     */
+    public  function objectToString(Faction $faction){ //TODO Revoir
+
+        $id = "id=".'"'.$faction->getId().'",';
+        $uuid = 'uuid="'.$faction->getUuid().'",';
+        if($faction->getName()== null){$name = 'name="null",';} else{$name = "name=".'"'.$faction->getName().'",';}
+        $tag="tag=".'"'.$faction->getTag().'",';
+        $balance = 'balance="'.$faction->getBalance().'",';
+        if ($faction->getSpawn()==null){$spawn = 'spawn="null",';} else{$spawn = 'spawn="'.$faction->getSpawn().'",';}
+        if ($faction->getJail() == null){$jail = 'jail="null",';} else {$jail = 'jail:"'.$faction->getJail().'",';}
+        $owner = "owner=".'"'.$faction->getOwner()->getUuid().'",';
+        if ($faction->getHeads()==null){$heads = 'heads="null",';} else{$heads = "heads=".'"'.$faction->getHeads().'",';}
+        if ($faction->getMembers()==null){$members = 'members="null",';} else{$members = "members=".'"'.$faction->getMembers().'",';}
+        if ($faction->getRecruits()==null){$recruits = 'recruits="null",';} else{$recruits = "recruits=".'"'.$faction->getRecruits().'",';}
+        if ($faction->getEnemies()==null){$enemies = 'enemies="null",';} else{$enemies = "enemies=".'"'.$faction->getEnemies().'",';}
+        if ($faction->getAllies()==null){$allies = 'allies="null",';} else{$allies = "allies=".'"'.$faction->getAllies().'",';}
+        if ($faction->getIcon()==null){$icon = 'icon="null",';} else{$icon = "icon=".'"'.$faction->getIcon().'",';}
+        if ($faction->getBanner()==null){$banner = 'banner="null",';} else{$banner = "banner=".'"'.$faction->getBanner().'",';}
+
+        $str = "-faction:".$id.$uuid.$name.$tag.$balance.$spawn.$jail.$owner.$heads.$members.$recruits.$enemies.$allies.$icon.$banner;
+        strval($str);
+        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
+        return $str;
+    }
 
     /**
      * Get id
@@ -138,6 +170,30 @@ class Faction
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set uuid
+     *
+     * @param string $uuid
+     *
+     * @return Faction
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    /**
+     * Get uuid
+     *
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**
@@ -261,149 +317,6 @@ class Faction
     }
 
     /**
-     * Set owner
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\User $owner
-     * @return Faction
-     */
-    public function setOwner(User $owner)
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return \Maxcraft\DefaultBundle\Entity\User
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * Set heads
-     *
-     * @param string $heads
-     *
-     * @return Faction
-     */
-    public function setHeads($heads)
-    {
-        $this->heads = $heads;
-
-        return $this;
-    }
-
-    /**
-     * Get heads
-     *
-     * @return string
-     */
-    public function getHeads()
-    {
-        return $this->heads;
-    }
-
-    /**
-     * Set members
-     *
-     * @param string $members
-     *
-     * @return Faction
-     */
-    public function setMembers($members)
-    {
-        $this->members = $members;
-
-        return $this;
-    }
-
-    /**
-     * Get members
-     *
-     * @return string
-     */
-    public function getMembers()
-    {
-        return $this->members;
-    }
-
-    /**
-     * Set recruits
-     *
-     * @param string $recruits
-     *
-     * @return Faction
-     */
-    public function setRecruits($recruits)
-    {
-        $this->recruits = $recruits;
-
-        return $this;
-    }
-
-    /**
-     * Get recruits
-     *
-     * @return string
-     */
-    public function getRecruits()
-    {
-        return $this->recruits;
-    }
-
-    /**
-     * Set enemies
-     *
-     * @param string $enemies
-     *
-     * @return Faction
-     */
-    public function setEnemies($enemies)
-    {
-        $this->enemies = $enemies;
-
-        return $this;
-    }
-
-    /**
-     * Get enemies
-     *
-     * @return string
-     */
-    public function getEnemies()
-    {
-        return $this->enemies;
-    }
-
-    /**
-     * Set allies
-     *
-     * @param string $allies
-     *
-     * @return Faction
-     */
-    public function setAllies($allies)
-    {
-        $this->allies = $allies;
-
-        return $this;
-    }
-
-    /**
-     * Get allies
-     *
-     * @return string
-     */
-    public function getAllies()
-    {
-        return $this->allies;
-    }
-
-    /**
      * Set icon
      *
      * @param string $icon
@@ -452,46 +365,166 @@ class Faction
     }
 
     /**
-     * @return mixed
+     * Set owner
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $owner
+     *
+     * @return Faction
      */
-    public function getUuid()
+    public function setOwner(\Maxcraft\DefaultBundle\Entity\User $owner)
     {
-        return $this->uuid;
+        $this->owner = $owner;
+
+        return $this;
     }
 
     /**
-     * @param mixed $uuid
+     * Get owner
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
      */
-    public function setUuid($uuid)
+    public function getOwner()
     {
-        $this->uuid = $uuid;
+        return $this->owner;
     }
 
     /**
-     * @param Faction $faction
-     * @return string
+     * Set heads
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $heads
+     *
+     * @return Faction
      */
-    public  function objectToString(Faction $faction){
+    public function setHeads(\Maxcraft\DefaultBundle\Entity\User $heads = null)
+    {
+        $this->heads = $heads;
 
-        $id = "id=".'"'.$faction->getId().'",';
-        $uuid = 'uuid="'.$faction->getUuid().'",';
-        if($faction->getName()== null){$name = 'name="null",';} else{$name = "name=".'"'.$faction->getName().'",';}
-        $tag="tag=".'"'.$faction->getTag().'",';
-        $balance = 'balance="'.$faction->getBalance().'",';
-        if ($faction->getSpawn()==null){$spawn = 'spawn="null",';} else{$spawn = 'spawn="'.$faction->getSpawn().'",';}
-        if ($faction->getJail() == null){$jail = 'jail="null",';} else {$jail = 'jail:"'.$faction->getJail().'",';}
-        $owner = "owner=".'"'.$faction->getOwner()->getUuid().'",';
-        if ($faction->getHeads()==null){$heads = 'heads="null",';} else{$heads = "heads=".'"'.$faction->getHeads().'",';}
-        if ($faction->getMembers()==null){$members = 'members="null",';} else{$members = "members=".'"'.$faction->getMembers().'",';}
-        if ($faction->getRecruits()==null){$recruits = 'recruits="null",';} else{$recruits = "recruits=".'"'.$faction->getRecruits().'",';}
-        if ($faction->getEnemies()==null){$enemies = 'enemies="null",';} else{$enemies = "enemies=".'"'.$faction->getEnemies().'",';}
-        if ($faction->getAllies()==null){$allies = 'allies="null",';} else{$allies = "allies=".'"'.$faction->getAllies().'",';}
-        if ($faction->getIcon()==null){$icon = 'icon="null",';} else{$icon = "icon=".'"'.$faction->getIcon().'",';}
-        if ($faction->getBanner()==null){$banner = 'banner="null",';} else{$banner = "banner=".'"'.$faction->getBanner().'",';}
+        return $this;
+    }
 
-        $str = "-faction:".$id.$uuid.$name.$tag.$balance.$spawn.$jail.$owner.$heads.$members.$recruits.$enemies.$allies.$icon.$banner;
-        strval($str);
-        if ($str[strlen($str)-1]==',') $str[strlen($str)-1]=null;
-        return $str;
+    /**
+     * Get heads
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getHeads()
+    {
+        return $this->heads;
+    }
+
+    /**
+     * Set members
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $members
+     *
+     * @return Faction
+     */
+    public function setMembers(\Maxcraft\DefaultBundle\Entity\User $members = null)
+    {
+        $this->members = $members;
+
+        return $this;
+    }
+
+    /**
+     * Get members
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getMembers()
+    {
+        return $this->members;
+    }
+
+    /**
+     * Set recruits
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $recruits
+     *
+     * @return Faction
+     */
+    public function setRecruits(\Maxcraft\DefaultBundle\Entity\User $recruits = null)
+    {
+        $this->recruits = $recruits;
+
+        return $this;
+    }
+
+    /**
+     * Get recruits
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getRecruits()
+    {
+        return $this->recruits;
+    }
+
+    /**
+     * Add enemy
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Faction $enemy
+     *
+     * @return Faction
+     */
+    public function addEnemy(\Maxcraft\DefaultBundle\Entity\Faction $enemy)
+    {
+        $this->enemies[] = $enemy;
+
+        return $this;
+    }
+
+    /**
+     * Remove enemy
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Faction $enemy
+     */
+    public function removeEnemy(\Maxcraft\DefaultBundle\Entity\Faction $enemy)
+    {
+        $this->enemies->removeElement($enemy);
+    }
+
+    /**
+     * Get enemies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEnemies()
+    {
+        return $this->enemies;
+    }
+
+    /**
+     * Add ally
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Faction $ally
+     *
+     * @return Faction
+     */
+    public function addAlly(\Maxcraft\DefaultBundle\Entity\Faction $ally)
+    {
+        $this->allies[] = $ally;
+
+        return $this;
+    }
+
+    /**
+     * Remove ally
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Faction $ally
+     */
+    public function removeAlly(\Maxcraft\DefaultBundle\Entity\Faction $ally)
+    {
+        $this->allies->removeElement($ally);
+    }
+
+    /**
+     * Get allies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAllies()
+    {
+        return $this->allies;
     }
 }

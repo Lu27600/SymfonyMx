@@ -50,7 +50,7 @@ class Zone
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     private $owner;
@@ -183,31 +183,6 @@ class Zone
     }
 
     /**
-     * Set owner
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\User $owner
-     *
-     * @return Zone
-     */
-    public function setOwner(User $owner = null)
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    /**
-     * Get owner
-     *
-     * @return \Maxcraft\DefaultBundle\Entity\User
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -274,5 +249,29 @@ class Zone
     public function getWorld()
     {
         return $this->world;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\User $owner
+     *
+     * @return Zone
+     */
+    public function setOwner(User $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

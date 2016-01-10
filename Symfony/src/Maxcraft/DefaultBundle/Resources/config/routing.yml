@@ -9,6 +9,8 @@ maxcraft_default_blog:
     requirements:
         page:  \d+
 
+
+
 maxcraft_new_user_and_player:
     path: /new/user
     defaults: { _controller: MaxcraftDefaultBundle:Default:userCreate}

@@ -35,7 +35,7 @@ class News
     /**
      * @var integer
      *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
      * @ORM\JoinColumn(nullable=true)
      */
     private $album;
@@ -182,30 +182,6 @@ class News
     }
 
     /**
-     * Set album
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\Album $album
-     *
-     * @return News
-     */
-    public function setAlbum(Album $album = null)
-    {
-        $this->album = $album;
-
-        return $this;
-    }
-
-    /**
-     * Get album
-     *
-     * @return \Maxcraft\DefaultBundle\Entity\Album
-     */
-    public function getAlbum()
-    {
-        return $this->album;
-    }
-
-    /**
      * Set user
      *
      * @param \Maxcraft\DefaultBundle\Entity\User $user
@@ -227,5 +203,29 @@ class News
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set album
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Album $album
+     *
+     * @return News
+     */
+    public function setAlbum(Album $album = null)
+    {
+        $this->album = $album;
+
+        return $this;
+    }
+
+    /**
+     * Get album
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Album
+     */
+    public function getAlbum()
+    {
+        return $this->album;
     }
 }

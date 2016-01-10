@@ -56,7 +56,7 @@ class User implements UserInterface
     /**
      * @var Faction
      *
-     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
      * @ORM\JoinColumn(nullable=true)
      */
     private $faction;
@@ -830,7 +830,7 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function setFaction(\Maxcraft\DefaultBundle\Entity\Faction $faction = null)
+    public function setFaction(Faction $faction = null)
     {
         $this->faction = $faction;
 

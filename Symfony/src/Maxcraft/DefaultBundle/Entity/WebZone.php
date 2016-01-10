@@ -36,7 +36,7 @@ class WebZone
     /**
      * @var Album
      *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
      * @ORM\JoinColumn(nullable=true)
      */
     private $album;
@@ -147,8 +147,6 @@ class WebZone
     {
         return $this->servZone;
     }
-
-    
 
     /**
      * Set album
