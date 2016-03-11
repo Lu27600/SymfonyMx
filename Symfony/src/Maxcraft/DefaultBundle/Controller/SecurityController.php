@@ -27,12 +27,13 @@ class SecurityController extends Controller
         $authenticationUtils = $this->get('security.authentication_utils');
 
 
-        return $this->render('PulpeDefaultBundle:loginspace.html.twig', array(
+        return $this->render('MaxcraftDefaultBundle:Others:loginspace.html.twig', array(
             'last_username' => $authenticationUtils->getLastUsername(),
             'error'         => $authenticationUtils->getLastAuthenticationError(),
         ));
 
         //TODO Faire formulaire de connexion + voir cryptage du mot de passe du compte admin
+        //TODO Remettre 'users' devant firewalls:main:provider
 
     }
 }

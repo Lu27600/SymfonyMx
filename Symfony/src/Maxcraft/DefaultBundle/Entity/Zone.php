@@ -26,6 +26,14 @@ class Zone
     private $id;
 
     /**
+     * @var WebZone
+     *
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\WebZone", inversedBy="servZone", cascade={"remove", "persist"})
+     * @ORM\JoinColumn(nullable=false, name="webZone", onDelete="CASCADE")
+     */
+    private $webZone;
+
+    /**
      * @var string
      *
      *
@@ -274,4 +282,22 @@ class Zone
     {
         return $this->owner;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getWebZone()
+    {
+        return $this->webZone;
+    }
+
+    /**
+     * @param mixed $webZone
+     */
+    public function setWebZone($webZone)
+    {
+        $this->webZone = $webZone;
+    }
+
+
 }

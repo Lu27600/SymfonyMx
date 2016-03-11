@@ -4,6 +4,13 @@
     </head>
 
     <body>
+
+    {% if (is_granted("IS_AUTHENTICATED_REMEMBERED")) %}
+        <p>Bienvenue {{ app.user.username }}!</p>
+    {% else %}
+        {{ render(controller('MaxcraftDefaultBundle:Security:login')) }}
+    {% endif %}
+
     <div id="newsspace">
         {% for new in newslist %}
 
@@ -13,7 +20,7 @@
                     <div id="news{{ new.news.id }}">
                         {% if new.news.album %}
                             {% for image in new.news.album.images %}
-                                <img src="{{ asset(image.sliderPath) }}"/>
+                                <img src="{{ asset(image.getWebPath) }}"/>
                             {% endfor %}
                         {% endif %}
                     </div>

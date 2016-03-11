@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>Maxcraft - Profil {{ user.username }}</title>
+    </head>
+
+    <body>
+        <div>
+            <p>User : {{ user.username }}</p>
+            <p>Dernière connexion : {{ hGT }}h {{ mGT }}min</p>
+            <p>argent : {{ balance }}</p>
+            {% for zone in zones %}
+                <p>zone : {{ zone.name }}</p><br>
+            {% endfor %}
+        </div>
+    </body>
+</html>

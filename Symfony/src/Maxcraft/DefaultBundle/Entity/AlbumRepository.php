@@ -12,11 +12,32 @@ use Doctrine\ORM\EntityRepository;
 class AlbumRepository extends EntityRepository{
 
     public function findImages(Album $album){
-        return $this->getEntityManager()->getRepository('MaxcraftdefaultBundle:Image')->findBy(
+        return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:Image')->findBy(
             array('album'=> $album->getId()),
             array('id'=> 'desc'),
             null,
             0
         );
+    }
+
+
+    public function findAlbums(User $user, $private = false){
+
+        if ($private){
+            return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:Album')->findBy(
+                array('user' => $user->getId()),
+                array('creationDate' => 'desc'),
+                null,
+                0
+            );
+        }
+        else{
+            return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:Album')->findBy(
+              array('user' => $user->getId(), 'display' => true),
+              array('creationDate' => 'desc'),
+              null,
+              0
+            );
+        }
     }
 }

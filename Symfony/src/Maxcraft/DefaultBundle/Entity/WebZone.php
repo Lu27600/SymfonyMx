@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\Type;
  * WebZone
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\WebZoneRepository")
  */
 class WebZone
 {
@@ -28,7 +28,7 @@ class WebZone
 
     /**
      * @var Zone
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone")
+     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", mappedBy="webZone",cascade={"remove", "persist"})
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $servZone;

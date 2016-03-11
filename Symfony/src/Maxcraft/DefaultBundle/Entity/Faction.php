@@ -99,22 +99,6 @@ class Faction
     private $recruits;
 
     /**
-     * @var Faction
-     *
-     * @ORM\ManyToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
-     * @ORM\JoinColumn(name="enemies", nullable=true)
-     */
-    private $enemies;
-
-    /**
-     * @var Faction
-     *
-     * @ORM\ManyToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
-     * @ORM\JoinColumn(name="allies", nullable=true)
-     */
-    private $allies;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="icon", type="string", length=300, nullable=true)
@@ -138,7 +122,7 @@ class Faction
      * @param Faction $faction
      * @return string
      */
-    public  function objectToString(Faction $faction){ //TODO Revoir
+    public  function objectToString(Faction $faction){ //TODO Revoir + gérer alliés et ennemis
 
         $id = "id=".'"'.$faction->getId().'",';
         $uuid = 'uuid="'.$faction->getUuid().'",';
@@ -395,7 +379,7 @@ class Faction
      *
      * @return Faction
      */
-    public function setHeads(\Maxcraft\DefaultBundle\Entity\User $heads = null)
+    public function setHeads(User $heads = null)
     {
         $this->heads = $heads;
 
@@ -419,7 +403,7 @@ class Faction
      *
      * @return Faction
      */
-    public function setMembers(\Maxcraft\DefaultBundle\Entity\User $members = null)
+    public function setMembers(User $members = null)
     {
         $this->members = $members;
 
@@ -443,7 +427,7 @@ class Faction
      *
      * @return Faction
      */
-    public function setRecruits(\Maxcraft\DefaultBundle\Entity\User $recruits = null)
+    public function setRecruits(User $recruits = null)
     {
         $this->recruits = $recruits;
 
@@ -458,73 +442,5 @@ class Faction
     public function getRecruits()
     {
         return $this->recruits;
-    }
-
-    /**
-     * Add enemy
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\Faction $enemy
-     *
-     * @return Faction
-     */
-    public function addEnemy(\Maxcraft\DefaultBundle\Entity\Faction $enemy)
-    {
-        $this->enemies[] = $enemy;
-
-        return $this;
-    }
-
-    /**
-     * Remove enemy
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\Faction $enemy
-     */
-    public function removeEnemy(\Maxcraft\DefaultBundle\Entity\Faction $enemy)
-    {
-        $this->enemies->removeElement($enemy);
-    }
-
-    /**
-     * Get enemies
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEnemies()
-    {
-        return $this->enemies;
-    }
-
-    /**
-     * Add ally
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\Faction $ally
-     *
-     * @return Faction
-     */
-    public function addAlly(\Maxcraft\DefaultBundle\Entity\Faction $ally)
-    {
-        $this->allies[] = $ally;
-
-        return $this;
-    }
-
-    /**
-     * Remove ally
-     *
-     * @param \Maxcraft\DefaultBundle\Entity\Faction $ally
-     */
-    public function removeAlly(\Maxcraft\DefaultBundle\Entity\Faction $ally)
-    {
-        $this->allies->removeElement($ally);
-    }
-
-    /**
-     * Get allies
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAllies()
-    {
-        return $this->allies;
     }
 }

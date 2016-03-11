@@ -33,10 +33,10 @@ class News
     private $user;
 
     /**
-     * @var integer
+     * @var Album
      *
      * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, name="album")
      */
     private $album;
 

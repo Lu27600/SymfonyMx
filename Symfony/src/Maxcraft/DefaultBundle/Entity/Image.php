@@ -1,6 +1,6 @@
 <?php
 
-namespace PulpeDefaultBundle\Entity;
+namespace Maxcraft\DefaultBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Maxcraft\DefaultBundle\Entity\Album;
@@ -28,7 +28,7 @@ class Image
     /**
      * @var Album
      *
-     * @ORM\ManyToOne(targetEntity="PulpeDefaultBundle\Entity\Album", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album", inversedBy="images")
      * @ORM\JoinColumn(name="album", nullable=false, onDelete="CASCADE")
      */
     private $album;
@@ -134,30 +134,6 @@ class Image
         return $this->name;
     }
 
-    /**
-     * Set album
-     *
-     * @param Album $album
-     *
-     * @return Image
-     */
-    public function setAlbum(Album $album)
-    {
-        $this->album = $album;
-
-        return $this;
-    }
-
-    /**
-     * Get album
-     *
-     * @return Album
-     */
-    public function getAlbum()
-    {
-        return $this->album;
-    }
-
     public function getAbsolutePath() //chemin absolu de l'img
     {
         return null === $this->path
@@ -176,7 +152,7 @@ class Image
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../web/'.$this->getUploadDir();
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
     protected function getUploadDir() //dossier où est stocké img (dans web)
@@ -234,5 +210,29 @@ class Image
 
     public function remove(){
         unlink($this->getAbsolutePath());
+    }
+
+    /**
+     * Set album
+     *
+     * @param \Maxcraft\DefaultBundle\Entity\Album $album
+     *
+     * @return Image
+     */
+    public function setAlbum(Album $album)
+    {
+        $this->album = $album;
+
+        return $this;
+    }
+
+    /**
+     * Get album
+     *
+     * @return \Maxcraft\DefaultBundle\Entity\Album
+     */
+    public function getAlbum()
+    {
+        return $this->album;
     }
 }

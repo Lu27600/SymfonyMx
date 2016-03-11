@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Player
  *
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\PlayerRepository")
  */
 class Player
 {

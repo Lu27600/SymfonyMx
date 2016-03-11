@@ -9,28 +9,53 @@ maxcraft_default_blog:
     requirements:
         page:  \d+
 
+maxcraft_register:
+    path: /register
+    defaults: {_controller: MaxcraftDefaultBundle:Default:register}
 
+maxcraft_myalbums:
+    path: /albums
+    defaults: {_controller: MaxcraftDefaultBundle:User:myalbums}
 
-maxcraft_new_user_and_player:
-    path: /new/user
-    defaults: { _controller: MaxcraftDefaultBundle:Default:userCreate}
-
-maxcraft_new_comment:
-    path:     /new/comment/{user}/{newsId}
-    defaults: { _controller: MaxcraftDefaultBundle:Default:commentCreate, user: 1, news: 1}
+maxcraft_album_edit:
+    path: /album/{albumId}/edit
+    defaults: {_controller: MaxcraftDefaultBundle:User:editAlbum}
     requirements:
-      user: .+
-      newsId: \d+
+        albumId: \d+
 
-maxcraft_new_news:
-      path: /new/news/{user}
+uploadimage:
+    path: /album/uploadimage/{albumId}
+    defaults: {_controller: MaxcraftDefaultBundle:Default:uploadImage}
+    requirements:
+        albumId: \d+
 
-maxcraft_news_test:
-      path: /test/news/{newsId}
-      defaults: {_controller: MaxcraftDefaultBundle:Default:newsTest, newsId:1}
-      requirements:
+albumsetimage:
+    pattern:  /album/{albumid}/setimage/{imageid}
+    defaults: { _controller: MaxcraftDefaultBundle:Default:changeAlbumImage }
+    requirements:
+        albumid: \d+
+        imageid: \d+
+
+imageremove:
+    pattern:  /image/{imageid}/remove
+    defaults: { _controller: MaxcraftDefaultBundle:Default:removeImage }
+    requirements:
+        imageid:  \d+
+
+profil:
+    path: /profil/{pseudo}
+    defaults: {_controller: MaxcraftDefaultBundle:User:profil}
+
+admin_news:
+    path: /admin/news
+    defaults: {_controller: MaxcraftDefaultBundle:Admin:news}
+
+admin_news_create:
+    path: /admin/news/create
+    defaults: {_controller: MaxcraftDefaultBundle:Admin:newNews, newsId:null}
+
+admin_news_edit:
+    path: /admin/news/{newsId}/edit
+    defaults: {_controller: MaxcraftDefaultBundle:Admin:newNews}
+    requirements:
         newsId: \d+
-
-maxcraft_test_builder:
-        path: /test/builder
-        defaults: { _controller : MaxcraftDefaultBundle:Default:testBuilder}

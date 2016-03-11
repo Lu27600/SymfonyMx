@@ -2,7 +2,9 @@
 
 namespace Maxcraft\DefaultBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Maxcraft\DefaultBundle\Entity\Image;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -27,7 +29,6 @@ class Album
 
     /**
      * @var User
-     * @Assert\NotBlank(message="Le joueur n'a pas été précisé !")
      * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\User")
      * @ORM\JoinColumn(name="user", nullable=false)
      */
@@ -70,9 +71,19 @@ class Album
      */
     private $display;
 
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Image",mappedBy="album",cascade={"remove", "persist"})
+     * @ORM\JoinColumn(nullable=true, name="images")
+     */
+    private $images;
+
     public function __construct(){
         $this->creationDate = new \DateTime();
         $this->display = false;
+        $this->albumimage = null;
+        $this->images = null;
     }
 
 
@@ -210,7 +221,7 @@ class Album
     /**
      * Set albumimage
      *
-     * @param \Maxcraft\DefaultBundle\Entity\Image $albumimage
+     * @param Image $albumimage
      *
      * @return Album
      */
@@ -224,10 +235,49 @@ class Album
     /**
      * Get albumimage
      *
-     * @return \Maxcraft\DefaultBundle\Entity\Image
+     * @return Image
      */
     public function getAlbumimage()
     {
         return $this->albumimage;
+    }
+
+    /**
+     * Add image
+     *
+     * @param Image $image
+     *
+     * @return Album
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param Image $image
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    public function getAlbum(){
+        return $this;
     }
 }

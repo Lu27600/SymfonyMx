@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\Email;
  * User
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\UserRepository")
  */
 class User implements UserInterface
 {
@@ -195,7 +195,7 @@ class User implements UserInterface
      * @param DefaultController $controller
      * @param Player $player
      */
-    function __construct(DefaultController $controller, Player $player){
+    function __construct(DefaultController $controller, Player $player = null){
         $this->controller = $controller;
         $this->registerDate = new \DateTime();
         $this->password = NULL;
@@ -846,4 +846,5 @@ class User implements UserInterface
     {
         return $this->faction;
     }
+
 }
