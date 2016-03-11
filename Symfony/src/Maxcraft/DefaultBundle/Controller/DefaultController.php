@@ -45,6 +45,7 @@ class DefaultController extends Controller
         $totalNews = $repNews->countDisplay();
         $totalPages = ceil(($totalNews)/($parpage));
         $newslist = array();
+        $commentFormList = array();
         foreach ($news as $new){
             $newslist[$new->getId()]['news'] = $new;
             $newslist[$new->getId()]['comments'] = $repNews->getComments($new->getId());
@@ -60,6 +61,8 @@ class DefaultController extends Controller
                 ->getForm();
             $newslist[$new->getId()]['commentform'] =  $newslist[$new->getId()]['form']
                 ->createView();
+            //$commentFormList[$new->getId()] = $newslist[$new->getId()]['form']
+              //  ->createView();
         }
 
         if ($request->isMethod('POST')){
@@ -96,6 +99,7 @@ class DefaultController extends Controller
             'page' => $page,
             'album' => $album,
             'images' => $images,
+            'commentformlist' => $commentFormList
 
         ));
 
