@@ -61,8 +61,10 @@ class DefaultController extends Controller
                 ->getForm();
             $newslist[$new->getId()]['commentform'] =  $newslist[$new->getId()]['form']
                 ->createView();
-            //$commentFormList[$new->getId()] = $newslist[$new->getId()]['form']
-              //  ->createView();
+            $commentFormList[$new->getId()] = $newslist[$new->getId()]['form']
+                ->createView();
+            $commentForm = $newslist[$new->getId()]['form']->createView();
+            $commentFormList[$new->getId()] = $commentForm;
         }
 
         if ($request->isMethod('POST')){

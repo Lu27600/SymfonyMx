@@ -45,7 +45,8 @@
 
                         <form style="display:none; widht:100%" class="commentform" action="{{ path('maxcraft_default_blog', {'page': page}) }}" method="POST">
 
-                            <p> {{ form(new.commentform) }}</p>
+                            <p> {{ form_widget(commentformlist['{{ new.news.id}}'].content) }} </p>
+                            <p>{{ form_rest(commentformlist['{{ new.news.id }}']) }}</p>
 
                             <input type="submit" value="Poster !" class="button-bevel red"><br/><br/>
                         </form>
