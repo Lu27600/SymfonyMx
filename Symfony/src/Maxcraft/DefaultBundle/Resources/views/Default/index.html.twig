@@ -34,7 +34,7 @@
                 </p>
                 <br/>
                 <h3 style="background-color: rgb(111, 111, 111);cursor:pointer;" class="commentbutton">Commentaires ({{ new.nbcomments }})</h3>
-                <div class="comments" style="display: none;">
+                <div class="comments" {#style="display: none;"#}>
 
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
@@ -43,13 +43,20 @@
                             <strong>Poster un commentaire</strong>
                         </p>
 
-                        <form style="display:none; widht:100%" class="commentform" action="{{ path('maxcraft_default_blog', {'page': page}) }}" method="POST">
+                        <p>a</p>
 
-                            <p> {{ form_widget(commentformlist['{{ new.news.id}}'].content) }} </p>
-                            <p>{{ form_rest(commentformlist['{{ new.news.id }}']) }}</p>
+                        <form style="{#display:none;#} widht:100%" class="commentform" action="{{ path('maxcraft_default_blog', {'page': page}) }}" method="POST">
+
+                            {% set cform = new.commentform %}
+
+                            {{ form_widget(cform.content) }}
+
+                            {{ form_widget(cform.news) }}
 
                             <input type="submit" value="Poster !" class="button-bevel red"><br/><br/>
                         </form>
+
+                        <p>b</p>
 
 
                     {% endif %}

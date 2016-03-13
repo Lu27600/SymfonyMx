@@ -55,28 +55,31 @@ class DefaultController extends Controller
             $comment = new Comment();
             $comment->setNews($new);
             $newslist[$new->getId()]['comment'] = $comment;
+
             $newslist[$new->getId()]['form'] = $this->createFormBuilder($comment)
                 ->add('content', 'froala', array('required' => true))
-                ->add('news', 'hidden', array('data' => $new) )
+                ->add('news', 'hidden', array(
+                    'data' => $new->getId()
+                ))
                 ->getForm();
+
             $newslist[$new->getId()]['commentform'] =  $newslist[$new->getId()]['form']
                 ->createView();
             $commentFormList[$new->getId()] = $newslist[$new->getId()]['form']
                 ->createView();
-            $commentForm = $newslist[$new->getId()]['form']->createView();
-            $commentFormList[$new->getId()] = $commentForm;
+            $commentFormList[$new->getId()] = $newslist[$new->getId()]['form']->createView();
         }
 
         if ($request->isMethod('POST')){
             foreach ($newslist as $new)
             {
                 $form = $new['form'];
-                $form->bind($request);
+                $form->handleRequest($request);
 
-                if($form->isValid() AND $new['news']->getId() == $new['comment']->getNews())
+                if($form->isValid() AND $new['news']->getId() == $new['comment']->getNews()->getId())
                 {
 
-                    $new['comment']->setNews($new['news']->getId());
+                    $new['comment']->setNews($new['news']);
                     $new['comment']->setUser($this->getUser()->getId());
 
                     $em = $this->getDoctrine()->getManager();
@@ -101,7 +104,7 @@ class DefaultController extends Controller
             'page' => $page,
             'album' => $album,
             'images' => $images,
-            'commentformlist' => $commentFormList
+            'commentformList' => $commentFormList
 
         ));
 

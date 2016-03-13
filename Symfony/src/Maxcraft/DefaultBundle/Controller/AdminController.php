@@ -100,5 +100,48 @@ class AdminController extends Controller{
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function infosAction(){
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository('MaxcraftDefaultBundle:User')->findAll();
+
+        $total=0;
+        $circulation = 0;
+        $totalUsers = count($users);
+        $ttactivesUser = 0;
+        //$sleepingUsers= 0;
+        foreach ($users as $u) {
+            $total = $total + $u->getPlayer()->getBalance();
+            if ($u->getActif()){
+                $circulation = $circulation+ $u->getPlayer()->getBalance();
+                $ttactivesUser++;
+            }
+            else{
+                $now =  new \DateTime();
+                //TODO gérer les dormants
+            }
+        }
+
+        $moyPerUser = $total/$totalUsers;
+        $moyPerActives = $circulation/$ttactivesUser;
+        $inactifs = $totalUsers - $ttactivesUser;
+        $percentActivesU = round(($ttactivesUser/$totalUsers)*100);
+
+        return $this->render('MaxcraftDefaultBundle:Admin:infos.html.twig', array(
+            'ttPOs' => $total,
+            'circulation' => $circulation,
+            'moyPerUsers' => $moyPerUser,
+            'moyPerActives' => $moyPerActives,
+            'totalUsers' => $totalUsers,
+            'activeUsers' => $ttactivesUser,
+            'inactivesUser' => $inactifs,
+            'actifsPercent' =>$percentActivesU
+        ));
+
+    }
+
 
 }

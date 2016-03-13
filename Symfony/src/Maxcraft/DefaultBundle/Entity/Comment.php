@@ -33,6 +33,7 @@ class Comment
 
     /**
      * @var News
+     *
      * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\News")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
