@@ -59,3 +59,7 @@ admin_news_edit:
     defaults: {_controller: MaxcraftDefaultBundle:Admin:newNews}
     requirements:
         newsId: \d+
+
+admin_infos:
+    path: /admin/infos
+    defaults: {_controller: MaxcraftDefaultBundle:Admin:infos}
