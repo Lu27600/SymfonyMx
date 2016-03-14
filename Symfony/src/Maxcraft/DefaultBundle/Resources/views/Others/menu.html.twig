@@ -1,18 +1,16 @@
 <html>
     <head>
     </head>
-
     <body>
         <div class="ribbon-wrapper">
-
             <div class="ribbon-front" id="menu">
-
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
-
                     <ul>
-                        <a href="{{path('index')}}"><li class="mainmenu" style="width:132px;">Accueil</li></a>
+                        <li class="mainmenu" style="width:132px;"> <a href="{{path('index')}}">Accueil</a></li>
+                        <li class="mainmenu">Mon perso</li>
+                        <li class="mainmenu">Infos </li>
+                        <div id="maxcraft"></div>
                     </ul>
-
                 {% else %}
             </div>
         </div>
