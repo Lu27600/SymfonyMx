@@ -6,13 +6,62 @@
             <div class="ribbon-front" id="menu">
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
                     <ul>
-                        <li class="mainmenu" style="width:132px;"> <a href="{{path('index')}}">Accueil</a></li>
-                        <li class="mainmenu">Mon perso</li>
-                        <li class="mainmenu">Infos </li>
+                        <li class="mainmenu" style="width:132px;"><a href="{{ path('index') }}">Accueil</a></li>
+                        <li class="mainmenu">Mon perso asset('')
+                            <ul class="submenu">
+                                <li><a herf="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
+                                <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}#parcelle_list">Mes parcelles</a></li>
+                                {% if app.user.faction %}
+                                    <li><a href="{{ path('faction',{'tag': app.user.faction.tag}) }}">{{ app.user.faction.tag }}</a></li>
+                                {% else %}
+                                    <li><a href="{{ path('newfaction') }}">Créer une faction</a></li>
+                                {% endif %}
+                                <li><a href="{{ path('myalbum') }}">Mes screens</a></li>
+                                <li><a href="{{  path('parametres') }}">Paramètres</a></li>
+                                <li><a href="{{ path('bugreport') }}">Reporter bug</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu">Infos asset('')
+                            <ul class="submenu">
+                                <li><a href="{{ path('players') }}">Les joueurs</a></li>
+                                <li><a href="{{ path('factionslist') }}">Les factions</a></li>
+                                <li><a href="{{ path('donjons') }}">Les donjons</a></li>
+                                <li><a href="{{ path('ventes') }}">Zones à vendre</a></li>
+                                <li><a href="{{ path('shop') }}">Shops</a></li>
+                                <li><a href="">Administration</a></li>
+                            </ul>
+                        </li>
                         <div id="maxcraft"></div>
+                        <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
+                        <li class="mainmenu" style="width:132px;"><a herf="">Guide asset('')</a>
+                            <ul>
+                            </ul>
+                        </li>
+                        <li class="mainmenu"><a href="{{ path('vote') }}">Voter</a></li>
                     </ul>
                 {% else %}
+                    <ul>
+                        <li class="mainmenu" style="width:132px;"><a href="{{ path('index') }}">Accueil</a></li>
+                        <li>Economie ??</li>
+                        <li class="mainmenu">Infos asset('')
+                            <ul class="submenu">
+                                <li><a href="{{ path('players') }}">Les joueurs</a></li>
+                                <li><a href="{{ path('factionslist') }}">Les factions</a></li>
+                                <li><a href="{{ path('donjons') }}">Les donjons</a></li>
+                                <li><a href="">Administration</a></li>
+                            </ul>
+                        </li>
+                        <div id="maxcraft"></div>
+                        <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
+                        <li class="mainmenu" style="width:132px;"><a herf="">Guide asset('')</a></li>
+                        <li class="mainmenu"><a href="{{ path('register') }}">S'inscrire</a></li>
+                    </ul>
+                {% endif %}
             </div>
+            <div class="ribbon-edge-topleft"></div>
+            <div class="ribbon-edge-topright"></div>
+            <div class="ribbon-edge-bottomleft"></div>
+            <div class="ribbon-edge-bottomright"></div>
         </div>
     </body>
 </html>
