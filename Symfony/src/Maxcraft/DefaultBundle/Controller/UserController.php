@@ -155,14 +155,18 @@ class UserController extends Controller
         $hGT = floor($GT/60);
 
         //last co
-        //TODO dernière connexion
+        $lastco = $this->getDoctrine()->getRepository('MaxcraftdefaultBundle:Session')->getLastCo($user);
 
         return $this->render('MaxcraftDefaultBundle:User:profil.html.twig', array(
             'user' => $user,
             'zones' => $zones,
             'balance' => $balance,
             'mGT' => $mGT,
-            'hGT' => $hGT
+            'hGT' => $hGT,
+            'myprofil' => $myprofil,
+            'albums' => $albums,
+            'visitor' => $visitor,
+            'lastco' =>$lastco
         ));
     }
 }

@@ -112,16 +112,12 @@ class AdminController extends Controller{
         $circulation = 0;
         $totalUsers = count($users);
         $ttactivesUser = 0;
-        //$sleepingUsers= 0;
+        $nbSleepingUsers = count($em->getRepository('MaxcraftDefaultBundle:Session')->getSleepingUsers());
         foreach ($users as $u) {
             $total = $total + $u->getPlayer()->getBalance();
             if ($u->getActif()){
                 $circulation = $circulation+ $u->getPlayer()->getBalance();
                 $ttactivesUser++;
-            }
-            else{
-                $now =  new \DateTime();
-                //TODO gérer les dormants
             }
         }
 
@@ -129,6 +125,8 @@ class AdminController extends Controller{
         $moyPerActives = $circulation/$ttactivesUser;
         $inactifs = $totalUsers - $ttactivesUser;
         $percentActivesU = round(($ttactivesUser/$totalUsers)*100);
+        $percentSleepingU = round(($nbSleepingUsers/$totalUsers)*100);
+
 
         return $this->render('MaxcraftDefaultBundle:Admin:infos.html.twig', array(
             'ttPOs' => $total,
@@ -138,7 +136,9 @@ class AdminController extends Controller{
             'totalUsers' => $totalUsers,
             'activeUsers' => $ttactivesUser,
             'inactivesUser' => $inactifs,
-            'actifsPercent' =>$percentActivesU
+            'actifsPercent' =>$percentActivesU,
+            'nbsleeping' => $nbSleepingUsers,
+            'percentSleepingU' => $percentSleepingU
         ));
 
     }
