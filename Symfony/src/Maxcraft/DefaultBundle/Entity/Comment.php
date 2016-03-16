@@ -53,6 +53,12 @@ class Comment
      */
     private $content;
 
+    /**
+     *
+     * @var integer $newsId
+     */
+    private $newsId; //pour form
+
     function __construct(){
         $this->date = new \DateTime();
     }
@@ -162,5 +168,21 @@ class Comment
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNewsId()
+    {
+        return $this->newsId;
+    }
+
+    /**
+     * @param int $newsId
+     */
+    public function setNewsId($newsId)
+    {
+        $this->newsId = $newsId;
     }
 }

@@ -50,8 +50,7 @@ class FactionController extends Controller {
         $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
         $members= $rep->findByFaction($faction);
 
-        //WARS
-        //TODO wars + fnr
+
     }
 
     /**

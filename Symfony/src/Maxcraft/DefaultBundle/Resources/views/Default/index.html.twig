@@ -43,20 +43,16 @@
                             <strong>Poster un commentaire</strong>
                         </p>
 
-                        <p>a</p>
-
                         <form style="{#display:none;#} widht:100%" class="commentform" action="{{ path('maxcraft_default_blog', {'page': page}) }}" method="POST">
 
                             {% set cform = new.commentform %}
 
                             {{ form_widget(cform.content) }}
 
-                            {{ form_widget(cform.news) }}
+                            {{ form_rest(cform) }}
 
                             <input type="submit" value="Poster !" class="button-bevel red"><br/><br/>
                         </form>
-
-                        <p>b</p>
 
 
                     {% endif %}
@@ -67,7 +63,7 @@
                         <p style="padding:15px;min-height: 70px;background-color: rgb(218, 218, 218); margin-bottom:8px; " class="newscomment" >
                             <img style="float:left;  padding-right:10px;" src="{{ comment.user.avatar(70) }}"/>
 
-                            {{ comment.content}}
+                            {{ comment.content|raw}}
                         </p>
                     {% endfor %}
                 </div>

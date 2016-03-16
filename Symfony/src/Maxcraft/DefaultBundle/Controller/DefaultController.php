@@ -58,7 +58,7 @@ class DefaultController extends Controller
 
             $newslist[$new->getId()]['form'] = $this->createFormBuilder($comment)
                 ->add('content', 'froala', array('required' => true))
-                ->add('news', 'hidden', array(
+                ->add('newsid', 'hidden', array(
                     'data' => $new->getId()
                 ))
                 ->getForm();
@@ -76,17 +76,17 @@ class DefaultController extends Controller
                 $form = $new['form'];
                 $form->handleRequest($request);
 
-                if($form->isValid() AND $new['news']->getId() == $new['comment']->getNews()->getId())
+                if($form->isValid() AND $new['news']->getId() == $new['comment']->getNewsId())
                 {
 
                     $new['comment']->setNews($new['news']);
-                    $new['comment']->setUser($this->getUser()->getId());
+                    $new['comment']->setUser($this->getUser());
 
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($new['comment']);
                     $em->flush();
 
-                    $this->get('session')->getFlashBag()->add('info', 'Votre commentaire pour la news  "'.$new['news']->getTitle().'" à été posté.');
+                    $this->get('session')->getFlashBag()->add('info', 'Votre commentaire pour la news << '.$new['news']->getTitle().' >> à été posté.');
 
                     return $this->redirect($this->generateUrl('maxcraft_default_blog', array(
                         'page' => $page,
