@@ -143,6 +143,9 @@ class AdminController extends Controller{
 
     }
 
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function adminMenuAction(){
 
         $nbbugs = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Bug')->findBy(

@@ -43,6 +43,17 @@ class Bug
      */
     private $content;
 
+    /* TYPES DE BUGS
+	 *
+	 * SITE
+	 * PLUGIN
+     * BUILD
+     * EVENTS/DONJONs
+     * FORUM
+	 * AUTRE
+	 *
+	 */
+
     /**
      * @var string
      *
