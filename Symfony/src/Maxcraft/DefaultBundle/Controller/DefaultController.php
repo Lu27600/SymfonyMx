@@ -387,7 +387,29 @@ class DefaultController extends Controller
     }
 
     public function wrapAction(){
-        $lastregistered = $this->getDoctrine()->get
+
+        //Derniers inscris
+        $lastregisteredusers = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findBy(
+          array(),
+          array('registerDate' => 'desc'),
+          12,
+          0
+        );
+
+        //enligne
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Session');
+        $onlineUsers = $rep->getOnlineUsers();
+
+        //sites de classement
+        $voteforus = $this->container->getParameter('voteforus');
+
+
+        return $this->render('MaxcraftDefaultBundle:Others:wrap.html.twig', array(
+            'lastusers' => $lastregisteredusers,
+            'voteforus' => $voteforus,
+            'onlineusers' => $onlineUsers,
+            'onlinenbr' => count($onlineUsers),
+        ));
     }
 }
 

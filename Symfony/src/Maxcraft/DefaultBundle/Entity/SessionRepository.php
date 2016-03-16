@@ -41,4 +41,11 @@ class SessionRepository extends EntityRepository {
 
         return $sleepingUs;
     }
+
+    public function getOnlineUsers(){
+
+        return $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:Session')->findBy(
+            array('end' =>  null)
+        );
+    }
 }

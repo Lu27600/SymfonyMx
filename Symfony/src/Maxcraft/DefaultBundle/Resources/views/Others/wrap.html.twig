@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Maxcraft - test - wrap</title>
+    </head>
+
+    <body>
+        <div>
+            <p>Derniers inscris : </p>
+            {% for u in lastusers %}
+                <p> {{ u.username }} </p><br>
+            {% endfor %}
+        </div>
+
+        <div>
+            <p>Joueurs connectés ({{ onlinenbr }})</p>
+            {% for u in onlineusers %}
+                <p> {{ u.user.username }} </p><br>
+            {% endfor %}
+        </div>
+
+        <div>
+            <h2>Votez pour nous !</h2>
+
+            {% for site in voteforus %}
+                {% if site.dopped and is_granted('ROLE_USER') %}
+                    <a href="{{ path('maxcraft_vote') }}"><button class="button-bevel cyan" style="width:100%;">{{ site.title }}</button></a>
+                {% else %}
+                    <a target="_BLANK" href="{{ site.url }}"><button class="button-bevel green" style="width:100%;">{{ site.title }}</button></a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>

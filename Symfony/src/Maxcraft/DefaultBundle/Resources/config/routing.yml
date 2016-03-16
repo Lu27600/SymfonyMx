@@ -64,10 +64,6 @@ admin_infos:
     path: /admin/infos
     defaults: {_controller: MaxcraftDefaultBundle:Admin:infos}
 
-test_menu:
-    path: /test/menu
-    defaults: {_controller: MaxcraftDefaultBundle:Default:menu}
-
 maxcraft_faction:
     path: /faction/{factionId}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:info}
@@ -109,3 +105,11 @@ maxcraft_shop:
 maxcraft_vote:
     path: /voter
     defaults: {_controller: MaxcraftDefaultBundle:Default:vote}
+
+test_menu:
+    path: /test/menu
+    defaults: {_controller: MaxcraftDefaultBundle:Default:menu}
+
+test_wrap:
+    path: /test/wrap
+    defaults: {_controller: MaxcraftDefaultBundle:Default:wrap}

@@ -39,7 +39,7 @@ class Session
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end", type="datetime", nullable = false)
+     * @ORM\Column(name="end", type="datetime", nullable = true)
      */
     private $end;
 
