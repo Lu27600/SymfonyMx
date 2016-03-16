@@ -63,3 +63,7 @@ admin_news_edit:
 admin_infos:
     path: /admin/infos
     defaults: {_controller: MaxcraftDefaultBundle:Admin:infos}
+
+test_menu:
+    path: /test/menu
+    defaults: {_controller: MaxcraftDefaultBundle:Default:menu}

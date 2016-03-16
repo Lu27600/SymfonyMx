@@ -341,6 +341,50 @@ class DefaultController extends Controller
             }
         }
     }
+
+    public function menuAction(){
+        $pages = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM MaxcraftDefaultBundle:Page p WHERE p.display = 1 ORDER BY p.ordervalue ASC')->getResult();
+
+        if(($this->get('security.context')->isGranted('ROLE_USER')))
+        {
+            $nbnotif =  count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Notification')->findBy(
+              array('user' => $this->getUser(),
+                  'view' => false)
+            ));
+                /*->createQuery('SELECT count(n.id) FROM MaxcraftDefaultBundle:Notification n WHERE n.user = '.$this->getUser().' AND n.view = 0')
+                ->getSingleScalarResult();*/
+
+            $nbmp =  count($this->getDoctrine()->getManager()->getRepository('MaxcraftDefaultBundle:MP')->findBy(
+                array('target' => $this->getUser(),
+                    'view'=>false)
+            ));
+                /*->createQuery('SELECT count(m.id) FROM MaxcraftDefaultBundle:MP m WHERE m.target = '.$this->getUser().' AND m.view = 0')
+                ->getSingleScalarResult();*/
+
+            $alert = $nbmp + $nbnotif;
+
+
+            //sites de classement
+
+            $voteforus = $this->container->getParameter('voteforus');
+
+
+            return $this->render('MaxcraftDefaultBundle:Others:menu.html.twig', array(
+                'nbnotif' => $nbnotif,
+                'nbmp' => $nbmp,
+                'alert' => $alert,
+                'pages' => $pages,
+                'voteforus' => $voteforus
+            ));
+
+        }
+        else
+        {
+            return $this->render('MaxcraftDefaultBundle:Others:menu.html.twig', array(
+                'pages' => $pages
+            ));
+        }
+    }
 }
 
 
