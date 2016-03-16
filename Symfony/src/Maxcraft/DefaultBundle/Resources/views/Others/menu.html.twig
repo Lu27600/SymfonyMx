@@ -1,7 +1,7 @@
 <html>
     <head>
         <script type="text/javascript">
-            <!--script_menu_déroulant-->
+            {#script_menu_deroulant#}
             sfHover = function() {
                 var sfEls = document.getElementById("menu").getElementsByTagName("ul");
                 for (var i=0; i<sfEls.length; i++) {
@@ -14,15 +14,15 @@
                 }
             }
             if (window.attachEvent) window.attachEvent("onload", sfHover);
-            <!--fin_script-->
-         </script>
+            {#fin_script#}
+        </script>
     </head>
     <body>
         <div class="ribbon-wrapper">
             <div class="ribbon-front" id="menu">
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
                     <ul>
-                        <li class="mainmenu" style="width:132px;"><a href="{{ path('index') }}">Accueil</a></li>
+                        <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
                         <li class="mainmenu">Mon perso
                             <ul class="submenu">
                                 <li><a herf="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
@@ -57,7 +57,7 @@
                     </ul>
                 {% else %}
                     <ul>
-                        <li class="mainmenu" style="width:132px;"><a href="{{ path('index') }}">Accueil</a></li>
+                        <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
                         <li>Economie ??</li>
                         <li class="mainmenu">Infos
                             <ul class="submenu">
