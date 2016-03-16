@@ -3,7 +3,7 @@
         <script type="text/javascript">
             {#script_menu_deroulant#}
             sfHover = function() {
-                var sfEls = document.getElementById("menu").getElementsByTagName("ul");
+                var sfEls = document.getElementById("mainmenu").getElementsByTagName("li");
                 for (var i=0; i<sfEls.length; i++) {
                     sfEls[i].onmouseover=function() {
                         this.className+=" sfhover";
