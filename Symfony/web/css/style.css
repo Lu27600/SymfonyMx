@@ -173,7 +173,7 @@ background-position-y:122px;
 .mainmenu{
 width:131px;
 height:50px;
-
+list-style: none;
 float:left;
 font-family: 'Pirata One', cursive;
 text-align:center;

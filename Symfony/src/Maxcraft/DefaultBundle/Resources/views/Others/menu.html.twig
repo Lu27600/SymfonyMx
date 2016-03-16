@@ -31,9 +31,9 @@
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
-                        <li class="mainmenu">Mon perso
+                        <li class="mainmenu">Mon perso {% if nbmp > 0 or nbnotif > 0 %}<span class="alertpin" >(!)</span>{% endif %}
                             <ul class="submenu">
-                                <li><a herf="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
+                                <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}#parcelle_list">Mes parcelles</a></li>
                                 {% if app.user.faction %}
                                     <li><a href="{{ path('maxcraft_faction',{'tag': app.user.faction.tag}) }}">{{ app.user.faction.tag }}</a></li>
@@ -41,6 +41,8 @@
                                     <li><a href="{{ path('maxcraft_faction_create') }}">Créer une faction</a></li>
                                 {% endif %}
                                 <li><a href="{{ path('maxcraft_myalbums') }}">Mes screens</a></li>
+                                <li style="font-weight: bold"><a href="{{ path('maxcraft_message') }}">Messages ({{ nbmp }})</a></li>
+                                <li style="font-weight: bold"><a href="{{ path('maxcraft_notification') }}">Notifications ({{ nbnotif }})</a></li>
                                 <li><a href="{{  path('maxcraft_parametres') }}">Paramètres</a></li>
                                 <li><a href="{{ path('maxcraft_bugreport') }}">Reporter bug</a></li>
                             </ul>
