@@ -64,11 +64,11 @@ admin_infos:
     path: /admin/infos
     defaults: {_controller: MaxcraftDefaultBundle:Admin:infos}
 
+#en cours
+
 maxcraft_faction:
-    path: /faction/{factionId}
+    path: /faction/{factionTag}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:info}
-    requirements:
-      factionId: \d+
 
 maxcraft_faction_create:
     path: /faction/create

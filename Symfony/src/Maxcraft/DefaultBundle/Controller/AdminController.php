@@ -143,5 +143,20 @@ class AdminController extends Controller{
 
     }
 
+    public function adminMenuAction(){
+
+        $nbbugs = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Bug')->findBy(
+            array('fixed' => false)
+        ));
+
+        $nbShopsDemand = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:WebZone')->findBy(
+            array('shopDemand' => true)
+        ));
+
+        return $this->render('MaxcraftDefaultBundle:Admin:menu.html.twig', array(
+            'nbbugs' => $nbbugs,
+            'nbShopsDemand' => $nbShopsDemand,
+        ));
+    }
 
 }
