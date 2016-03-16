@@ -1,5 +1,21 @@
 <html>
     <head>
+        <script type="text/javascript">
+            <!--script_menu_déroulant-->
+            sfHover = function() {
+                var sfEls = document.getElementById("menu").getElementsByTagName("ul");
+                for (var i=0; i<sfEls.length; i++) {
+                    sfEls[i].onmouseover=function() {
+                        this.className+=" sfhover";
+                    }
+                    sfEls[i].onmouseout=function() {
+                        this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+                    }
+                }
+            }
+            if (window.attachEvent) window.attachEvent("onload", sfHover);
+            <!--fin_script-->
+         </script>
     </head>
     <body>
         <div class="ribbon-wrapper">
@@ -7,7 +23,7 @@
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('index') }}">Accueil</a></li>
-                        <li class="mainmenu">Mon perso asset('')
+                        <li class="mainmenu">Mon perso
                             <ul class="submenu">
                                 <li><a herf="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}#parcelle_list">Mes parcelles</a></li>
@@ -21,7 +37,7 @@
                                 <li><a href="{{ path('bugreport') }}">Reporter bug</a></li>
                             </ul>
                         </li>
-                        <li class="mainmenu">Infos asset('')
+                        <li class="mainmenu">Infos
                             <ul class="submenu">
                                 <li><a href="{{ path('players') }}">Les joueurs</a></li>
                                 <li><a href="{{ path('factionslist') }}">Les factions</a></li>
@@ -33,7 +49,7 @@
                         </li>
                         <div id="maxcraft"></div>
                         <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
-                        <li class="mainmenu" style="width:132px;"><a herf="">Guide asset('')</a>
+                        <li class="mainmenu" style="width:132px;"><a herf="">Guide </a>
                             <ul>
                             </ul>
                         </li>
@@ -43,7 +59,7 @@
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('index') }}">Accueil</a></li>
                         <li>Economie ??</li>
-                        <li class="mainmenu">Infos asset('')
+                        <li class="mainmenu">Infos
                             <ul class="submenu">
                                 <li><a href="{{ path('players') }}">Les joueurs</a></li>
                                 <li><a href="{{ path('factionslist') }}">Les factions</a></li>
@@ -53,7 +69,7 @@
                         </li>
                         <div id="maxcraft"></div>
                         <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
-                        <li class="mainmenu" style="width:132px;"><a herf="">Guide asset('')</a></li>
+                        <li class="mainmenu" style="width:132px;"><a herf="">Guide </a></li>
                         <li class="mainmenu"><a href="{{ path('register') }}">S'inscrire</a></li>
                     </ul>
                 {% endif %}
