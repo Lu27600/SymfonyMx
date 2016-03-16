@@ -411,6 +411,32 @@ class DefaultController extends Controller
             'onlinenbr' => count($onlineUsers),
         ));
     }
+
+    public function headerAction(){
+        //list des joueurs cos
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Session');
+        $onlineUsers = $rep->getOnlineUsers();
+        $bukkitVersion = $this->container->getParameter('bukkit_version');
+
+        $nbusers = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findAll());
+
+        $youtube = $this->container->getParameter('youtube');
+        $twitter = $this->container->getParameter('twitter');
+        $facebook = $this->container->getParameter('facebook');
+
+
+        return $this->render('MaxcraftDefaultBundle::header.html.twig', array(
+            'connected' => count($onlineUsers),
+            'totalplayers' => $nbusers,
+            'version' => $bukkitVersion,
+            'onlineusers' => $onlineUsers,
+            'youtube' => $youtube,
+            'twitter' => $twitter,
+            'facebook' => $facebook,
+
+        ));
+    }
 }
 
 
