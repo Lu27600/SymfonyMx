@@ -67,3 +67,45 @@ admin_infos:
 test_menu:
     path: /test/menu
     defaults: {_controller: MaxcraftDefaultBundle:Default:menu}
+
+maxcraft_faction:
+    path: /faction/{factionId}
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:info}
+    requirements:
+      factionId: \d+
+
+maxcraft_faction_create:
+    path: /faction/create
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:create}
+
+maxcraft_parametres:
+    path: /parametres
+    defaults: {_controller: MaxcraftDefaultBundle:User:parametres}
+
+maxcraft_bugreport:
+    path: /bugreport
+    defaults: {_controller: MaxcraftDefaultBundle:User:bugReport}
+
+maxcraft_players:
+    path: /users
+    defaults: {_controller: MaxcraftDefaultBundle:User:players}
+
+maxcraft_factionslist:
+    path: /factionslist
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:factionsList}
+
+maxcraft_donjons:
+    path: /donjons
+    defaults: {_controller: MaxcraftDefaultBundle:Default:donjons}
+
+maxcraft_ventes:
+    path: /ventes
+    defaults: {_controller: MaxcraftDefaultBundle:Shop:ventes}
+
+maxcraft_shop:
+    path: /shop
+    defaults: {_controller: MaxcraftDefaultBundle:Shop:shop}
+
+maxcraft_vote:
+    path: /voter
+    defaults: {_controller: MaxcraftDefaultBundle:Default:vote}

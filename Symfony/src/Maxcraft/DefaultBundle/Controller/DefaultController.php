@@ -385,6 +385,10 @@ class DefaultController extends Controller
             ));
         }
     }
+
+    public function wrapAction(){
+        $lastregistered = $this->getDoctrine()->get
+    }
 }
 
 

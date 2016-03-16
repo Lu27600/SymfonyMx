@@ -28,22 +28,22 @@
                                 <li><a herf="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}#parcelle_list">Mes parcelles</a></li>
                                 {% if app.user.faction %}
-                                    <li><a href="{{ path('faction',{'tag': app.user.faction.tag}) }}">{{ app.user.faction.tag }}</a></li>
+                                    <li><a href="{{ path('maxcraft_faction',{'tag': app.user.faction.tag}) }}">{{ app.user.faction.tag }}</a></li>
                                 {% else %}
-                                    <li><a href="{{ path('newfaction') }}">Créer une faction</a></li>
+                                    <li><a href="{{ path('maxcraft_faction_create') }}">Créer une faction</a></li>
                                 {% endif %}
-                                <li><a href="{{ path('myalbum') }}">Mes screens</a></li>
-                                <li><a href="{{  path('parametres') }}">Paramètres</a></li>
-                                <li><a href="{{ path('bugreport') }}">Reporter bug</a></li>
+                                <li><a href="{{ path('maxcraft_myalbums') }}">Mes screens</a></li>
+                                <li><a href="{{  path('maxcraft_parametres') }}">Paramètres</a></li>
+                                <li><a href="{{ path('maxcraft_bugreport') }}">Reporter bug</a></li>
                             </ul>
                         </li>
                         <li class="mainmenu">Infos
                             <ul class="submenu">
-                                <li><a href="{{ path('players') }}">Les joueurs</a></li>
-                                <li><a href="{{ path('factionslist') }}">Les factions</a></li>
-                                <li><a href="{{ path('donjons') }}">Les donjons</a></li>
-                                <li><a href="{{ path('ventes') }}">Zones à vendre</a></li>
-                                <li><a href="{{ path('shop') }}">Shops</a></li>
+                                <li><a href="{{ path('maxcraft_players') }}">Les joueurs</a></li>
+                                <li><a href="{{ path('maxcraft_factionslist') }}">Les factions</a></li>
+                                <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
+                                <li><a href="{{ path('maxcraft_ventes') }}">Zones à vendre</a></li>
+                                <li><a href="{{ path('maxcraft_shop') }}">Shops</a></li>
                                 <li><a href="">Administration</a></li>
                             </ul>
                         </li>
@@ -53,7 +53,7 @@
                             <ul>
                             </ul>
                         </li>
-                        <li class="mainmenu"><a href="{{ path('vote') }}">Voter</a></li>
+                        <li class="mainmenu"><a href="{{ path('maxcraft_vote') }}">Voter</a></li>
                     </ul>
                 {% else %}
                     <ul>
@@ -61,16 +61,16 @@
                         <li>Economie ??</li>
                         <li class="mainmenu">Infos
                             <ul class="submenu">
-                                <li><a href="{{ path('players') }}">Les joueurs</a></li>
-                                <li><a href="{{ path('factionslist') }}">Les factions</a></li>
-                                <li><a href="{{ path('donjons') }}">Les donjons</a></li>
+                                <li><a href="{{ path('maxcraft_players') }}">Les joueurs</a></li>
+                                <li><a href="{{ path('maxcraft_factionslist') }}">Les factions</a></li>
+                                <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
                                 <li><a href="">Administration</a></li>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>
                         <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
                         <li class="mainmenu" style="width:132px;"><a herf="">Guide </a></li>
-                        <li class="mainmenu"><a href="{{ path('register') }}">S'inscrire</a></li>
+                        <li class="mainmenu"><a href="{{ path('maxcraft_register') }}">S'inscrire</a></li>
                     </ul>
                 {% endif %}
             </div>
