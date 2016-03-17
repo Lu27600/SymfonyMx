@@ -1,21 +1,5 @@
 <html>
     <head>
-        <script type="text/javascript">
-            {#script_menu_deroulant#}
-            sfHover = function() {
-                var sfEls = document.getElementById("mainmenu").getElementsByTagName("li");
-                for (var i=0; i<sfEls.length; i++) {
-                    sfEls[i].onmouseover=function() {
-                        this.className+=" sfhover";
-                    }
-                    sfEls[i].onmouseout=function() {
-                        this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
-                    }
-                }
-            }
-            if (window.attachEvent) window.attachEvent("onload", sfHover);
-            {#fin_script#}
-        </script>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/pictogram-button.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/items.css') }}"/>
@@ -31,7 +15,7 @@
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
-                        <li class="mainmenu">Mon perso {% if nbmp > 0 or nbnotif > 0 %}<span class="alertpin" >(!)</span>{% endif %}
+                        <li class="mainmenu">Mon perso {% if alert %}<span class="alertpin" >(!)</span>{% endif %}
                             <ul class="submenu">
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}#parcelle_list">Mes parcelles</a></li>

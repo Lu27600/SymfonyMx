@@ -339,7 +339,7 @@ margin-right: 10px;
 }
 .submenu
 {
-	display:none;
+	display:block;
 }
 .submenu li{
 	background-color:#EEEEEE;
