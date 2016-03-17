@@ -10,6 +10,8 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 
 use Maxcraft\DefaultBundle\Entity\Album;
+use Maxcraft\DefaultBundle\Entity\Bug;
+use Maxcraft\DefaultBundle\Entity\Notification;
 use Maxcraft\DefaultBundle\Form\AlbumType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -167,6 +169,171 @@ class UserController extends Controller
             'albums' => $albums,
             'visitor' => $visitor,
             'lastco' =>$lastco
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function parametresAction(Request $request){
+
+        $user = $this->getUser();
+        $oldemail = $user->getEmail();
+
+
+        //form
+        $passwordForm = $this->createFormBuilder($user)
+
+
+            ->add('password', 'repeated', array(
+                'type' => 'password',
+                'invalid_message' => 'Vous avez mal recopié votre mot de passe !',
+
+            ))
+            ->add('Sauvegarder', new SubmitType())
+            ->getForm();
+
+        $paramForm = $this->createFormBuilder($user)
+            ->add('email', 'text')
+            ->add('Sauvegarder', new SubmitType())
+            ->getForm();
+
+
+        //recuperation form
+
+        if ($request->isMethod('POST')) {
+
+            if($request->request->has('email'))
+            {
+                $paramForm->handleRequest($request);
+
+                if($paramForm->isValid() )
+                {
+                    $notif = new Notification();
+                    $notif->setContent('Vous avez modifié votre adresse email ('.$oldemail.' => '.$user->getEmail().' )');
+                    $notif->setView(false);
+                    $notif->setUser($user);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($user);
+                    $em->persist($notif);
+                    $em->flush();
+
+                    $this->get('session')->getFlashBag()->add('info', "Votre adresse email à été changée !");
+
+                    return $this->redirect($this->generateUrl('maxcraft_parametres'));
+
+                }
+            }
+
+            if($request->request->has('password'))
+            {
+                $passwordForm->handleRequest($request);
+
+                if($passwordForm->isValid() )
+                {
+
+
+                    $factory = $this->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($user);
+                    $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+                    $user->setPassword($password);
+
+                    $notif = new Notification();
+                    $notif->setContent('Vous avez modifié votre mot de passe avec l\'ip '.$this->container->get('request')->getClientIp().'.');
+                    $notif->setView(false);
+                    $notif->setUser($user);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($user);
+                    $em->persist($notif);
+                    $em->flush();
+
+                    $this->get('session')->getFlashBag()->add('info', "Votre nouveau mot de passe à été enregistré !");
+
+                    return $this->redirect($this->generateUrl('maxcraft_parameters'));
+                }
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($user);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+        return $this->render('MaxcraftDefaultBundle:User:parametres.html.twig', array(
+            'passwordform' => $passwordForm->createView(),
+            'paramform' => $paramForm->createView(),
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function bugReportAction(Request $request){
+        $bug = new Bug();
+
+        //FORM
+        $form = $this->createFormBuilder($bug)
+            ->add('type', 'choice', array(
+                'choices' => array('SITE' => 'Bug sur le site', 'ORTH' => 'Faute d\'orthographe', 'PLUGIN' => 'Bug d\'un plugin','FORUM'=>'Forum','BUILD' => 'Problème avec le build', 'EVENTS/DONJONS'=>'Problème dans un évent ou un donjon', 'AUTRE' => 'Autre bug')
+            ))
+            ->add('content', 'textarea')
+            ->add('Signaler !', new SubmitType())
+            ->getForm();
+
+        //POST FORM
+
+        if ($request->isMethod('POST')) {
+
+            $form->handleRequest($request);
+
+            if($form->isValid() )
+            {
+                $bug->setUser($this->getUser());
+
+                $notif = new Notification($this);
+                $notif->setContent('Vous avez reporté le bug suivant : <br>'.$bug->getContent());
+                $notif->setView(false);
+                $notif->setUser($this->getUser());
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($bug);
+                $em->persist($notif);
+                $em->flush();
+
+                if($this->getUser()->getUsername() == 'Subversif')
+                {
+                    //easteregg ! TROLOLOOL (baba)
+                    $this->get('session')->getFlashBag()->add('info', "Merci ma couille !");
+                }
+                elseif($this->getUser()->getUsername() == 'Babawy'){
+                    //easter egg de Lu
+                    $this->get('session')->getFlashBag()->add('alert', "Vous avez reporté un bug, le Staff ne peut pas accepter ça ! Non mais oh! !");
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('info', "Merci d'avoir reporté ce bug, notre équipe le traitera au plus vite.");
+                }
+
+
+                return $this->redirect($this->generateUrl('maxcraft_profil', array('pseudo' => $this->getUser()->getUsername())));
+
+            }
+
+
+        }
+
+        return $this->render('MaxcraftDefaultBundle:User:bugreport.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 }

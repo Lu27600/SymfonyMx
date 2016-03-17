@@ -47,8 +47,9 @@ class Bug
 	 *
 	 * SITE
 	 * PLUGIN
+     * ORTH
      * BUILD
-     * EVENTS/DONJONs
+     * EVENTS/DONJONS
      * FORUM
 	 * AUTRE
 	 *
