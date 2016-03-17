@@ -161,4 +161,19 @@ class FactionController extends Controller {
             'prixfaction' => $prixFaction,
         ));
     }
+
+    public function factionsListAction(){
+        $factions = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction')->findBy(
+            array(),
+            array('tag' => 'desc')
+        );
+
+        $prixFaction = $this->container->getParameter('prix_faction');
+
+        return $this->render('MaxcraftDefaultBundle:Faction:factionlist.html.twig', array(
+
+            'factions' => $factions,
+            'prix' => $prixFaction,
+        ));
+    }
 }

@@ -443,4 +443,16 @@ class Faction
     {
         return $this->recruits;
     }
+
+    public function getAvatar($size)
+    {
+        if($this->icon == null OR $this->aicon == '')
+        {
+            return $this->getOwner()->getAvatar($size);
+        }
+        else
+        {
+            return $this->icon;
+        }
+    }
 }

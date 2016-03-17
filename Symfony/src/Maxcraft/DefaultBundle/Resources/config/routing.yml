@@ -82,15 +82,15 @@ maxcraft_bugreport:
     path: /bugreport
     defaults: {_controller: MaxcraftDefaultBundle:User:bugReport}
 
-        #en cours
-
-
 maxcraft_players:
     pattern:  /les-joueurs/{parser}/{page}
     defaults: { _controller: MaxcraftDefaultBundle:Default:players, parser: 'date', page: 1}
 
+        #en cours
+
+
 maxcraft_factionslist:
-    path: /factionslist
+    path: /factions
     defaults: {_controller: MaxcraftDefaultBundle:Faction:factionsList}
 
 maxcraft_donjons:
