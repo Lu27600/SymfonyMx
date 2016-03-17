@@ -5,9 +5,29 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/items.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/drop.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.css') }}"/>
+        <link href='http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+        <script src="{{ asset('js/volet.js') }}"></script>
+        <script src="{{ asset('js/jqFancyTransitions.1.8.js') }}"></script>
+        <script src="{{ asset('js/slider.js') }}"></script>
+        <script src="{{ asset('js/dropzone.js') }}"></script>
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-27800657-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+        </script>
     </head>
     <body>
         <div class="ribbon-wrapper">
@@ -38,13 +58,16 @@
                                 <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
                                 <li><a href="{{ path('maxcraft_ventes') }}">Zones à vendre</a></li>
                                 <li><a href="{{ path('maxcraft_shop') }}">Shops</a></li>
-                                <li><a href="">Administration</a></li>
+                                <li><a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a></li>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>
                         <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
                         <li class="mainmenu" style="width:132px;"><a herf="">Guide </a>
                             <ul>
+                                {% for page in pages %}
+                                    <li><a href="{{ path('maxcraft_guide',{'page': pagesection.page.route}) }}">{{ pagesection.page.title }}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="mainmenu"><a href="{{ path('maxcraft_vote') }}">Voter</a></li>
@@ -52,18 +75,24 @@
                 {% else %}
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
-                        <li>Economie ??</li>
+                        <li><a href="{{ path('maxcraft_guide',{'page': 'reglement'}) }}">Règlements</a></li>
                         <li class="mainmenu">Infos
                             <ul class="submenu">
                                 <li><a href="{{ path('maxcraft_players') }}">Les joueurs</a></li>
                                 <li><a href="{{ path('maxcraft_factionslist') }}">Les factions</a></li>
                                 <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
-                                <li><a href="">Administration</a></li>
+                                <li><a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a></li>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>
                         <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
-                        <li class="mainmenu" style="width:132px;"><a href="">Guide </a></li>
+                        <li class="mainmenu" style="width:132px;"><a href="">Guide </a>
+                            <ul>
+                                {% for page in pages %}
+                                    <li><a href="{{ path('maxcraft_guide',{'page': pagesection.page.route}) }}">{{ pagesection.page.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
                         <li class="mainmenu"><a href="{{ path('maxcraft_register') }}">S'inscrire</a></li>
                     </ul>
                 {% endif %}
