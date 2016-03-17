@@ -20,13 +20,16 @@ class FactionController extends Controller {
 
     public function infosAction($factionTag){
 
-        if ($faction = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction')->findOneByTag($factionTag)){
+        $faction = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction')->findOneBy(array('tag' => strtoupper($factionTag)));
+        if ($faction == null){
 
             $message = 'La Faction '. strtoupper($factionTag).' n\'a pas été trouvée';
 
-            return $this->render('MaxcraftDefaultBundle:Others:error.html.twig', array(
+            throw $this->createNotFoundException('La Faction '. strtoupper($factionTag).' n\'a pas été trouvée');
+
+            /*return $this->render('MaxcraftDefaultBundle:Others:error.html.twig', array(
                 'content' => $message
-            ));
+            ));*/
         }
 
         if(!($this->get('security.context')->isGranted('ROLE_USER'))) {
@@ -50,7 +53,30 @@ class FactionController extends Controller {
         $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
         $members= $rep->findByFaction($faction);
 
+        //ALLIES ET ENEMIES
+        $allies = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:FactionRole')->findAllies($faction);
+        $enemies = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:FactionRole')->findEnemies($faction);
 
+        if( !$ismine AND !$visitor AND $this->getUser()->getFaction())
+        {
+            $status = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:FactionRole')->findStateObject($faction, $this->getUser()->getFaction());
+        }
+        else
+        {
+            $status = null;
+        }
+
+        return $this->render('MaxcraftDefaultBundle:Faction:factioninfo.html.twig', array(
+            'faction' => $faction,
+            'ismine' => $ismine,
+            'nbmembers' => count($members),
+            'members' => $members,
+            'visitor' => $visitor,
+            'allies' => $allies,
+            'enemies' => $enemies,
+            'status' => $status,
+            'tag' => strtoupper($faction->getTag())
+        ));
     }
 
     /**

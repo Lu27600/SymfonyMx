@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FactionRole
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Maxcraft\DefaultBundle\Entity\FactionRoleRepository")
  */
 class FactionRole
 {
@@ -39,6 +39,10 @@ class FactionRole
 
     /**
      * @var string
+     *
+     * A = alliées
+     * N = neutre
+     * E = ennemies
      *
      * @ORM\Column(name="hasRole", type="string", length=255)
      */
@@ -82,7 +86,7 @@ class FactionRole
     /**
      * Get faction
      *
-     * @return integer
+     * @return Faction
      */
     public function getFaction()
     {
