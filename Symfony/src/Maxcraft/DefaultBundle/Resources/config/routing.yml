@@ -78,16 +78,16 @@ maxcraft_parametres:                                                    # A FAIR
     path: /parametres
     defaults: {_controller: MaxcraftDefaultBundle:User:parametres}
 
-        #en cours
-
-
 maxcraft_bugreport:
     path: /bugreport
     defaults: {_controller: MaxcraftDefaultBundle:User:bugReport}
 
+        #en cours
+
+
 maxcraft_players:
-    path: /users
-    defaults: {_controller: MaxcraftDefaultBundle:User:players}
+    pattern:  /les-joueurs/{parser}/{page}
+    defaults: { _controller: MaxcraftDefaultBundle:Default:players, parser: 'date', page: 1}
 
 maxcraft_factionslist:
     path: /factionslist
@@ -108,6 +108,14 @@ maxcraft_shop:
 maxcraft_vote:
     path: /voter
     defaults: {_controller: MaxcraftDefaultBundle:Default:vote}
+
+maxcraft_messages:
+    path: /mp
+    defaults: {_controller: MaxcraftDefaultBundle:User:mp}
+
+maxcraft_notifications:
+    path: /notifs
+    defaults: {_controller: MaxcraftDefaultBundle:User:notifs}
 
 test_menu:
     path: /test/menu

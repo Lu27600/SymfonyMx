@@ -437,6 +437,68 @@ class DefaultController extends Controller
 
         ));
     }
+
+
+    public function playersAction($parser, $page){
+
+        $parpage = $this->container->getParameter('nb_joueurs_par_page');
+
+        //Permier switch
+        if ($parser == 'date'){
+            $pagetitle = 'Les joueurs';
+            $description = 'Voici la liste des joueurs classés du plus nouveau au plus ancien.';
+
+            $nbtotal = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findAll());
+        }
+        if ($parser == 'gametime'){
+            $pagetitle = 'Les joueurs plus aguerris';
+            $description = 'Voici la liste des joueurs classés par temps de jeu.';
+
+            $nbtotal = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findAll());
+        }
+
+        //Calcul du nombre de pages
+        $nbpage = floor($nbtotal/$parpage)+1;
+        $start = $parpage*($page-1);
+
+        if($page > $nbpage)
+        {
+            return $this->render('MaxcraftDefaultBundle:Others:error.html.twig', array(
+                'content' => 'Cette page n\'existe pas !'
+            ));
+        }
+
+        //deuxieme switch
+
+        if ($parser == 'date'){
+            $players = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findBy(
+                array(),
+                array('id' => 'desc'),
+                $parpage,
+                $start
+            );
+        }
+        if ($parser == 'gametime'){
+            $players = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findBy(
+                array(),
+                array('gametime' => 'desc'),
+                $parpage,
+                $start
+            );
+
+        }
+
+        return $this->render('MaxcraftDefaultBundle:Default:players.html.twig', array(
+            'title' => $pagetitle,
+            'description' => $description,
+            'players' => $players,
+            'nbtotal' => $nbtotal,
+            'nbpages' => $nbpage,
+            'page' => $page,
+            'parser' => $parser,
+            //pour aller chercher l'argent d'un joueur : user.balance (sur twig)
+        ));
+    }
 }
 
 
