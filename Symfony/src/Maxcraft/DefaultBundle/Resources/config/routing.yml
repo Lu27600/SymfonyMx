@@ -86,13 +86,11 @@ maxcraft_players:
     pattern:  /les-joueurs/{parser}/{page}
     defaults: { _controller: MaxcraftDefaultBundle:Default:players, parser: 'date', page: 1}
 
-        #en cours
-
-
 maxcraft_factionslist:
     path: /factions
     defaults: {_controller: MaxcraftDefaultBundle:Faction:factionsList}
 
+# en cours
 maxcraft_donjons:
     path: /donjons
     defaults: {_controller: MaxcraftDefaultBundle:Default:donjons}
