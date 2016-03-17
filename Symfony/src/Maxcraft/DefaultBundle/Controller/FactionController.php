@@ -158,7 +158,7 @@ class FactionController extends Controller {
 
         return $this->render('MaxcraftDefaultBundle:Faction:newfaction.html.twig', array(
             'form' => $form->createView(),
-            'prixfaction' => $prixFaction,
+            'prixfaction' => $prixFaction
         ));
     }
 

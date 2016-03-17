@@ -74,7 +74,7 @@ maxcraft_faction_create:
 
 
 
-maxcraft_parametres:                                                    # A FAIRE !!!!!!
+maxcraft_parametres:                                                    # A FAIRE !!!!!
     path: /parametres
     defaults: {_controller: MaxcraftDefaultBundle:User:parametres}
 
