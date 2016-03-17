@@ -90,19 +90,19 @@ maxcraft_factionslist:
     path: /factions
     defaults: {_controller: MaxcraftDefaultBundle:Faction:factionsList}
 
-# en cours
-maxcraft_donjons:
+maxcraft_donjons:                                                             #A FAIRE !!!!
     path: /donjons
     defaults: {_controller: MaxcraftDefaultBundle:Default:donjons}
 
-maxcraft_ventes:
+maxcraft_ventes:                                                              #A FAIRE !!!!
     path: /ventes
     defaults: {_controller: MaxcraftDefaultBundle:Shop:ventes}
 
-maxcraft_shop:
+maxcraft_shop:                                                                #A FAIRE !!!!
     path: /shop
     defaults: {_controller: MaxcraftDefaultBundle:Shop:shop}
 
+#en cours
 maxcraft_vote:
     path: /voter
     defaults: {_controller: MaxcraftDefaultBundle:Default:vote}

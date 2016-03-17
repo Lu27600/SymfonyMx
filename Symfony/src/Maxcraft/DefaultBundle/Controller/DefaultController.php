@@ -3,11 +3,13 @@
 namespace Maxcraft\DefaultBundle\Controller;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Maxcraft\DefaultBundle\Entity\Builder;
 use Maxcraft\DefaultBundle\Entity\Comment;
 use Maxcraft\DefaultBundle\Entity\Image;
 use Maxcraft\DefaultBundle\Entity\Player;
 use Maxcraft\DefaultBundle\Entity\User;
+use Maxcraft\DefaultBundle\Entity\Vote;
 use Maxcraft\DefaultBundle\Entity\Zone;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -497,6 +499,128 @@ class DefaultController extends Controller
             'page' => $page,
             'parser' => $parser,
             //pour aller chercher l'argent d'un joueur : user.balance (sur twig)
+        ));
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function voteAction(){
+
+        if(!($this->get('security.context')->isGranted('ROLE_USER')))
+        {
+            return $this->redirect($this->generateUrl('maxcraft_homepage'));
+        }
+
+        $voteforus = $this->container->getParameter('voteforus');
+        $gains = $this->container->getParameter('vote_gains');
+
+
+        foreach ($voteforus as $site)
+        {
+            if($site['dopped'])
+            {
+                $dopped = $site;
+            }
+        }
+
+        $lastvote = new ArrayCollection();
+        $lv = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Vote')->findBy(
+          array('user' => $this->getUser()),
+          array('date' => 'desc'),
+          1
+        );
+
+        foreach($lv as $l){
+            $lastvote->add($l);
+        }
+
+        $date = new \DateTime();
+        if($lastvote == null || $lastvote->isEmpty()) $canvote = true;
+        else
+        {
+            foreach ($lastvote as $llv){
+                $ecart = $date->getTimestamp() - $lastvote[0]->getDate()->getTimestamp();
+                break;
+            }
+
+            if($ecart <= 86400)
+            {
+                $canvote = false;
+            }
+            else $canvote = true;
+        }
+
+        //Calcul du gain
+
+        // On trouve les votes depuis 7 jours
+
+
+        $votes = new ArrayCollection();
+        $votes->add($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Vote')->findBy(
+          array('user' => $this->getUser()),
+          array('date'=>'desc')
+        ));
+            /*->createQuery('SELECT v FROM MaxcraftDefaultBundle:Vote v WHERE v.user = '.$this->getUser()->getId().' ORDER BY v.date DESC')
+            ->getResult();*/
+
+
+        //Repérage du votestreak
+        $datevote = time();
+        $streak = 0;
+        foreach($votes as $vote)
+        {
+            foreach ($vote as $v) {
+                $date = $v->getDate()->getTimestamp();
+                if ($datevote - $date <= 172800) {
+                    $streak++;
+                    $datevote = $date;
+                } else {
+                    break;
+                }
+                break;
+            }
+        }
+
+        //Modulo 7 pour réinitialisation
+
+        $streak = $streak%7;
+
+
+
+        foreach($gains as $gain)
+        {
+            if($gain['jours'] == $streak+1)
+            {
+                $mongain = $gain['gain'];
+            }
+        }
+
+
+
+        if($canvote)
+        {
+            $vote = new Vote();
+            $vote->setUser($this->getUser());
+            $vote->setGain($mongain);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($vote);
+            $em->flush();
+
+            $this->getUser()->getPlayer()->setBalance($this->getUser()->getPlayer()->getBalance()+$mongain);
+
+
+        }
+
+
+        return $this->render('MaxcraftDefaultBundle:Default:vote.html.twig', array(
+            'gains' => $gains,
+            'canvote' => $canvote,
+            'voteforus' => $voteforus,
+            'dopped' => $dopped,
+            'mongain' => $mongain,
+
         ));
     }
 }
