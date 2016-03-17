@@ -193,6 +193,7 @@ cursor:pointer;
 background-color:rgb(148, 0, 0);
 background-image: url(../images/menubg.png);
 color:white;
+display: block;
 }
 
  #menu li:hover .alertpin
