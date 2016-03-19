@@ -62,13 +62,14 @@
                 {% else %}
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
-                        <li><a href="{{ path('maxcraft_guide',{'page': 'reglement'}) }}">Règlements</a></li>
+                        <li>Règlements, c'est pas un lien</li>
+                        {#<li><a href="{{ path('maxcraft_guide',{'page': 'reglement'}) }}">Règlements</a></li>#}
                         <li class="mainmenu">Infos
                             <ul class="submenu">
                                 <li><a href="{{ path('maxcraft_players') }}">Les joueurs</a></li>
                                 <li><a href="{{ path('maxcraft_factionslist') }}">Les factions</a></li>
                                 <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
-                                <li><a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a></li>
+                                <li>{#<a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a>#}Administration (pas un lien)</li>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>

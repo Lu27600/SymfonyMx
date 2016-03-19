@@ -102,11 +102,11 @@ maxcraft_shop:                                                                #A
     path: /shop
     defaults: {_controller: MaxcraftDefaultBundle:Shop:shop}
 
-#en cours
 maxcraft_vote:
     path: /voter
     defaults: {_controller: MaxcraftDefaultBundle:Default:vote}
 
+#en cours
 maxcraft_messages:
     path: /mp
     defaults: {_controller: MaxcraftDefaultBundle:User:mp}
