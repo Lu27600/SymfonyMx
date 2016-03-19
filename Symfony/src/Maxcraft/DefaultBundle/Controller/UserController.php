@@ -11,6 +11,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 use Maxcraft\DefaultBundle\Entity\Album;
 use Maxcraft\DefaultBundle\Entity\Bug;
+use Maxcraft\DefaultBundle\Entity\MP;
 use Maxcraft\DefaultBundle\Entity\Notification;
 use Maxcraft\DefaultBundle\Form\AlbumType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -406,5 +407,114 @@ class UserController extends Controller
         $em->flush();
 
         return $render;
+    }
+
+    /**
+     * @param $mpId
+     * @param $pseudo
+     * @param $type
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function newMpAction($mpId, $pseudo, $type, Request $request){
+
+        $mp = new MP();
+
+        if($pseudo != null)
+        {
+            $mp->setPseudo($pseudo);
+        }
+
+        if($type == 'requestallie')
+        {
+            $mp->setType('REQUESTALLIE');
+            $mp->setTopic('Proposition d\'alliance avec '.$this->getUser()->getFaction()->getTag().'');
+        }
+
+        if($mpId != null)
+        {
+            $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:MP');
+            $message = $rep->findOneById($mpId);
+            if($message != null )
+            {
+                if($message->getTarget() == $this->getUser())
+                {
+                    $mp->setTopic('Re : '.$message->getTopic());
+                    $mp->setContent($message->getContent()."\n\n---------- /\\ Réponse de ".$this->getUser()->getUsername()." /\\ ----------\n\n");
+                    $mp->setPseudo($message->getSender()->getUsername());
+
+
+                }
+            }
+        }
+
+        //form
+        $form = $this->createFormBuilder($mp)
+            ->add('pseudo', 'text')
+            ->add('topic', 'text')
+            ->add('content', 'froala', array('required' => false))
+            ->getForm();
+
+
+        //recuperation form
+
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+            $user = $rep->findOneByUsername($mp->getPseudo());
+
+            if($user == null)
+            {
+                $valid = false;
+                $this->get('session')->getFlashBag()->add('alert', 'Ce destinataire n\'existe pas !');
+            }
+            else
+            {
+                $valid = true;
+                $mp->setTarget($user);
+            }
+
+            if($mp->getPseudo() == $this->getUser()->getUsername())
+            {
+                $valid = false;
+                $this->get('session')->getFlashBag()->add('alert', 'Vous ne pouvez pas vous envoyer un mp !');
+            }
+
+            if($form->isValid() AND $valid)
+            {
+                $mp->setSender($this->getUser());
+
+                if($type == 'requestallie')
+                {
+                    $mp->setType('REQUESTALLIE');
+                }
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($mp);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info', "Votre MP à été envoyé !");
+
+                return $this->redirect($this->generateUrl('maxcraft_messages'));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($mp);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+        return $this->render('MaxcraftDefaultBundle:User:newmp.html.twig', array(
+            'form' => $form->createView(),
+            'type' => $type,
+        ));
+
     }
 }

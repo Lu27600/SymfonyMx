@@ -110,16 +110,20 @@ maxcraft_messages:
     path: /mp
     defaults: {_controller: MaxcraftDefaultBundle:User:mp}
 
-#en cours
 maxcraft_notifications:
     path: /notifs
     defaults: {_controller: MaxcraftDefaultBundle:User:notifs}
 
+#en cours
 answermp:
     path: /mp/reply/{mpId}
-    defaults: {_controller: MaxcraftDefaultBundle:User:replyMp}
+    defaults: {_controller: MaxcraftDefaultBundle:User:newMp, pseudo: null, type: null}
     requirements:
       mpId: \d+
+
+newmp:
+    path: /mp/nouveau/{pseudo}/{type}
+    defaults: { _controller: MaxcraftDefaultBundle:User:newmp, pseudo:null, mpId:null, type:null  }
 
 acceptrequest:
     path: /acceptrequest/{mpId}

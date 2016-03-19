@@ -94,4 +94,4 @@ kms_froala_editor:
 
 exercise_html_purifier:
     HTML.MaxImgLength: [300]
-    HTML.Allowed: [p,strong,s,u,em,sub,sup,span]
+    HTML.Allowed: [p,strong,s,u,em,sub,sup,span,br, n]

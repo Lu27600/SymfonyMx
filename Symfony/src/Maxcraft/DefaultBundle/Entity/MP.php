@@ -85,12 +85,26 @@ class MP
      */
     private $view;
 
+    private $pseudo;
+
+
     public function __construct(){
         $this->date = new \DateTime();
         $this->view = false;
         $this->type = 'NORMAL';
     }
 
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
 
     /**
      * Get id
