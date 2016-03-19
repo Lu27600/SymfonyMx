@@ -337,5 +337,43 @@ class UserController extends Controller
         ));
     }
 
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function mpAction(){
 
+        $user = $this->getUser();
+
+        $mps = $this->getDoctrine()->getManager()
+            ->createQuery('SELECT m FROM MaxcraftDefaultBundle:MP m WHERE m.target = '.$user->getId().' ORDER BY m.date DESC')
+            ->setMaxResults(50)
+            ->getResult();
+
+        $mpsends = $this->getDoctrine()->getManager()
+            ->createQuery('SELECT m FROM MaxcraftDefaultBundle:MP m WHERE m.sender = '.$user->getId().' ORDER BY m.date DESC')
+            ->setMaxResults(50)
+            ->getResult();
+
+        $render = $this->render('MaxcraftDefaultBundle:User:mp.html.twig', array(
+            'mps' => $mps,
+            'mpsends' => $mpsends,
+
+        ));
+
+        $em = $this->getDoctrine()->getManager();
+        foreach($mps as $mp)
+        {
+
+
+            if($mp->getView() == false)
+            {
+                $mp->setView(true);
+                $em->persist($mp);
+            }
+        }
+
+        $em->flush();
+
+        return $render;
+    }
 }

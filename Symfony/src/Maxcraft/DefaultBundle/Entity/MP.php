@@ -40,6 +40,13 @@ class MP
     private $target;
 
     /**
+     * TYPES :
+     * NORMAL
+     * FACTION_REQUEST
+     * REQUESTALLIE
+     */
+
+    /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)

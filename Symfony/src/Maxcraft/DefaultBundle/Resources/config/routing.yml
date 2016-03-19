@@ -115,6 +115,24 @@ maxcraft_notifications:
     path: /notifs
     defaults: {_controller: MaxcraftDefaultBundle:User:notifs}
 
+answermp:
+    path: /mp/reply/{mpId}
+    defaults: {_controller: MaxcraftDefaultBundle:User:replyMp}
+    requirements:
+      mpId: \d+
+
+acceptrequest:
+    path: /acceptrequest/{mpId}
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptrequest}
+    requirements:
+      mpId: \d+
+
+acceptalliance:
+    path: /acceptalliance/{mpId}
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptalliance}
+    requirements:
+      mpId: \d+
+
 test_menu:
     path: /test/menu
     defaults: {_controller: MaxcraftDefaultBundle:Default:menu}
