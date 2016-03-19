@@ -376,4 +376,35 @@ class UserController extends Controller
 
         return $render;
     }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function notifsAction(){
+
+        $notifs = $this->getDoctrine()->getManager()
+            ->createQuery('SELECT n FROM MaxcraftDefaultBundle:Notification n WHERE n.user = '.$this->getUser()->getId().' ORDER BY n.date DESC')
+            ->setMaxResults(50)
+            ->getResult();
+
+        $render = $this->render('MaxcraftDefaultBundle:User:notifs.html.twig', array(
+            'notifs' => $notifs,
+        ));
+
+        //VUE
+        $em = $this->getDoctrine()->getManager();
+        foreach($notifs as $notif)
+        {
+
+            if($notif->getView() == false)
+            {
+                $notif->setView(true);
+                $em->persist($notif);
+            }
+        }
+
+        $em->flush();
+
+        return $render;
+    }
 }

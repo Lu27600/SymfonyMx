@@ -106,11 +106,11 @@ maxcraft_vote:
     path: /voter
     defaults: {_controller: MaxcraftDefaultBundle:Default:vote}
 
-#en cours
 maxcraft_messages:
     path: /mp
     defaults: {_controller: MaxcraftDefaultBundle:User:mp}
 
+#en cours
 maxcraft_notifications:
     path: /notifs
     defaults: {_controller: MaxcraftDefaultBundle:User:notifs}
