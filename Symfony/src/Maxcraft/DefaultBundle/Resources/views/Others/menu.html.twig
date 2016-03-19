@@ -53,7 +53,7 @@
                         <li class="mainmenu" style="width:132px;"><a herf="">Guide </a>
                             <ul>
                                 {% for page in pages %}
-                                    <li><a href="{{ path('maxcraft_guide',{'page': pagesection.page.route}) }}">{{ pagesection.page.title }}</a></li>
+                                    <li><a href="{{ path('maxcraft_guide',{'page': page.route}) }}">{{ page.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
@@ -77,7 +77,7 @@
                         <li class="mainmenu" style="width:132px;"><a href="">Guide </a>
                             <ul>
                                 {% for page in pages %}
-                                    <li><a href="{{ path('maxcraft_guide',{'page': pagesection.page.route}) }}">{{ pagesection.page.title }}</a></li>
+                                    <li><a href="{{ path('maxcraft_guide',{'page': page.route}) }}">{{ page.title }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
