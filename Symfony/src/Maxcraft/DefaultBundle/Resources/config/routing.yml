@@ -144,7 +144,9 @@ acceptalliance:
     requirements:
       mpId: \d+
 
-
+factionrequest:
+    path:  /faction/{factionTag}/request
+    defaults: { _controller: MaxcraftDefaultBundle:Faction:factionrequest  }
 
 
 

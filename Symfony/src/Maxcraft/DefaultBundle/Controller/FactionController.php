@@ -11,6 +11,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 use Maxcraft\DefaultBundle\Entity\Faction;
 use Maxcraft\DefaultBundle\Entity\FactionRole;
+use Maxcraft\DefaultBundle\Entity\MP;
 use Maxcraft\DefaultBundle\Entity\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -444,5 +445,73 @@ class FactionController extends Controller {
         $em->remove($faction);
         $em->flush();
 
+    }
+
+    /**
+     * @param $factionTag
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function factionrequestAction($factionTag, Request $request){
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction');
+        $faction= $rep->findOneByTag($factionTag);
+
+        if($faction == NULL)
+        {
+            throw $this->createNotFoundException('La faction "'.$factionTag.'" n\'existe pas !');
+        }
+
+        if($faction == $this->getUser()->getFaction())
+        {
+            throw $this->createNotFoundException('Vous ne pouvez pas demander à entrer dans votre faction !');
+        }
+
+        $mp = new MP($this);
+        $mp->setTopic('Demande d\'entrée dans votre faction');
+
+        //form
+        $form = $this->createFormBuilder($mp)
+            ->add('content', 'froala', array('required' => true))
+            ->add('Envoyer', new SubmitType())
+            ->getForm();
+
+
+        //recuperation form
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            if($form->isValid())
+            {
+                $mp->setSender($this->getUser());
+
+                $mp->setTarget($faction->getOwner());
+                $mp->setType('FACTION_REQUEST');
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($mp);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info', "Votre demande à été envoyée au fondateur de la faction !");
+
+                return $this->redirect($this->generateUrl('maxcraft_messages'));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($mp);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+        return $this->render('MaxcraftDefaultBundle:Faction:factionrequest.html.twig', array(
+            'form' => $form->createView(),
+            'faction' => $faction,
+        ));
     }
 }
