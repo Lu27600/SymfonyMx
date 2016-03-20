@@ -9,12 +9,7 @@
         <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
         <script src="{{ asset('js/volet.js') }}"></script>
-        <script src="{{ asset('js/jqFancyTransitions.1.8.js') }}"></script>
-        <script src="{{ asset('js/slider.js') }}"></script>
-        <script src="{{ asset('js/dropzone.js') }}"></script>
     </head>
     <body>
         <div class="ribbon-wrapper">
@@ -62,14 +57,13 @@
                 {% else %}
                     <ul>
                         <li class="mainmenu" style="width:132px;"><a href="{{ path('maxcraft_homepage') }}">Accueil</a></li>
-                        <li>Règlements, c'est pas un lien</li>
-                        {#<li><a href="{{ path('maxcraft_guide',{'page': 'reglement'}) }}">Règlements</a></li>#}
+                        <li class="mainmenu">Règlements</li>
                         <li class="mainmenu">Infos
                             <ul class="submenu">
                                 <li><a href="{{ path('maxcraft_players') }}">Les joueurs</a></li>
                                 <li><a href="{{ path('maxcraft_factionslist') }}">Les factions</a></li>
                                 <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
-                                <li>{#<a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a>#}Administration (pas un lien)</li>
+                                <li>Administration</li>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>
