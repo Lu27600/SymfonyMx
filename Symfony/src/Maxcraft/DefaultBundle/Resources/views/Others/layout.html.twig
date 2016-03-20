@@ -35,13 +35,13 @@
     </head>
 
     <body>
-        {% render Maxcraft/DefaultBundle/Resources/views/Others/header.html.twig %}
+        {% render "Maxcraft/DefaultBundle/Resources/views/Others/header.html.twig" %}
         <div id="bar"></div>
         <div id="page">
-        {% render Maxcraft/DefaultBundle/Resources/views/Others/menu.html.twig %}
+        {% render "Maxcraft/DefaultBundle/Resources/views/Others/menu.html.twig" %}
 
         {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        {% render Maxcraft/DefaultBundle/Resources/views/Others/loginspace/html.twig %}
+        {% render "Maxcraft/DefaultBundle/Resources/views/Others/loginspace/html.twig" %}
         {% endif %}
 
         <div id="corps" style="min-height:800px">
