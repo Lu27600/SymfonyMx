@@ -9,6 +9,9 @@
         <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
+        <script src="{{ asset('js/volet.js') }}"></script>
+        <script src="{{ asset('js/jqFancyTransitions.1.8.js') }}"></script>
+        <script src="{{ asset('js/slider.js') }}"></script>
     </head>
     <body>
         <div class="ribbon-wrapper">
@@ -39,7 +42,7 @@
                                 <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
                                 <li><a href="{{ path('maxcraft_ventes') }}">Zones à vendre</a></li>
                                 <li><a href="{{ path('maxcraft_shop') }}">Shops</a></li>
-                                <li><a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a></li>
+                                <li>{#<a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a>#}Administration</li>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>
@@ -47,7 +50,7 @@
                         <li class="mainmenu" style="width:132px;"><a herf="">Guide </a>
                             <ul>
                                 {% for page in pages %}
-                                    <li><a href="{{ path('maxcraft_guide',{'page': page.route}) }}">{{ page.title }}</a></li>
+                                    <li>{#<a href="{{ path('maxcraft_guide',{'page': page.route}) }}">{{ page.title }}</a>#}Guide pages</li>
                                 {% endfor %}
                             </ul>
                         </li>

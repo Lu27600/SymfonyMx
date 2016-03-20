@@ -56,8 +56,8 @@ class User implements UserInterface
     /**
      * @var Faction
      *
-     * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
+     * @ORM\JoinColumn(nullable=true, unique=false)
      */
     private $faction;
 

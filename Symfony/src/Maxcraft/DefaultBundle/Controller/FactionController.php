@@ -183,7 +183,7 @@ class FactionController extends Controller {
      * @Security("has_role('ROLE_USER')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function acceptrequest($mpId){
+    public function acceptrequestAction($mpId){
 
         $user = $this->getUser();
 
@@ -208,7 +208,7 @@ class FactionController extends Controller {
         if($user->getFaction() == null OR $user->getFaction()->getOwner() != $this->getUser())
         {
 
-            throw $this->createNotFoundException('Vous n\'êtes plus fondateur de faction !');
+            throw $this->createNotFoundException('Vous n\'êtes pas fondateur de faction !');
         }
 
         if($user->getFaction() == $mp->getSender()->getFaction())
@@ -225,7 +225,7 @@ class FactionController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $notif = new Notification($this);
-        $notif->setContent('Vous avez été accepté dans la faction <strong>'.$user->getFaction()->getName().'</strong>. Félicitation ! Si vous êtiez dans une autre faction avant vous l\'avez quittée.');
+        $notif->setContent('Vous avez été accepté dans la faction <strong>'.$user->getFaction()->getName().'</strong>. Félicitations ! Si vous êtiez dans une autre faction avant vous l\'avez quittée.');
         $notif->setType('FACTION');
         $notif->setUser($mp->getSender());
         $notif->setView(false);
@@ -241,11 +241,41 @@ class FactionController extends Controller {
         $em->persist($mp->getSender());
         $em->flush();
 
-        //maxcraft
-        $this->get('minecraft')->loadPlayer($mp->getSender()->getId());
-        $this->get('minecraft')->setGroup($mp->getSender()->getUsername(), $user->getFaction()->getTag());
-
         $this->get('session')->getFlashBag()->add('info', '<strong>'.$mp->getSender()->getUsername().'</strong> à été accepté dans votre faction !');
-        return $this->redirect($this->generateUrl('mp'));
+        return $this->redirect($this->generateUrl('maxcraft_messages'));
+    }
+
+    public function notifFaction($faction, $message, $type = 'FACTION', $view = false)
+    {
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+        $members= $rep->findByFaction($faction);
+
+        $em = $this->getDoctrine()->getManager();
+        foreach($members as $member)
+        {
+            $notif = new Notification($this);
+            $notif->setContent($message);
+            $notif->setType($type);
+            $notif->setUser($member);
+            $notif->setView($view);
+            $em->persist($notif);
+        }
+
+        $em->flush();
+    }
+
+    public function testAddAction($pseudo, $tag){
+        $user = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findOneByUsername($pseudo);
+        $faction = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction')->findOneByTag(strtoupper($tag));
+
+        if ($user == null || $faction == null){
+            throw $this->createNotFoundException('user ou fac null');
+        }
+
+        $user->setFaction($faction);
+        $this->getDoctrine()->getManager()->persist($user, $faction);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $user->getUsername().' ajouté à '.$faction->getName();
     }
 }

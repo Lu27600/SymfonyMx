@@ -144,3 +144,7 @@ test_menu:
 test_wrap:
     path: /test/wrap
     defaults: {_controller: MaxcraftDefaultBundle:Default:wrap}
+
+test_addfaction:
+    path: /test/{pseudo}/add/{tag}
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:testAdd}
