@@ -1,9 +1,4 @@
-<html>
-    <head>
 
-    </head>
-
-    <body>
         <div id="headertop">
             <div id="usual_bar">
                 <div id="static_bar">
@@ -20,7 +15,7 @@
 
                     <img src="{{  asset('images/separateur.jpg') }}" style="float: left;"/>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <a style="color:#EEEEEE"; " href="">
+                    <a style="color:#EEEEEE" href="">
                     <img class="icon" src="https://minotar.net/avatar/{{ app.user.username }}/25"/>
                     <div class="label"><strong>{{ app.user.username }}</strong></div>
                     </a>
@@ -31,5 +26,3 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
