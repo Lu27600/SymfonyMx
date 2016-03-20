@@ -15,12 +15,12 @@ use Maxcraft\DefaultBundle\Entity\MP;
 use Maxcraft\DefaultBundle\Entity\Notification;
 use Maxcraft\DefaultBundle\Form\AlbumType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
+
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -158,7 +158,7 @@ class UserController extends Controller
         $hGT = floor($GT/60);
 
         //last co
-        $lastco = $this->getDoctrine()->getRepository('MaxcraftdefaultBundle:Session')->getLastCo($user);
+        $lastco = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Session')->getLastCo($user);
 
         return $this->render('MaxcraftDefaultBundle:User:profil.html.twig', array(
             'user' => $user,
@@ -516,5 +516,67 @@ class UserController extends Controller
             'type' => $type,
         ));
 
+    }
+
+    /**
+     * @param $pseudo
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function editProfilAction($pseudo, Request $request){
+
+
+        if($pseudo != $this->getUser()->getUsername())
+        {
+            throw $this->createAccessDeniedException('Ce n\'est pas votre profil !');
+        }
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+        $user= $rep->findOneByUsername($pseudo);
+
+
+        //form
+        $form = $this->createFormBuilder($user)
+            ->add('profil', 'froala')
+            ->add('Enregistrer', new SubmitType())
+            ->getForm();
+
+        //recuperation form
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+
+            if($form->isValid())
+            {
+                $notif = new Notification($this);
+                $notif->setContent('Vous avez modifié votre message de profil.');
+                $notif->setView(false);
+                $notif->setUser($user);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->persist($notif);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info', "Votre profil à été enregistré !");
+
+                return $this->redirect($this->generateUrl('profil', array('pseudo' => $user->getUsername())));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($user);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+        return $this->render('MaxcraftDefaultBundle:User:editprofil.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 }

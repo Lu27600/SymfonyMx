@@ -46,6 +46,10 @@ profil:
     path: /profil/{pseudo}
     defaults: {_controller: MaxcraftDefaultBundle:User:profil}
 
+editprofil:
+    path: /profil/edit/{pseudo}
+    defaults: {_controller: MaxcraftDefaultBundle:User:editProfil}
+
 admin_news:
     path: /admin/news
     defaults: {_controller: MaxcraftDefaultBundle:Admin:news}
@@ -130,12 +134,14 @@ acceptrequest:
     requirements:
       mpId: \d+
 
-#en cours
 acceptalliance:
     path: /acceptalliance/{mpId}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptalliance}
     requirements:
       mpId: \d+
+
+
+
 
 test_menu:
     path: /test/menu
