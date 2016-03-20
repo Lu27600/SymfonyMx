@@ -1,4 +1,4 @@
-{% extends "Maxcraft/DefaultBundle/Resources/views/Others/layout.html.twig" %}
+{% extends "MaxcraftDefaultBundle:Others:layout.html.twig" %}
 
 {% block title %}Profil de {{ user.username }}{% endblock %}
 
@@ -13,7 +13,7 @@
         <h2>Profil de {{ user.username }}</h2>
 
         {% if myprofil %}
-            <a href="{{ path('maxcraft_editprofil', {'pseudo' : user.username}) }}"><button class="button-bevel red" style="width:100%;">Modifier mon profil</button></a>
+            <a href="{{ path('editprofil', {'pseudo' : user.username}) }}"><button class="button-bevel red" style="width:100%;">Modifier mon profil</button></a>
             <a href="{{ path('maxcraft_messages') }}"><button class="button-bevel red" style="width:100%;">MP reçus</button></a>
         {% else %}
             <a href="{{ path('newmp', {'pseudo' : user.username}) }}"><button class="button-bevel red" style="width:100%;">Envoyer un MP</button></a>
@@ -47,8 +47,8 @@
                 <td><strong>{{ user.registerDate|date('d M Y à H:i') }}</strong></td>
             </tr>
             <tr >
-                {% if end == null %}
-                    <td style="padding-right:10px;">Connécté depuis</td>
+                {% if lastco.end == null %}
+                    <td style="padding-right:10px;">Connecté depuis</td>
                     <td><strong>{{ lastco.start|date('d M Y à H:i') }}</strong></td>
                 {% else %}
                     <td style="padding-right:10px;">Dernière connexion</td>
@@ -67,7 +67,7 @@
 
             <tr>
                 <td>Faction</td>
-                <td><a href="{{ path('faction', {'tag': user.faction.tag}) }}"><strong style="color:rgb(0, 90, 187)">[{{ user.faction.tag }}] {{ user.faction.name }}</strong></a></td>
+                <td><a href="{{ path('maxcraft_faction', {'factionTag': user.faction.tag}) }}"><strong style="color:rgb(0, 90, 187)">[{{ user.faction.tag }}] {{ user.faction.name }}</strong></a></td>
             </tr>
             <tr>
                 <td>Grade</td>

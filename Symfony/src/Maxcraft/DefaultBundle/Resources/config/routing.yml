@@ -148,9 +148,13 @@ factionrequest:
     path:  /faction/{factionTag}/request
     defaults: { _controller: MaxcraftDefaultBundle:Faction:factionrequest  }
 
-editmember:
+faction_editmember:
     path:  /faction/{factionTag}/editmember/{userId}
     defaults: { _controller: MaxcraftDefaultBundle:Faction:editmember  }
+
+faction_kickmember:
+    pattern:  /faction/{factionTag}/kickmember/{userId}
+    defaults: { _controller: MaxcraftDefaultBundle:Faction:kickmember  }
 
 
 
@@ -165,4 +169,5 @@ test_wrap:
 test_addfaction:
     path: /test/{pseudo}/add/{tag}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:testAdd}
+
 

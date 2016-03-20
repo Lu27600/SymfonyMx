@@ -1,21 +1,7 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/pictogram-button.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/items.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/drop.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.css') }}"/>
-        <link href='http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Oxygen:400,700' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Homenaje' rel='stylesheet' type='text/css'>
-        <script src="{{ asset('js/volet.js') }}"></script>
-        <script src="{{ asset('js/jqFancyTransitions.1.8.js') }}"></script>
-        <script src="{{ asset('js/slider.js') }}"></script>
-    </head>
 
 
-    <body>
+
+
         <div class="ribbon-wrapper">
             <div class="ribbon-front" id="menu">
                 {% if is_granted ("IS_AUTHENTICATED_REMEMBERED") %}
@@ -26,7 +12,7 @@
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}">Profil</a></li>
                                 <li><a href="{{ path('profil', {'pseudo': app.user.username}) }}#parcelle_list">Mes parcelles</a></li>
                                 {% if app.user.faction %}
-                                    <li><a href="{{ path('maxcraft_faction',{'tag': app.user.faction.tag}) }}">{{ app.user.faction.tag }}</a></li>
+                                    <li><a href="{{ path('maxcraft_faction',{'factionTag': app.user.faction.tag}) }}">{{ app.user.faction.tag }}</a></li>
                                 {% else %}
                                     <li><a href="{{ path('maxcraft_faction_create') }}">Créer une faction</a></li>
                                 {% endif %}
@@ -88,5 +74,3 @@
             <div class="ribbon-edge-bottomleft"></div>
             <div class="ribbon-edge-bottomright"></div>
         </div>
-    </body>
-</html>

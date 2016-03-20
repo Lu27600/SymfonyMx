@@ -623,4 +623,56 @@ class FactionController extends Controller {
         ));
 
     }
+
+    /**
+     * @param $userId
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function kickmemberAction($userId){
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+        $user= $rep->findOneById($userId);
+
+
+        if($user == NULL)
+        {
+            throw $this->createNotFoundException('Le joueur n\'est pas inscrit !');
+        }
+
+        if(!$this->getUser()->isFactionOwner())
+        {
+            throw $this->createNotFoundException('Vous n\'êtes pas fondateur de faction !');
+        }
+
+
+        if($this->getUser() == $user)
+        {
+            throw $this->createNotFoundException('Vous ne pouvez pas vous éditer vous même !');
+        }
+
+        if($user->getFaction() != $this->getUser()->getFaction())
+        {
+            throw $this->createNotFoundException('Ce joueur n\'est pas dans votre faction !');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user->setFaction(NULL);
+        $user->setFactionRole(0);
+        $em->persist($user);
+        $notif = new Notification();
+        $notif->setType('FACTION');
+        $notif->setUser($user);
+        $notif->setContent('Vous avez été exclu de votre faction !');
+        $notif->setView(false);
+        $em->persist($notif);
+        $em->flush();
+
+
+        $this->get('session')->getFlashBag()->add('info', 'Vous avez exclu '.$user->getUsername().' de votre faction !');
+
+        return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $this->getUser()->getFaction()->getTag())));
+
+    }
 }

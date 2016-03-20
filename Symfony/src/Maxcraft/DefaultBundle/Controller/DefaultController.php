@@ -414,6 +414,9 @@ class DefaultController extends Controller
         ));
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function headerAction(){
         //list des joueurs cos
 
@@ -428,7 +431,7 @@ class DefaultController extends Controller
         $facebook = $this->container->getParameter('facebook');
 
 
-        return $this->render('MaxcraftDefaultBundle::header.html.twig', array(
+        return $this->render('MaxcraftDefaultBundle:Others:header.html.twig', array(
             'connected' => count($onlineUsers),
             'totalplayers' => $nbusers,
             'version' => $bukkitVersion,
