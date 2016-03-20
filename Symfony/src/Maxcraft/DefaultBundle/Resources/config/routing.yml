@@ -68,6 +68,10 @@ admin_infos:
     path: /admin/infos
     defaults: {_controller: MaxcraftDefaultBundle:Admin:infos}
 
+quitfaction:
+    path:  /faction/quitter/{validate}
+    defaults: { _controller: MaxcraftDefaultBundle:Faction:quitfaction, validate:false }
+
 maxcraft_faction:
     path: /faction/{factionTag}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:infos}
@@ -139,6 +143,7 @@ acceptalliance:
     defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptalliance}
     requirements:
       mpId: \d+
+
 
 
 

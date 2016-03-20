@@ -133,4 +133,18 @@ class FactionRoleRepository extends EntityRepository {
         }
 
     }
+
+    public function findAllStates(Faction $faction)
+    {
+        $states = $this->getEntityManager()
+            ->createQuery('SELECT f FROM MaxcraftDefaultBundle:FactionRole f WHERE
+    			(f.faction1 = '.$faction->getId().' OR f.faction2 = '.$faction->getId().')
+
+    			')
+            ->getResult();
+
+
+
+        return $states;
+    }
 }

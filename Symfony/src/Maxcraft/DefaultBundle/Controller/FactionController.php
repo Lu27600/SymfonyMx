@@ -349,4 +349,100 @@ class FactionController extends Controller {
         return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $faction1->getTag())));
 
     }
+
+    /**
+     * @param $validate
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function quitfactionAction($validate = false){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+
+        if($user->getFaction() != NULL)
+        {
+
+            if($validate == false)
+            {
+                //verfification
+                $yes = $this->generateUrl('quitfaction', array('validate' => true));
+                $no = $this->generateUrl('maxcraft_faction', array('factionTag' => $user->getFaction()->getTag()));
+                $this->get('session')->getFlashBag()->add('info', 'Voulez vous vraiment quitter votre faction ? <a href="'.$yes.'">Oui</a> <a href="'.$no.'">Non</a>');
+
+                if($user->getFaction()->getOwner() == $user)
+                {
+                    $this->get('session')->getFlashBag()->add('info', 'Votre départ de la faction entraînera sa suppression définitive.');
+                }
+
+            }
+            else
+            {
+
+                if($user->getFaction()->getOwner() == $user)
+                {
+                    $this->removeFaction($user->getFaction());
+                }
+
+                //depart du membre
+                else
+                {
+
+                    $faction = $user->getFaction();
+                    $user->setFaction(NULL);
+                    $em->persist($user);
+
+
+                    $this->get('session')->getFlashBag()->add('info', 'Vous avez quitté votre faction !');
+
+                    $notif = new Notification($this);
+                    $notif
+                        ->setContent('Vous avez quitté la faction "'.$faction->getName().'".')
+                        ->setView(false)
+                        ->setUser($user)
+                        ->setType('FACTION');
+                    $this->notifFaction($faction, $user->getUsername().' a quitté la faction ');
+                    $em->persist($notif);
+                    $em->flush();
+                }
+
+            }
+
+
+        }
+        return $this->redirect($this->generateUrl('profil', array('pseudo' => $this->getUser()->getUsername())));
+    }
+
+    public function removeFaction(Faction $faction)
+    {
+        $this->notifFaction($faction, 'Votre faction à été dissoute, vous n\'avez plus de faction.');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+        $members = $rep->findByFaction($faction);
+        foreach($members as $member)
+        {
+
+            $member->setFaction(NULL);
+            $member->setFactionRole(1);
+            $em->persist($member);
+
+        }
+
+        $states = $em->getRepository('MaxcraftDefaultBundle:FactionRole')->findAllStates($faction);
+        foreach($states as $state)
+        {
+
+            $em->remove($state);
+
+        }
+
+        //TODO partage de l'argent de la faction
+        //$economy->pay($faction->getTag(),$faction->getUser()->getUsername(), $economy->getMoney($faction->getTag()));
+
+        $em->remove($faction);
+        $em->flush();
+
+    }
 }
