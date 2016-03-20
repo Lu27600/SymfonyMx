@@ -289,6 +289,7 @@ class FactionController extends Controller {
 
         $user = $this->getUser();
 
+
         $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:MP');
         $mp= $rep->findOneById($mpId);
 
