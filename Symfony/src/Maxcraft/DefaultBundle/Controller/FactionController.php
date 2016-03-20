@@ -514,4 +514,113 @@ class FactionController extends Controller {
             'faction' => $faction,
         ));
     }
+
+    /**
+     * @param $userId
+     * @param $factionTag
+     * @param Request $request
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editmemberAction($userId, $factionTag, Request $request){
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+        $user= $rep->findOneById($userId);
+
+
+        if($user == NULL)
+        {
+            throw $this->createNotFoundException('Le joueur n\'est pas inscrit !');
+        }
+
+        if(!$this->getUser()->isFactionOwner())
+        {
+            throw $this->createNotFoundException('Vous n\'êtes pas chef de faction !');
+        }
+
+
+        if($this->getUser() == $user)
+        {
+            throw $this->createNotFoundException('Vous ne pouvez pas vous éditer vous même !');
+        }
+
+        if($user->getFaction() != $this->getUser()->getFaction())
+        {
+            throw $this->createNotFoundException('Ce joueur n\'est pas dans votre faction !');
+        }
+
+        $faction = $user->getFaction();
+
+        $grades = array(
+            '1' => 'Recrue',
+            '2' => 'Membre',
+            '9' => 'Chef',
+            '10' => 'Fondateur (Attention ! Vous perdrez votre grade !)',
+        );
+
+        //form
+        $form = $this->createFormBuilder($user)
+            ->add('factionrole', 'choice', array('choices' => $grades))
+            ->add('Sauvegarder', new SubmitType())
+            ->getForm();
+
+        //recuperation form
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+
+
+            if($form->isValid())
+            {
+                $em = $this->getDoctrine()->getManager();
+
+                if($user->getFactionRole() == 10)
+                {
+                    //Changement de chef de faction
+                    $oldowner = $user->getFaction()->getOwner();
+                    $oldowner->setFactionRole(9);
+                    $em->persist($oldowner);
+                    $faction = $user->getFaction();
+                    $faction->setOwner($user);
+                    $em->persist($faction);
+
+                    $this->notifFaction($faction, '<strong>'.$user->getUsername().'</strong> est devenu responsable de votre faction.');
+                }
+
+
+                $em->persist($user);
+
+                $notif = new Notification();
+                $notif->setContent('Le role <strong>'.$user->getFactionTitle().'</strong> vous à été attribué dans votre faction.');
+                $notif->setType('FACTION');
+                $notif->setUser($user);
+                $em->persist($notif);
+
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info', 'Le membre <strong>'.$user->getUsername().'</strong> à bien été édité.');
+
+
+                return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $faction->getTag())));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($user);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+
+        return $this->render('MaxcraftDefaultBundle:Faction:editmember.html.twig', array(
+            'user' => $user,
+            'faction' => $faction,
+            'form' => $form->createView(),
+        ));
+
+    }
 }
