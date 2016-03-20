@@ -16,7 +16,7 @@ class FactionRoleRepository extends EntityRepository {
     {
         $statelist = new ArrayCollection();
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
-          array('faction' => $faction,
+          array('faction1' => $faction,
               'hasRole'=>'FRIEND'),
           null,
           null,
@@ -27,7 +27,7 @@ class FactionRoleRepository extends EntityRepository {
         }
 
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
-            array('toThisFaction' => $faction,
+            array('faction2' => $faction,
                 'hasRole'=>'FRIEND'),
             null,
             null,
@@ -42,13 +42,13 @@ class FactionRoleRepository extends EntityRepository {
         $factions = array();
         foreach($statelist as $state)
         {
-            if($state->getFaction() == $faction)
+            if($state->getFaction1() == $faction)
             {
-                $factions[] = $state->getToThisFaction();
+                $factions[] = $state->getFaction2();
             }
-            elseif($state->getToThisFaction() == $faction)
+            elseif($state->getFaction2() == $faction)
             {
-                $factions[] = $state->getFaction();
+                $factions[] = $state->getFaction1();
             }
         }
 
@@ -59,7 +59,7 @@ class FactionRoleRepository extends EntityRepository {
     {
         $statelist = new ArrayCollection();
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
-            array('faction' => $faction,
+            array('faction1' => $faction,
                 'hasRole'=>'ENEMY'),
             null,
             null,
@@ -69,7 +69,7 @@ class FactionRoleRepository extends EntityRepository {
             $statelist->add($st);
         }
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
-            array('toThisFaction' => $faction,
+            array('faction2' => $faction,
                 'hasRole'=>'ENEMY'),
             null,
             null,
@@ -83,13 +83,13 @@ class FactionRoleRepository extends EntityRepository {
         $factions = array();
         foreach($statelist as $state)
         {
-            if($state->getFaction() == $faction)
+            if($state->getFaction1() == $faction)
             {
-                $factions[] = $state->getToThisFaction();
+                $factions[] = $state->getFaction2();
             }
-            elseif($state->getToThisFaction() == $faction)
+            elseif($state->getFaction2() == $faction)
             {
-                $factions[] = $state->getFaction();
+                $factions[] = $state->getFaction1();
             }
         }
 
@@ -125,7 +125,7 @@ class FactionRoleRepository extends EntityRepository {
 
         if($state)
         {
-            return $state->getState();
+            return $state->getHasRole();
         }
         else
         {

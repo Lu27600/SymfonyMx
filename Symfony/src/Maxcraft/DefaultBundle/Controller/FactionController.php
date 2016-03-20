@@ -331,6 +331,7 @@ class FactionController extends Controller {
         //nouveau state
 
         $fr = new FactionRole();
+        $fr->setSince(new \DateTime());
         $fr->setFaction1($faction2);
         $fr->setFaction2($faction1);
         $fr->setHasRole('FRIEND');
@@ -345,7 +346,7 @@ class FactionController extends Controller {
 
         $this->get('session')->getFlashBag()->add('info', 'Vous avez ajouté la faction '.$faction2->getTag().' aux factions alliées !');
 
-        return $this->redirect($this->generateUrl('maxcraft_faction', array('tag' => $faction1->getTag())));
+        return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $faction1->getTag())));
 
     }
 }
