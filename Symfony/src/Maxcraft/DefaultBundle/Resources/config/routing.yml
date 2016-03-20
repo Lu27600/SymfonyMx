@@ -114,7 +114,6 @@ maxcraft_notifications:
     path: /notifs
     defaults: {_controller: MaxcraftDefaultBundle:User:notifs}
 
-#en cours
 answermp:
     path: /mp/reply/{mpId}
     defaults: {_controller: MaxcraftDefaultBundle:User:newMp, pseudo: null, type: null}
@@ -125,6 +124,7 @@ newmp:
     path: /mp/nouveau/{pseudo}/{type}
     defaults: { _controller: MaxcraftDefaultBundle:User:newmp, pseudo:null, mpId:null, type:null  }
 
+#en cours
 acceptrequest:
     path: /acceptrequest/{mpId}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptrequest}

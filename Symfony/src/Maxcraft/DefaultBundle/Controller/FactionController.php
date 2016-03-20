@@ -10,6 +10,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 
 use Maxcraft\DefaultBundle\Entity\Faction;
+use Maxcraft\DefaultBundle\Entity\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -175,5 +176,76 @@ class FactionController extends Controller {
             'factions' => $factions,
             'prix' => $prixFaction,
         ));
+    }
+
+    /**
+     * @param $mpId
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function acceptrequest($mpId){
+
+        $user = $this->getUser();
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:MP');
+        $mp= $rep->findOneById($mpId);
+
+        if($mp == null)
+        {
+            throw $this->createNotFoundException('Cette requete n\'existe pas !');
+            /*return $this->render('MaxcraftDefaultBundle:error.html.twig', array(
+                'content' => 'Cette requete n\'existe pas !'
+            ));*/
+        }
+        if($mp->getTarget() != $this->getUser())
+        {
+            throw $this->createNotFoundException('Ce MP ne vous est pas adressé !');
+            /*return $this->render('MaxcraftDefaultBundle:error.html.twig', array(
+                'content' => 'Ce MP ne vous est pas adressé !'
+            ));*/
+        }
+
+        if($user->getFaction() == null OR $user->getFaction()->getOwner() != $this->getUser())
+        {
+
+            throw $this->createNotFoundException('Vous n\'êtes plus fondateur de faction !');
+        }
+
+        if($user->getFaction() == $mp->getSender()->getFaction())
+        {
+
+            throw $this->createNotFoundException('Ce joueur est déjà dans votre faction !');
+        }
+
+        if($mp->getSender()->isFactionOwner())
+        {
+            throw $this->createNotFoundException('Vous ne pouvez pas recruter un chef de faction !');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $notif = new Notification($this);
+        $notif->setContent('Vous avez été accepté dans la faction <strong>'.$user->getFaction()->getName().'</strong>. Félicitation ! Si vous êtiez dans une autre faction avant vous l\'avez quittée.');
+        $notif->setType('FACTION');
+        $notif->setUser($mp->getSender());
+        $notif->setView(false);
+        $em->persist($notif);
+
+        $this->notifFaction($user->getFaction(), '<strong>'.$mp->getSender()->getUsername().'</strong> est entré dans votre faction ! Souhaitez lui la bienvenue.');
+
+        $mp->getSender()->setFaction($user->getFaction());
+        $mp->getSender()->setFactionRole(1);
+
+        $em->remove($mp);
+
+        $em->persist($mp->getSender());
+        $em->flush();
+
+        //maxcraft
+        $this->get('minecraft')->loadPlayer($mp->getSender()->getId());
+        $this->get('minecraft')->setGroup($mp->getSender()->getUsername(), $user->getFaction()->getTag());
+
+        $this->get('session')->getFlashBag()->add('info', '<strong>'.$mp->getSender()->getUsername().'</strong> à été accepté dans votre faction !');
+        return $this->redirect($this->generateUrl('mp'));
     }
 }
