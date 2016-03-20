@@ -17,7 +17,7 @@ class FactionRoleRepository extends EntityRepository {
         $statelist = new ArrayCollection();
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
           array('faction' => $faction,
-              'hasRole'=>'A'),
+              'hasRole'=>'FRIEND'),
           null,
           null,
           0
@@ -28,7 +28,7 @@ class FactionRoleRepository extends EntityRepository {
 
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
             array('toThisFaction' => $faction,
-                'hasRole'=>'A'),
+                'hasRole'=>'FRIEND'),
             null,
             null,
             0
@@ -60,7 +60,7 @@ class FactionRoleRepository extends EntityRepository {
         $statelist = new ArrayCollection();
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
             array('faction' => $faction,
-                'hasRole'=>'E'),
+                'hasRole'=>'ENEMY'),
             null,
             null,
             0
@@ -70,7 +70,7 @@ class FactionRoleRepository extends EntityRepository {
         }
         $states = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:FactionRole')->findBy(
             array('toThisFaction' => $faction,
-                'hasRole'=>'E'),
+                'hasRole'=>'ENEMY'),
             null,
             null,
             0
@@ -101,13 +101,36 @@ class FactionRoleRepository extends EntityRepository {
 
         $state = $this->getEntityManager()
             ->createQuery('SELECT f FROM MaxcraftDefaultBundle:FactionRole f WHERE
-    			(f.faction = '.$faction1->getId().' AND f.toThisFaction = '.$faction2->getId().')
+    			(f.faction1 = '.$faction1->getId().' AND f.faction2 = '.$faction2->getId().')
     			OR
-				(f.faction = '.$faction2->getId().' AND f.toThisFaction = '.$faction1->getId().')
+				(f.faction1 = '.$faction2->getId().' AND f.faction2 = '.$faction1->getId().')
     			')
             ->getOneOrNullResult();
 
         return $state;
+
+    }
+
+
+    public function findState(Faction $faction1, Faction $faction2)
+    {
+
+        $state = $this->getEntityManager()
+            ->createQuery('SELECT f FROM MaxcraftDefaultBundle:FactionRole f WHERE
+    			(f.faction1 = '.$faction1->getId().' AND f.faction2 = '.$faction2->getId().')
+    			OR
+				(f.faction1 = '.$faction2->getId().' AND f.faction2 = '.$faction1->getId().')
+    			')
+            ->getOneOrNullResult();
+
+        if($state)
+        {
+            return $state->getState();
+        }
+        else
+        {
+            return 'NEUTRE';
+        }
 
     }
 }

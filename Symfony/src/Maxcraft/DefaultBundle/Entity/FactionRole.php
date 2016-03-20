@@ -27,7 +27,7 @@ class FactionRole
      * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
      * @ORM\JoinColumn(name="faction", nullable=false)
      */
-    private $faction;
+    private $faction1;
 
     /**
      * @var Faction
@@ -35,14 +35,14 @@ class FactionRole
      * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Faction")
      * @ORM\JoinColumn(name="tothisfaction", nullable=false)
      */
-    private $toThisFaction;
+    private $faction2;
 
     /**
      * @var string
      *
-     * A = alliées
-     * N = neutre
-     * E = ennemies
+     * FRIEND
+     * NEUTRE
+     * ENEMY
      *
      * @ORM\Column(name="hasRole", type="string", length=255)
      */
@@ -70,51 +70,51 @@ class FactionRole
     }
 
     /**
-     * Set faction
+     * Set faction1
      *
-     * @param integer $faction
+     * @param Faction $faction
      *
      * @return FactionRole
      */
-    public function setFaction($faction)
+    public function setFaction1($faction)
     {
-        $this->faction = $faction;
+        $this->faction1 = $faction;
 
         return $this;
     }
 
     /**
-     * Get faction
+     * Get faction1
      *
      * @return Faction
      */
-    public function getFaction()
+    public function getFaction1()
     {
-        return $this->faction;
+        return $this->faction1;
     }
 
     /**
-     * Set toThisFaction
+     * Set faction2
      *
-     * @param integer $toThisFaction
+     * @param  $faction
      *
      * @return FactionRole
      */
-    public function setToThisFaction($toThisFaction)
+    public function setFaction2($faction)
     {
-        $this->toThisFaction = $toThisFaction;
+        $this->faction2 = $faction;
 
         return $this;
     }
 
     /**
-     * Get toThisFaction
+     * Get faction2
      *
      * @return integer
      */
-    public function getToThisFaction()
+    public function getFaction2()
     {
-        return $this->toThisFaction;
+        return $this->faction2;
     }
 
     /**

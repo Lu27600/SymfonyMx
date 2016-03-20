@@ -124,13 +124,13 @@ newmp:
     path: /mp/nouveau/{pseudo}/{type}
     defaults: { _controller: MaxcraftDefaultBundle:User:newmp, pseudo:null, mpId:null, type:null  }
 
-#en cours
 acceptrequest:
     path: /acceptrequest/{mpId}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptrequest}
     requirements:
       mpId: \d+
 
+#en cours
 acceptalliance:
     path: /acceptalliance/{mpId}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:acceptalliance}

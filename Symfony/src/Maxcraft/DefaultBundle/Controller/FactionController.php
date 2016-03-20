@@ -10,6 +10,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 
 use Maxcraft\DefaultBundle\Entity\Faction;
+use Maxcraft\DefaultBundle\Entity\FactionRole;
 use Maxcraft\DefaultBundle\Entity\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -138,7 +139,7 @@ class FactionController extends Controller {
 
                 //maxcraft
 
-                //TODO webSocket
+                //TODO webSocket : load nouvelle faction
                 /*$this->get('minecraft')->loadFaction($faction->getId());
                 $this->get('minecraft')->loadPlayer($user->getId());*/
 
@@ -277,5 +278,73 @@ class FactionController extends Controller {
         $this->getDoctrine()->getManager()->flush();
 
         return $user->getUsername().' ajouté à '.$faction->getName();
+    }
+
+    /**
+     * @param $mpId
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function acceptallianceAction($mpId){
+
+        $user = $this->getUser();
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:MP');
+        $mp= $rep->findOneById($mpId);
+
+        if($mp == null)
+        {
+            throw $this->createNotFoundException('Cette requete n\'existe pas !');
+        }
+        if($mp->getTarget() != $this->getUser())
+        {
+            throw $this->createNotFoundException('Ce MP ne vous est pas adressé !');
+        }
+
+        if($user->getFaction() == null OR $user->getFaction()->getOwner() != $this->getUser())
+        {
+
+            throw $this->createNotFoundException('Vous n\'êtes pas fondateur de faction !');
+        }
+
+        if($mp->getSender()->getFaction() == null OR !$mp->getSender()->isFactionOwner())
+        {
+
+            throw $this->createNotFoundException('Le joueur n\'est plus chef de faction');
+        }
+
+
+        $faction1 = $user->getFaction();
+        $faction2 = $mp->getSender()->getFaction();
+
+
+        $state = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:FactionRole')->findState($faction1, $faction2);
+
+        if($state != 'NEUTRE')
+        {
+            throw $this->createNotFoundException('Vous devez être neutre avec la faction pour accepter l\'alliance.');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        //nouveau state
+
+        $fr = new FactionRole();
+        $fr->setFaction1($faction2);
+        $fr->setFaction2($faction1);
+        $fr->setHasRole('FRIEND');
+        $em->persist($fr);
+
+        $em->remove($mp);
+        $em->flush();
+
+        //NOTIFS
+        $this->notifFaction($faction1, 'Votre faction s\'est alliée avec la faction <strong>'.$faction2->getTag().'</strong> ('.$faction2->getName().').');
+        $this->notifFaction($faction2, 'Votre faction s\'est alliée avec la faction <strong>'.$faction1->getTag().'</strong> ('.$faction1->getName().').');
+
+        $this->get('session')->getFlashBag()->add('info', 'Vous avez ajouté la faction '.$faction2->getTag().' aux factions alliées !');
+
+        return $this->redirect($this->generateUrl('maxcraft_faction', array('tag' => $faction1->getTag())));
+
     }
 }
