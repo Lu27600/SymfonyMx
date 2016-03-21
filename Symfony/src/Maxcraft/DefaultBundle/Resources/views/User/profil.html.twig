@@ -47,12 +47,17 @@
                 <td><strong>{{ user.registerDate|date('d M Y à H:i') }}</strong></td>
             </tr>
             <tr >
-                {% if lastco.end == null %}
-                    <td style="padding-right:10px;">Connecté depuis</td>
+                {% if user.player.vanished %}
+                    <td style="padding-right:10px;">Dernière connexion</td>
                     <td><strong>{{ lastco.start|date('d M Y à H:i') }}</strong></td>
                 {% else %}
+                    {% if lastco.end == null%}
+                         <td style="padding-right:10px;">Connecté depuis</td>
+                        <td><strong>{{ lastco.start|date('d M Y à H:i') }}</strong></td>
+                    {% else %}
                     <td style="padding-right:10px;">Dernière connexion</td>
                     <td><strong>{{ lastco.end|date('d M Y à H:i') }}</strong></td>
+                    {% endif %}
                 {% endif %}
             </tr>
             <tr>
@@ -71,7 +76,7 @@
             </tr>
             <tr>
                 <td>Grade</td>
-                <td>{{ user.factionrole}}</td>
+                <td>{{ user.getfactiontitle}}</td>
             </tr>
         </table>
         {% else %}
