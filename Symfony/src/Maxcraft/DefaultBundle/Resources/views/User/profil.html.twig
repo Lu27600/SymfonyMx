@@ -86,9 +86,40 @@
 </div>
 
 
+
+{% if user.profil %}
+    <div class="section" id="pageprofil">
+        <h1>A propos de moi</h1>
+        {{ user.profil|bbcode_filter('guide') }}
+    </div>
+{% endif %}
+
+
+<div class="section" id="parcellelist">
+    <h1>Mes parcelles ( {# voir nombre de zone#} )</h1>
+    {% if not zone in zones %}
+        {% if myprofil %}
+            <p>Vous n'avez aucune parcelle, pour en acheter regardez <a href="">le catalogue</a> !</p>
+        {% else %}
+            <p>Ce joueur n'a aucune parcelle.</p>
+        {% endif %}
+    {% else %}
+        <div class="parcelle_gen">
+            {% for zone in zones %}
+                {#render vers affichage des zones#}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h1>Mes albums</h1>
+    {% if not album in albums %}
+        <p><strong>{{ user.username }}</strong>n'a aucun album !</p>
+    {% endif %}
+    {% for album in albums %}
+
+</div>
+
 {% endblock %}
-{# Memo pour la suite
- {% for zone in zones %}
- <p>zone : {{ zone.name }}</p><br>
- {% endfor %}
- #}
+
