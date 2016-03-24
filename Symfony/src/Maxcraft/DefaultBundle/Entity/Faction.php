@@ -99,6 +99,14 @@ class Faction
     private $recruits;
 
     /**
+     * @var Album
+     *
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
+     * @ORM\JoinColumn(name="album", nullable=true)
+     */
+    private $album;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="icon", type="string", length=300, nullable=true)
@@ -112,10 +120,26 @@ class Faction
      */
     private $banner;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable = true, unique = false)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="joininfo", type="text", nullable=true, unique=false)
+     */
+    private $joininfo;
+
 
     public function __construct(){
         $this->balance = 0;
         $this->uuid = uniqid("fac",false);
+        $this->description = null;
+        $this->joininfo = "Pas de conditions d'entrée pour cette faction !";
     }
 
     /**
@@ -455,4 +479,55 @@ class Faction
             return $this->icon;
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJoininfo()
+    {
+        return $this->joininfo;
+    }
+
+    /**
+     * @param string $joininfo
+     */
+    public function setJoininfo($joininfo)
+    {
+        $this->joininfo = $joininfo;
+    }
+
+    /**
+     * @return Album
+     */
+    public function getAlbum()
+    {
+        return $this->album;
+    }
+
+    /**
+     * @param Album $album
+     */
+    public function setAlbum($album)
+    {
+        $this->album = $album;
+    }
+
+
+
 }

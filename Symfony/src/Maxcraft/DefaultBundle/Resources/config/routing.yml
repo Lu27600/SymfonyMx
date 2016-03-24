@@ -156,6 +156,11 @@ faction_kickmember:
     pattern:  /faction/{factionTag}/kickmember/{userId}
     defaults: { _controller: MaxcraftDefaultBundle:Faction:kickmember  }
 
+faction_edit:
+    path: /faction/{factionTag}/edit
+    defaults: {_controller: MaxcraftDefaultBundle:Faction:editfaction}
+
+
 
 
 test_menu:

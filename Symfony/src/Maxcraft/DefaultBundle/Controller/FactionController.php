@@ -9,6 +9,7 @@
 namespace Maxcraft\DefaultBundle\Controller;
 
 
+use Maxcraft\DefaultBundle\Entity\AlbumRepository;
 use Maxcraft\DefaultBundle\Entity\Faction;
 use Maxcraft\DefaultBundle\Entity\FactionRole;
 use Maxcraft\DefaultBundle\Entity\MP;
@@ -674,5 +675,95 @@ class FactionController extends Controller {
 
         return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $this->getUser()->getFaction()->getTag())));
 
+    }
+
+    /**
+     * @param $factionTag
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function editfactionAction($factionTag, Request $request){
+
+        if(!$this->getUser()->isFactionOwner())
+        {
+            throw $this->createNotFoundException('Vous n\'êtes pas fondateur de faction !');
+        }
+
+        $faction = $this->getUser()->getFaction();
+
+        $albumslist = $this->getDoctrine()->getManager()
+            ->createQuery('SELECT a FROM MaxcraftDefaultBundle:Album a')
+            ->getResult();
+
+        $albums = array();
+
+        foreach($albumslist as $album)
+        {
+            $albums[$album->getId()] = $album->getName().' ('.$album->getUser()->getUsername().')';
+        }
+
+        //form
+
+        define("ID", $this->getUser()->getId());
+
+        $form = $this->createFormBuilder($faction)
+            ->add('name', 'text')
+            ->add('description', 'froala', array('required' => false))
+            ->add('joininfo', 'froala', array('required' => false))
+            ->add('icon', 'text', array('required' => false))
+            ->add('album', 'entity', array(
+                'class' => 'MaxcraftDefaultBundle:Album',
+                'query_builder' => function(AlbumRepository $er, $id = ID) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.id', 'ASC')
+                        ->where('a.user = '.$id);
+                },
+                'choice_label' => 'name',
+                'group_by' => 'album.user.username',
+                'placeholder' => 'Aucun',
+                'empty_data'  => null,
+                'required' => false,
+            ))
+            ->getForm();
+
+        //traitement
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+
+
+            if($form->isValid())
+            {
+
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($faction);
+                $em->flush();
+
+                //maxcraft
+                //$this->get('minecraft')->loadFaction($faction->getId());
+                //TODO Update avec WS
+
+                $this->get('session')->getFlashBag()->add('info', 'Les paramètres de la faction on étés modifiés.');
+
+                return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $faction->getTag())));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($faction);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+
+        return $this->render('MaxcraftDefaultBundle:Faction:editfaction.html.twig', array(
+            'faction' => $faction,
+            'form' => $form->createView(),
+        ));
     }
 }
