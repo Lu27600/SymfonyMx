@@ -160,8 +160,16 @@ faction_edit:
     path: /faction/{factionTag}/edit
     defaults: {_controller: MaxcraftDefaultBundle:Faction:editfaction}
 
+admin_users:
+    path:  /admin/users
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:users }
 
 
+admin_edituser:
+    path:  /admin/joueurs/editer/{userId}
+    defaults: {_controller: MaxcraftDefaultBundle:Admin:editUser}
+    requirements:
+      userId: \d+
 
 test_menu:
     path: /test/menu

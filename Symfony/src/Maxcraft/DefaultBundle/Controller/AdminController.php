@@ -162,4 +162,102 @@ class AdminController extends Controller{
         ));
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function usersAction(){
+
+        $users = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findBy(
+            array(),
+            array('id' => 'desc')
+        );
+
+        return $this->render('MaxcraftDefaultBundle:Admin:users.html.twig', array(
+            'users' => $users,
+
+        ));
+    }
+
+    /**
+     * @param $userId
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function editUserAction($userId, Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User');
+        $user= $rep->findOneById($userId);
+
+        if($user == null)
+        {
+            throw $this->createNotFoundException('Ce joueur n\'est pas inscrit.');
+        }
+
+        //form
+        $form = $this->createFormBuilder($user)
+            ->add('email', 'text')
+            ->add('password', 'password', array('required' => false))
+            ->add('role', 'choice', array('choices' => array('ROLE_USER' => 'Joueur', 'ROLE_MODO' => 'Modo', 'ROLE_ADMIN' => 'Admin')))
+            ->add('naissance', 'text', array('required' => false))
+            ->add('loisirs', 'text', array('required' => false))
+            ->add('fromwhere', 'text', array('required' => false))
+            ->add('activite', 'text', array('required' => false))
+            ->add('profil', 'froala', array('required' => false))
+            ->add('ip', 'text', array('required' => false))
+            ->add('banned', 'choice', array('choices' => array('1' => 'Oui', '0' => 'Non')))
+            ->getForm();
+
+        //traitement
+        $password = $user->getPassword();
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+
+
+            if($form->isValid())
+            {
+
+                if($user->getPassword() == '' OR $user->getPassword() == null)
+                {
+                    $user->setPassword($password);
+                }
+                else
+                {
+                    $factory = $this->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($user);
+                    $newpassword = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+                    $user->setPassword($newpassword);
+                }
+
+                $em->persist($user);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info', 'Les paramètres du joueur ont été modifiés !');
+
+                return $this->redirect($this->generateUrl('admin_users'));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($user);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+
+
+        return $this->render('MaxcraftDefaultBundle:Admin:edituser.html.twig', array(
+            'form' => $form->createView(),
+            'user' => $user,
+        ));
+    }
+
 }
