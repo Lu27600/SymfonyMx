@@ -107,6 +107,7 @@
         <div class="parcelle_gen">
             {% for zone in zones %}
                 {#render vers affichage des zones#}
+                <p>Il faut faire le render</p>
             {% endfor %}
         </div>
     {% endif %}
@@ -118,7 +119,19 @@
         <p><strong>{{ user.username }}</strong>n'a aucun album !</p>
     {% endif %}
     {% for album in albums %}
-
+        <a style="text-decoration: none;" href="{{ path('maxcraft_albums' , {'id': album.id}) }}">
+        {% if album.albumimage %}
+            <div class="album" style="background-image: url({{ asset(album.albumimage.path) }});">
+        {% else %}
+            <div class="album" style="background-image: url();">
+        {% endif %}
+                <div class="name">
+                    {{ album.name }}
+                </div>
+            </div>
+            </div>
+        </a>
+    {% endfor %}
 </div>
 
 {% endblock %}
