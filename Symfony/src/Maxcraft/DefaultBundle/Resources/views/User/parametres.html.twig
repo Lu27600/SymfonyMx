@@ -8,7 +8,7 @@
 
 <div style="clear: both;height:0px;"></div>
 <div id="gallerie">
-    {#Render sur le wrap#}
+    {% render "MaxcraftDefaultBundle:Others:wrap.html.twig" %}
 </div>
 
 <div class="section">
@@ -22,12 +22,6 @@
 
 
 {#   MEMO
-<html>
-    <head>
-        <title>Maxcraft - Paramètres</title>
-    </head>
-
-    <body>
         <div>
             {{ form(passwordform) }}
         </div>
@@ -35,6 +29,4 @@
         <div>
             {{ form(paramform) }}
         </div>
-    </body>
-</html>
 #}
