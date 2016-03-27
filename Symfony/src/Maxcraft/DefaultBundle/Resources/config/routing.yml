@@ -229,14 +229,12 @@ progressbar:
     path:  /progressbar/{long}x{h}/{value}/{total}/{color}/bar.png/{inversed}
     defaults: { _controller: MaxcraftDefaultBundle:Default:progressBar, color: 'green', inversed: null }
 
-#en cours
-
 addfactionenemy:
-    path:  /faction/{tag}/enemie
+    path:  /faction/{factionTag}/enemy
     defaults: { _controller: MaxcraftDefaultBundle:Faction:addFactionEnemy }
 
 removefactionstate:
-    path:  /faction/{tag}/neutre
+    path:  /faction/{factionTag}/neutre
     defaults: { _controller: MaxcraftDefaultBundle:Faction:removeFactionState }
 
 

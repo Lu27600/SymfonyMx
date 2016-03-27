@@ -766,4 +766,105 @@ class FactionController extends Controller {
             'form' => $form->createView(),
         ));
     }
+
+    /**
+     * @param $factionTag
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function addFactionEnemyAction($factionTag){
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction');
+        $faction= $rep->findOneByTag($factionTag);
+
+        if($faction == NULL)
+        {
+            throw $this->createNotFoundException('La faction "'.strtoupper($factionTag).'" n\'existe pas !');
+        }
+
+        $user = $this->getUser();
+        if(!$user->isFactionOwner())
+        {
+            throw $this->createNotFoundException('Vous n\'êtes pas chef de faction');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        //supression du state existant
+        $state = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:FactionRole')->findStateObject($faction, $user->getFaction());
+
+
+        if($state AND ($state->getHasRole() == 'ENEMY' OR $state->getState() == 'FRIEND'))
+        {
+            throw $this->createNotFoundException('Cette faction n\'est pas neutre !');
+        }
+
+        if($state)
+        {
+            $em->remove($state);
+        }
+
+        //nouveau state
+
+        $fs = new FactionRole();
+        $fs->setFaction1($user->getFaction());
+        $fs->setFaction2($faction);
+        $fs->setHasRole('ENEMY');
+        $em->persist($fs);
+        $em->flush();
+
+        //maxcraft
+        //$this->get('minecraft')->loadFactionState($fs->getId());
+        //TODO WS
+
+
+        $this->get('session')->getFlashBag()->add('info', 'Vous avez ajouté la faction '.strtoupper($factionTag).' aux factions enemies !');
+
+        return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => strtoupper($factionTag))));
+    }
+
+    /**
+     * @param $factionTag
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removeFactionStateAction($factionTag){
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Faction');
+        $faction= $rep->findOneByTag($factionTag);
+
+        if($faction == NULL)
+        {
+            throw $this->createNotFoundException('La faction "'.strtoupper($factionTag).'" n\'existe pas !');
+        }
+
+        $user = $this->getUser();
+        if(!$user->isFactionOwner())
+        {
+            throw $this->createNotFoundException('Vous n\'êtes pas chef de faction');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        //supression du state existant
+        $state = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:FactionRole')->findStateObject($faction, $user->getFaction());
+
+        if($state->getState() == 'ENEMY' AND $state->getFaction2() == $user->getFaction())
+        {
+            throw $this->createNotFoundException('Vous ne pouvez pas retirer cette faction de vos enemies !');
+        }
+
+        if($state)
+        {
+            $em->remove($state);
+        }
+
+        $em->flush();
+
+
+
+        $this->get('session')->getFlashBag()->add('info', 'La faction '.strtoupper($factionTag).' est désormais neutre !');
+
+        return $this->redirect($this->generateUrl('maxcraft_faction', array('tag' => strtoupper($factionTag))));
+    }
 }
