@@ -182,6 +182,47 @@ playerfinder:
     defaults: { _controller: MaxcraftDefaultBundle:Default:playerFinder }
 
 
+#en cours
+guide:
+    path:  /guide/{page}
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:guide }
+
+admin_guide:
+    path:  /admin/guide
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:guide }
+
+admin_editpage:
+    path:  /admin/guide/editer/{id}
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:editpage }
+
+admin_newpage:
+    path:  /admin/guide/nouvelle-page
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:editpage, id:null }
+
+admin_sections:
+    path:  /admin/guide/{page}/sections
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:sections }
+
+admin_editsection:
+    path:  /admin/guide/section/{id}/editer
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:editsection }
+
+admin_newsection:
+    path:  /admin/guide/nouvelle-section
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:editsection, id:null }
+
+admin_removesection:
+    path:  /admin/guide/section/{id}/supprimer
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:removeSection }
+
+admin_removepage:
+    path:  /admin/guide/page/{id}/supprimer
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:removePage }
+
+progressbar:
+    path:  /progressbar/{long}x{h}/{value}/{total}/{color}/bar.png/{inversed}
+    defaults: { _controller: MaxcraftDefaultBundle:Default:progressBar, color: 'green', inversed: null }
+
 
 
 test_menu:

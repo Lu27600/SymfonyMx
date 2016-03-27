@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Maxcraft - Guide - {{ page.title }}</title>
+    </head>
+
+    <body>
+    {% for section in sections %}
+
+        <div class="section guidesection">
+            <h1>{{ section.title }}</h1>
+            {{ section.content|raw }}
+        </div>
+
+    {% endfor %}
+
+    {% if not sections %}
+
+        <div class="section">
+            <h1>Page vide</h1>
+            Cette page est vide.
+        </div>
+    {% endif %}
+    </body>
+</html>

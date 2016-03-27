@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -667,6 +667,71 @@ class DefaultController extends Controller
             'album' => $album,
 
         ));
+    }
+
+    public function progressBarAction($long, $value, $total, $h, $color = 'green', $inversed= null){
+
+        $bar = ($value/$total)*($long-2);
+        $image = \Imagecreate($long, $h);
+
+        if($color == 'green')
+        {
+            $black = \imagecolorallocate($image, 150, 150, 150);
+            $blanc = \imagecolorallocate($image, 215, 215, 215);
+            $vert = \imagecolorallocate($image, 106, 197, 62);
+        }
+        elseif ($color == 'red')
+        {
+            $black = \imagecolorallocate($image, 150, 150, 150);
+            $blanc = \imagecolorallocate($image, 215, 215, 215);
+            $vert = \imagecolorallocate($image, 139, 0, 0);
+        }
+        elseif($color == 'auto')
+        {
+            $black = \imagecolorallocate($image, 150, 150, 150);
+            $blanc = \imagecolorallocate($image, 215, 215, 215);
+            $color = $this->colorDegrade($value/$total, array('r' => 199, 'g' => 0, 'b' => 0), array('r' => 133, 'g' => 235, 'b' => 0));
+            $vert = \imagecolorallocate($image, $color['r'], $color['g'], $color['b']);
+        }
+
+        \ImageFilledRectangle ($image, 0, 0, $long, 1, $black);
+        \ImageFilledRectangle ($image, 1, 1, $long-2, $h-2, $blanc);
+        \ImageFilledRectangle ($image, 1, 1, $bar, $h-2, $vert);
+
+        if($inversed)
+        {
+            $image = imagerotate($image, 180, 0);
+        }
+
+        imagepng($image);
+        $reponse = new Response();
+
+
+
+
+        $reponse->headers->set('Content-Type', 'image/png');
+        return $reponse;
+    }
+
+    public function colorDegrade($value, $startColor, $endColor)
+    {
+        $color = array();
+        //RED
+
+
+        $color['r'] = round($startColor['r'] + ($endColor['r']-$startColor['r'])*$value);
+
+        //GREEN
+
+
+        $color['g'] = round($startColor['g'] + ($endColor['g']-$startColor['g'])*$value);
+
+        //BLUE
+
+
+        $color['b'] = round($startColor['b'] + ($endColor['b']-$startColor['b'])*$value);
+
+        return $color;
     }
 }
 
