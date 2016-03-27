@@ -192,6 +192,8 @@ admin_guide:
 admin_editpage:
     path:  /admin/guide/editer/{pageId}
     defaults: { _controller: MaxcraftDefaultBundle:Guide:editpage }
+    requirements:
+      pageId: \d+
 
 admin_newpage:
     path:  /admin/guide/newpage
@@ -204,20 +206,26 @@ admin_sections:
 admin_editsection:
     path:  /admin/guide/section/{sectionId}/editer
     defaults: { _controller: MaxcraftDefaultBundle:Guide:editsection }
+    requirements:
+      sectionId: \d+
 
 admin_newsection:
     path:  /admin/guide/newsection
     defaults: { _controller: MaxcraftDefaultBundle:Guide:editsection, id:null }
 
-    #en cours
-
 admin_removesection:
     path:  /admin/guide/section/{sectionId}/remove
     defaults: { _controller: MaxcraftDefaultBundle:Guide:removeSection }
+    requirements:
+      sectionId: \d+
+
+    #en cours
 
 admin_removepage:
     path:  /admin/guide/page/{pageId}/supprimer
     defaults: { _controller: MaxcraftDefaultBundle:Guide:removePage }
+    requirements:
+      pageId: \d+
 
 progressbar:
     path:  /progressbar/{long}x{h}/{value}/{total}/{color}/bar.png/{inversed}

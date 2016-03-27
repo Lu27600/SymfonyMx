@@ -204,4 +204,59 @@ class GuideController extends Controller
             'section' => $section,
         ));
     }
+
+    /**
+     * @param $sectionId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function removeSectionAction($sectionId){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:PageSection');
+        $section= $rep->findOneById($sectionId);
+
+        if($section == null)
+        {
+            throw $this->createNotFoundException('Cette section n\'existe pas !');
+        }
+        $page = $section->getPage();
+        $em->remove($section);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('admin_sections', array(
+            'page' => $page->getRoute()
+        )));
+    }
+
+    /**
+     * @param $pageId
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function removePageAction($pageId){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Page');
+        $page= $rep->findOneById($pageId);
+
+        if($page == null)
+        {
+            throw $this->createNotFoundException('Cette page n\'existe pas !');
+        }
+
+        $sections = $this->getDoctrine()->getManager()->createQuery('SELECT s FROM MaxcraftDefaultBundle:PageSection s WHERE s.page = '.$page->getId().' ')->getResult();
+
+        foreach($sections as $section)
+        {
+            $em->remove($section);
+        }
+        $em->flush();
+        $em->remove($page);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('admin_guide'));
+    }
 }
