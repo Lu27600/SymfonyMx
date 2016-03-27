@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>
+            Maxcraft - Admin - Editer Section {{ section.title }}
+        </title>
+    </head>
+
+    <body>
+    <div class="section">
+        <h1>Editer une section</h1>
+
+        <form class="form" method="POST" action="" >
+
+            <label>Titre<span class="input_r">Le titre est affiché dans un h1.</span></label>
+            {{ form_widget(form.title) }}
+
+            <label>Contenu<span class="input_r">Le contenu de la section (html).</span></label>
+            {{ form_widget(form.content) }}
+            <br/>
+            <label>Page du guide<span class="input_r">La page ou sera affichée la section.</span></label>
+            {{ form_widget(form.page) }}
+
+            <label>Ordre<span class="input_r">Ordre par rapport aux autres sections.</span></label>
+            {{ form_widget(form.ordervalue) }}
+
+            <label>Publication<span class="input_r">Si oui la section est affichée dans la page.</span></label>
+            {{ form_widget(form.display) }}
+
+
+            {{ form_widget(form) }}
+
+            <input style="display: block;width: 200px;  margin-bottom:10px;" type="submit" value="Enregistrer la section" class="button-bevel green"/>
+
+        </form>
+
+
+    </div>
+
+
+    <div class="section guidesection">
+        <h1>Aperçu : {{ section.title }}</h1>
+
+        {{ section.content|raw }}
+    </div>
+    </body>
+</html>
