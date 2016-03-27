@@ -1,11 +1,6 @@
-<html>
-    <head>
-        <title>
-            Maxcraft - Admin - Editer Section {{ section.title }}
-        </title>
-    </head>
+{% block title %}Admin - Editer Section {{ section.title }}{% endblock %}
 
-    <body>
+{% block corps %}
     <div class="section">
         <h1>Editer une section</h1>
 
@@ -42,5 +37,4 @@
 
         {{ section.content|raw }}
     </div>
-    </body>
-</html>
+{% endblock %}

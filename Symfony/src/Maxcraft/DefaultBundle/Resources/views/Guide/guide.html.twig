@@ -1,9 +1,7 @@
-<html>
-    <head>
-        <title>Maxcraft - Guide - {{ page.title }}</title>
-    </head>
+{% block title %}Guide - {{ page.title }}{% endblock %}
 
-    <body>
+{% block corps %}
+
     {% for section in sections %}
 
         <div class="section guidesection">
@@ -20,5 +18,5 @@
             Cette page est vide.
         </div>
     {% endif %}
-    </body>
-</html>
+
+{% endblock %}
