@@ -626,6 +626,48 @@ class DefaultController extends Controller
 
         ));
     }
+
+
+    public function playerFinderAction(Request $request){
+
+        $pseudo = $request->query->get('form_pseudo');
+        if(!$pseudo)
+        {
+            $this->get('session')->getFlashBag()->add('alert', 'Une erreur s\'est produite !');
+            return $this->redirect($this->generateUrl('maxcraft_homepage'));
+        }
+
+        $userexists =  $this->getDoctrine()->getManager()
+            ->createQuery('SELECT COUNT(u.id) FROM MaxcraftDefaultBundle:User u WHERE u.username = \''.$pseudo.'\'')
+            ->getSingleScalarResult();
+
+        if(!$userexists)
+        {
+            $this->get('session')->getFlashBag()->add('alert', 'Ce joueur n\'est pas inscrit sur maxcraft.fr !');
+            return $this->redirect($this->generateUrl('maxcraft_homepage'));
+        }
+
+
+        return $this->redirect($this->generateUrl('profil', array('pseudo' => $pseudo)));
+    }
+
+
+    public function albumAction($albumId){
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Album');
+        $album= $rep->findOneById($albumId);
+
+
+        if($album == NULL)
+        {
+            throw $this->createNotFoundException('Cet album n\'est pas accessible !');
+        }
+
+        return $this->render('MaxcraftDefaultBundle:Default:album.html.twig', array(
+            'album' => $album,
+
+        ));
+    }
 }
 
 

@@ -20,7 +20,7 @@
         {% endif %}
     </div>
 
-    {% render "MaxcraftDefaultBundle:Others:wrap.html.twig" %}
+    {{ render(controller("MaxcraftDefaultBundle:Default:wrap")) }}
 </div>
 
 <div class="section" id="profil">
@@ -90,14 +90,14 @@
 {% if user.profil %}
     <div class="section" id="pageprofil">
         <h1>A propos de moi</h1>
-        {{ user.profil|bbcode_filter('guide') }}
+        {{ user.profil|raw }}
     </div>
 {% endif %}
 
 
 <div class="section" id="parcellelist">
     <h1>Mes parcelles ( {# voir nombre de zone#} )</h1>
-    {% if not zone in zones %}
+    {% if not zones %}
         {% if myprofil %}
             <p>Vous n'avez aucune parcelle, pour en acheter regardez <a href="">le catalogue</a> !</p>
         {% else %}
@@ -115,15 +115,15 @@
 
 <div class="section">
     <h1>Mes albums</h1>
-    {% if not album in albums %}
+    {% if not albums %}
         <p><strong>{{ user.username }}</strong>n'a aucun album !</p>
     {% endif %}
     {% for album in albums %}
-        <a style="text-decoration: none;" href="{{ path('maxcraft_albums' , {'id': album.id}) }}">
+        <a style="text-decoration: none;" href="{{ path('maxcraft_album' , {'albumId': album.id}) }}">
         {% if album.albumimage %}
-            <div class="album" style="background-image: url({{ asset(album.albumimage.path) }});">
+            <div class="album" style="background-image: url({{ asset(album.albumimage.getWebPath) }});">
         {% else %}
-            <div class="album" style="background-image: url();">
+            <div class="album" style="background-color: white;">
         {% endif %}
                 <div class="name">
                     {{ album.name }}

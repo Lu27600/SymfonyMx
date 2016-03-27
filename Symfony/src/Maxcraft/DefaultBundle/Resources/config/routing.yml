@@ -36,6 +36,12 @@ albumsetimage:
         albumid: \d+
         imageid: \d+
 
+maxcraft_album:
+    path:  /album/{albumId}
+    defaults: { _controller: MaxcraftDefaultBundle:Default:album }
+    requirements:
+        albumId:  \d+
+
 imageremove:
     pattern:  /image/{imageid}/remove
     defaults: { _controller: MaxcraftDefaultBundle:Default:removeImage }
@@ -170,6 +176,13 @@ admin_edituser:
     defaults: {_controller: MaxcraftDefaultBundle:Admin:editUser}
     requirements:
       userId: \d+
+
+playerfinder:
+    path:  /find
+    defaults: { _controller: MaxcraftDefaultBundle:Default:playerFinder }
+
+
+
 
 test_menu:
     path: /test/menu

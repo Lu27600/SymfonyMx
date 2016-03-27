@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Maxcraft - Album {{ album.id }}</title>
+    </head>
+
+    <body>
+     <div class="section">
+        <h1>{{ album.name }}
+            {% if app.user == album.user %}
+                <a href="{{ path('maxcraft_album_edit', {'albumId': album.id}) }}" style="text-decoration:none; color: rgb(51, 121, 12); float:right;line-height: 28px;">Editer l'album</a>
+            {% endif %}
+        </h1>
+        <p>{{ album.description }}</p><br/>
+
+        <div id="album" style="margin-left:-10px;">
+            {% if album.images %}
+                {% for image in album.images %}
+                    <img src="{{ asset(image.sliderPath) }}" alt="{{ image.name }}"/>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+     </div>
+    </body>
+</html>
