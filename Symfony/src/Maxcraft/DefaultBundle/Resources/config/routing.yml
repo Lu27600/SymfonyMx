@@ -181,18 +181,18 @@ playerfinder:
     path:  /find
     defaults: { _controller: MaxcraftDefaultBundle:Default:playerFinder }
 
-
-#en cours
 guide:
     path:  /guide/{page}
     defaults: { _controller: MaxcraftDefaultBundle:Guide:guide }
+
+#en cours
 
 admin_guide:
     path:  /admin/guide
     defaults: { _controller: MaxcraftDefaultBundle:Admin:guide }
 
 admin_editpage:
-    path:  /admin/guide/editer/{id}
+    path:  /admin/guide/editer/{pageId}
     defaults: { _controller: MaxcraftDefaultBundle:Admin:editpage }
 
 admin_newpage:
@@ -216,7 +216,7 @@ admin_removesection:
     defaults: { _controller: MaxcraftDefaultBundle:Admin:removeSection }
 
 admin_removepage:
-    path:  /admin/guide/page/{id}/supprimer
+    path:  /admin/guide/page/{pageId}/supprimer
     defaults: { _controller: MaxcraftDefaultBundle:Admin:removePage }
 
 progressbar:

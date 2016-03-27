@@ -260,4 +260,15 @@ class AdminController extends Controller{
         ));
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function guideAction(){
+
+        $pages = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM MaxcraftDefaultBundle:Page p ORDER BY p.ordervalue ASC')->getResult();
+        return $this->render('MaxcraftDefaultBundle:Admin:guide.html.twig', array(
+            'pages' => $pages,
+        ));
+    }
 }
