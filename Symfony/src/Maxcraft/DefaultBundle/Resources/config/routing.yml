@@ -191,33 +191,33 @@ admin_guide:
 
 admin_editpage:
     path:  /admin/guide/editer/{pageId}
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:editpage }
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:editpage }
 
 admin_newpage:
     path:  /admin/guide/newpage
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:editpage, pageId:null }
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:editpage, pageId:null }
 
 admin_sections:
     path:  /admin/guide/{page}/sections
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:sections }
-
-    #en cours
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:sections }
 
 admin_editsection:
     path:  /admin/guide/section/{sectionId}/editer
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:editsection }
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:editsection }
 
 admin_newsection:
-    path:  /admin/guide/nouvelle-section
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:editsection, id:null }
+    path:  /admin/guide/newsection
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:editsection, id:null }
+
+    #en cours
 
 admin_removesection:
-    path:  /admin/guide/section/{sectionId}/supprimer
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:removeSection }
+    path:  /admin/guide/section/{sectionId}/remove
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:removeSection }
 
 admin_removepage:
     path:  /admin/guide/page/{pageId}/supprimer
-    defaults: { _controller: MaxcraftDefaultBundle:Admin:removePage }
+    defaults: { _controller: MaxcraftDefaultBundle:Guide:removePage }
 
 progressbar:
     path:  /progressbar/{long}x{h}/{value}/{total}/{color}/bar.png/{inversed}
