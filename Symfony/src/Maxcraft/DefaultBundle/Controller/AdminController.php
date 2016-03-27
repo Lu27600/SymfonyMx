@@ -11,6 +11,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 use Maxcraft\DefaultBundle\Entity\AlbumRepository;
 use Maxcraft\DefaultBundle\Entity\News;
+use Maxcraft\DefaultBundle\Entity\Page;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -269,6 +270,73 @@ class AdminController extends Controller{
         $pages = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM MaxcraftDefaultBundle:Page p ORDER BY p.ordervalue ASC')->getResult();
         return $this->render('MaxcraftDefaultBundle:Admin:guide.html.twig', array(
             'pages' => $pages,
+        ));
+    }
+
+    /**
+     * @param null $pageId
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function editpageAction($pageId = null, Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+
+        if($pageId == null)
+        {
+            $page = new Page();
+        }
+        else
+        {
+            $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Page');
+            $page= $rep->findOneById($pageId);
+        }
+
+        if($page == null)
+        {
+            throw $this->createNotFoundException('Cette page n\'existe pas !');
+        }
+
+        //form
+        $form = $this->createFormBuilder($page)
+            ->add('title', 'text')
+            ->add('route', 'text')
+            ->add('ordervalue', 'integer')
+            ->add('display', 'choice', array('choices' => array('1' => 'Oui', '0' => 'Non')))
+            ->getForm();
+
+        //traitement
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            if($form->isValid())
+            {
+
+
+
+                $em->persist($page);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('info', 'La page a été editée !');
+
+                return $this->redirect($this->generateUrl('admin_guide'));
+            }
+
+            $validator = $this->get('validator');
+            $errorList = $validator->validate($page);
+
+            foreach($errorList as $error)
+            {
+                $this->get('session')->getFlashBag()->add('alert', $error->getMessage());
+            }
+
+        }
+
+
+
+        return $this->render('MaxcraftDefaultBundle:Admin:editpage.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 }
