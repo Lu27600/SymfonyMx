@@ -36,9 +36,9 @@
                         <div id="maxcraft"></div>
                         <li class="mainmenu" style="width:131px;"><a target="_blank" href="http://forum.maxcraft.fr">Forums</a></li>
                         <li class="mainmenu" style="width:132px;"><a herf="">Guide </a>
-                            <ul>
+                            <ul class="submenu">
                                 {% for page in pages %}
-                                    <li>{#<a href="{{ path('maxcraft_guide',{'page': page.route}) }}">{{ page.title }}</a>#}Guide pages</li>
+                                    <a href="{{ path('guide', {'page': page.route}) }}"><li>{{ page.title }}</li></a>
                                 {% endfor %}
                             </ul>
                         </li>
@@ -61,7 +61,7 @@
                         <li class="mainmenu" style="width:132px;"><a href="">Guide </a>
                             <ul>
                                 {% for page in pages %}
-                                   <li>{#<a href="{{ path('maxcraft_guide',{'page': page.route}) }}">{{ page.title }}</a>#}*Pages du Guide*</li>
+                                    <a href="{{ path('guide', {'page': page.route}) }}"><li>{{ page.title }}</li></a>
                                 {% endfor %}
                             </ul>
                         </li>

@@ -219,8 +219,6 @@ admin_removesection:
     requirements:
       sectionId: \d+
 
-    #en cours
-
 admin_removepage:
     path:  /admin/guide/page/{pageId}/supprimer
     defaults: { _controller: MaxcraftDefaultBundle:Guide:removePage }
@@ -230,6 +228,17 @@ admin_removepage:
 progressbar:
     path:  /progressbar/{long}x{h}/{value}/{total}/{color}/bar.png/{inversed}
     defaults: { _controller: MaxcraftDefaultBundle:Default:progressBar, color: 'green', inversed: null }
+
+#en cours
+
+addfactionenemy:
+    path:  /faction/{tag}/enemie
+    defaults: { _controller: MaxcraftDefaultBundle:Faction:addFactionEnemy }
+
+removefactionstate:
+    path:  /faction/{tag}/neutre
+    defaults: { _controller: MaxcraftDefaultBundle:Faction:removeFactionState }
+
 
 
 
