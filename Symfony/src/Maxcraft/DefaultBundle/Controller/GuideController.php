@@ -261,4 +261,15 @@ class GuideController extends Controller
 
         return $this->redirect($this->generateUrl('admin_guide'));
     }
+
+    public function guideMenuAction($pageId)
+    {
+
+        $pages = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM MaxcraftDefaultBundle:Page p WHERE p.display = 1 ORDER BY p.ordervalue ASC')->getResult();
+
+        return $this->render('MaxcraftDefaultBundle:Guide:guidemenu.html.twig', array(
+            'pages' => $pages,
+            'id' => $pageId,
+        ));
+    }
 }

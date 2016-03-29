@@ -2,6 +2,10 @@
 
 {% block corps %}
 
+    {% render "MaxcraftDefaultBundle:Default:guideMenu" with {'id': page.id} %}
+    {{ render(controller("MaxcraftDefaultBundle:Guide:guideMenu",
+    { 'pageId': page.id })) }}
+
     {% for section in sections %}
 
         <div class="section guidesection">

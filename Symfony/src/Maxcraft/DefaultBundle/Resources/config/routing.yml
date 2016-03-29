@@ -237,6 +237,21 @@ removefactionstate:
     path:  /faction/{factionTag}/neutre
     defaults: { _controller: MaxcraftDefaultBundle:Faction:removeFactionState }
 
+parcelle:
+    path:  /parcelle/{webZoneId}
+    defaults: { _controller: MaxcraftDefaultBundle:Zones:parcelle  }
+    requirements:
+      webZoneId: \d+
+
+admin_buglist:
+    path:  /admin/bugs
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:buglist  }
+
+admin_bugswitchfixed:
+    path:  /admin/bugs/{id}/switch
+    defaults: { _controller: MaxcraftDefaultBundle:Admin:bugswitchfixed  }
+
+
 
 
 

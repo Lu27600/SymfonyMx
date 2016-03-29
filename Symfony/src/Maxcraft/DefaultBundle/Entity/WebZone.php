@@ -171,4 +171,67 @@ class WebZone
     {
         return $this->album;
     }
+
+    public function getDisplayType()
+    {
+
+        if($this->hasDirectlyTag('region')) return 'Region';
+        elseif($this->hasDirectlyTag('public')) return 'Zone publique';
+        elseif($this->hasDirectlyTag('shop')) return 'Commerce';
+        elseif($this->hasDirectlyTag('farm')) return 'Farm';
+        else return 'Parcelle';
+    }
+
+    public function hasDirectlyTag($tag)
+    {
+        return in_array($tag, $this->getTagsArray());
+    }
+
+    public function getTagsArray()
+    {
+        if($this->servZone->getTags() == null OR $this->servZone->getTags() == '') return array();
+        return explode(';',$this->servZone->getTags());
+    }
+
+    public function getCoords()
+    {
+        //$coords = explode(';',$this->servZone->getPoints());
+        list($x,$y,$z) = explode(';',$this->servZone->getPoints());
+        /*$pts = array();
+        $i = 0;
+
+        foreach($coords as $coord)
+        {
+            $p_pts = explode(':', $coord);
+            if(count($p_pts) != 2) continue;
+            $pts[$i]['x'] = $p_pts[0];
+            $pts[$i]['z'] = $p_pts[1];
+            $i++;
+        }*/
+
+        return array(
+            'x' => $x,
+            'y' => $y,
+            'z' => $z
+        );
+
+    }
+
+    public function getCenter()
+    {
+        // Premier point
+        return $this->getCoords()[0];
+    }
+
+    public function getColor()
+    {
+
+        if($this->hasDirectlyTag('region')) return '5E9B59';
+        elseif($this->hasDirectlyTag('public')) return '313131';
+        elseif($this->hasDirectlyTag('shop')) return '008B9E';
+        elseif($this->hasDirectlyTag('farm')) return 'ff0055';
+        else return '00AC00';
+
+    }
 }
+

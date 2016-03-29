@@ -38,6 +38,11 @@ class Builder
     private $zone;
 
     /**
+     * ROLES :
+     *
+     * CUBO
+     * BUILD
+     *
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=255)
