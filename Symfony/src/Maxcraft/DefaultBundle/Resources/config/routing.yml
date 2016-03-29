@@ -248,10 +248,30 @@ admin_buglist:
     defaults: { _controller: MaxcraftDefaultBundle:Admin:buglist  }
 
 admin_bugswitchfixed:
-    path:  /admin/bugs/{id}/switch
+    path:  /admin/bugs/{bugId}/switch
     defaults: { _controller: MaxcraftDefaultBundle:Admin:bugswitchfixed  }
+    requirements:
+      bugId: \d+
 
+#en cours
 
+editparcelle:
+    path:  /parcelle/{webZoneId}/editer
+    defaults: { _controller: MaxcraftDefaultBundle:Zones:editParcelle  }
+    requirements:
+      webZoneId: \d+
+
+newzoneuser:
+    path:  /parcelle/{webZoneId}/ajouter-des-droits
+    defaults: { _controller: MaxcraftDefaultBundle:Zones:newZoneUser }
+    requirements:
+          webZoneId: \d+
+
+removezoneuser:
+    path:  /parcelle/removezoneuser/{webZoneId}
+    defaults: { _controller: MaxcraftDefaultBundle:Zones:removeZoneUser }
+    requirements:
+          webZoneId: \d+
 
 
 

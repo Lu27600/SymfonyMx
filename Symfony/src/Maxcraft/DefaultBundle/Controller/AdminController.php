@@ -273,4 +273,53 @@ class AdminController extends Controller{
             'pages' => $pages,
         ));
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function buglistAction(){
+
+        //recuperation des bugs
+
+        $bugs = $this->getDoctrine()->getManager()->createQuery('SELECT b FROM MaxcraftDefaultBundle:Bug b ORDER BY b.date DESC')->getResult();
+
+
+        return $this->render('MaxcraftDefaultBundle:Admin:buglist.html.twig', array(
+            'bugs' => $bugs,
+        ));
+    }
+
+    /**
+     * @param $bugId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function bugswitchfixedAction($bugId)
+    {
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Bug');
+        $bug= $rep->findOneById($bugId);
+
+        if($bug == null)
+        {
+            throw $this->createNotFoundException('Ce bug n\'existe pas !');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        if($bug->getFixed())
+        {
+            $bug->setFixed(false);
+        }
+        else
+        {
+            $bug->setFixed(true);
+        }
+
+        $em->persist($bug);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('admin_buglist'));
+
+
+    }
 }
