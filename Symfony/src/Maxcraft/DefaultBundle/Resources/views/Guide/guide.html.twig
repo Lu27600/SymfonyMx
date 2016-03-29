@@ -1,10 +1,20 @@
+{% extends "MaxcraftDefaultBundle:Others:layout.html.twig" %}
+
 {% block title %}Guide - {{ page.title }}{% endblock %}
 
 {% block corps %}
 
-    {% render "MaxcraftDefaultBundle:Default:guideMenu" with {'id': page.id} %}
-    {{ render(controller("MaxcraftDefaultBundle:Guide:guideMenu",
-    { 'pageId': page.id })) }}
+    <div style="clear: both;height:0px;"></div>
+
+    <div id="gallerie">
+
+        {% render "MaxcraftDefaultBundle:Default:guideMenu" with {'id': page.id} %}
+        {{ render(controller("MaxcraftDefaultBundle:Guide:guideMenu",
+        { 'pageId': page.id })) }}
+
+        {{ render(controller("MaxcraftDefaultBundle:Default:wrap")) }}
+
+    </div>
 
     {% for section in sections %}
 
