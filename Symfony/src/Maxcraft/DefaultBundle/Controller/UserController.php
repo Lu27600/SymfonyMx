@@ -166,6 +166,7 @@ class UserController extends Controller
             'balance' => $balance,
             'mGT' => $mGT,
             'hGT' => $hGT,
+            'nbzones' => count($zones),
             'myprofil' => $myprofil,
             'albums' => $albums,
             'visitor' => $visitor,

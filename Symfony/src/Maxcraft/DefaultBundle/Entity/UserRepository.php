@@ -21,7 +21,8 @@ class UserRepository extends EntityRepository
             0
         );
         foreach($servZones as $z){
-            $webZones[] = $z;
+            $wz = $this->getEntityManager()->createQuery('SELECT w FROM MaxcraftDefaultBundle:WebZone w WHERE w.servZone = '.$z->getId())->getOneOrNullResult();
+            $webZones[] = $wz;
         }
 
         return $webZones;

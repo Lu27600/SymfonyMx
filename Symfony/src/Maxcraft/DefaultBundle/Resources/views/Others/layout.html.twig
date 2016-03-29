@@ -43,7 +43,7 @@
         {{ render(controller("MaxcraftDefaultBundle:Default:menu")) }}
 
         {% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        {{ render(controller("MaxcraftDefaultBundle:Others:loginspace.html.twig")) }}
+        {{ render(controller("MaxcraftDefaultBundle:Security:login")) }}
         {% endif %}
 
         <div id="corps" style="min-height:800px">

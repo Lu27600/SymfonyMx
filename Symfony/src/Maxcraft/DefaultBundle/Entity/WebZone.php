@@ -27,6 +27,13 @@ class WebZone
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
      * @var Zone
      * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Zone", mappedBy="webZone",cascade={"remove", "persist"})
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
@@ -220,7 +227,7 @@ class WebZone
     public function getCenter()
     {
         // Premier point
-        return $this->getCoords()[0];
+        return $this->getCoords();
     }
 
     public function getColor()
@@ -231,6 +238,29 @@ class WebZone
         elseif($this->hasDirectlyTag('shop')) return '008B9E';
         elseif($this->hasDirectlyTag('farm')) return 'ff0055';
         else return '00AC00';
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getIcon()
+    {
+        if($this->hasDirectlyTag('shop')) return 'images/shop.png';
+        else return 'images/parcelle.png';
 
     }
 }

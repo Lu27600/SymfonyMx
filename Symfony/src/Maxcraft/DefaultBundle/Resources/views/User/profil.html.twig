@@ -96,7 +96,7 @@
 
 
 <div class="section" id="parcellelist">
-    <h1>Mes parcelles ( {# voir nombre de zone#} )</h1>
+    <h1>Mes parcelles ({{ nbzones }})</h1>
     {% if not zones %}
         {% if myprofil %}
             <p>Vous n'avez aucune parcelle, pour en acheter regardez <a href="">le catalogue</a> !</p>
@@ -106,8 +106,7 @@
     {% else %}
         <div class="parcelle_gen">
             {% for zone in zones %}
-                {#render vers affichage des zones#}
-                <p>Il faut faire le render</p>
+                {{ render(controller('MaxcraftDefaultBundle:Zones:zone', {'zone' : zone.servZone})) }}
             {% endfor %}
         </div>
     {% endif %}
