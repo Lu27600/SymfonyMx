@@ -13,6 +13,8 @@ use Maxcraft\DefaultBundle\Entity\Page;
 use Maxcraft\DefaultBundle\Entity\PageSection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 class GuideController extends Controller
 {

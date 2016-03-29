@@ -27,10 +27,10 @@
                             <ul class="submenu">
                                 <li><a href="{{ path('maxcraft_players') }}">Les joueurs</a></li>
                                 <li><a href="{{ path('maxcraft_factionslist') }}">Les factions</a></li>
-                                <li><a href="{{ path('maxcraft_donjons') }}">Les donjons</a></li>
-                                <li><a href="{{ path('maxcraft_ventes') }}">Zones à vendre</a></li>
-                                <li><a href="{{ path('maxcraft_shop') }}">Shops</a></li>
-                                <li>{#<a href="{{ path('maxcraft_guide',{'page': 'administration'}) }}">Administration</a>#}Administration</li>
+                                <li>{#<a href="{{ path('maxcraft_donjons') }}">#}[x] Les donjons{#</a>#}</li>
+                                <li>{#<a href="{{ path('maxcraft_ventes') }}">#}[x] Zones à vendre{#</a>#}</li>
+                                <li>{#<a href="{{ path('maxcraft_shop') }}">#}[x] Shops{#</a>#}</li>
+                                <a href="{{ path('guide', {'page': 'administration'}) }}"><li>L' équipe</li></a>
                             </ul>
                         </li>
                         <div id="maxcraft"></div>
