@@ -322,4 +322,19 @@ class AdminController extends Controller{
 
 
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function parcellesAction(){
+        $parcelles = $this->getDoctrine()->getManager()->createQuery('SELECT z FROM MaxcraftDefaultBundle:Zone z')
+            ->getResult();
+
+        return $this->render('MaxcraftDefaultBundle:Admin:parcelles.html.twig', array(
+            'parcelles' => $parcelles,
+        ));
+    }
+
+
 }

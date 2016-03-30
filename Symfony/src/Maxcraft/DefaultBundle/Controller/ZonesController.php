@@ -293,4 +293,17 @@ class ZonesController extends Controller
         $this->get('session')->getFlashBag()->add('info', 'Les droits ont étés supprimés !');
         return $this->redirect($this->generateUrl('parcelle', array('zoneId' => $zoneuser->getZone()->getId())));
     }
+
+
+    public function ventesAction(){
+
+        $ventes = $this->getDoctrine()->getManager()
+            ->createQuery('SELECT osz FROM MaxcraftDefaultBundle:OnSaleZone osz ORDER BY osz.price ASC')
+            ->getResult();
+
+        return $this->render('MaxcraftDefaultBundle:Zones:ventes.html.twig', array(
+            'ventes' => $ventes,
+            'nbventes' => count($ventes),
+        ));
+    }
 }

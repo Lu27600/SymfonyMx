@@ -12,7 +12,11 @@
             {% endif %}
 
             <li>
+                {% if parcelle.owner %}
                 <span class="bold">Propriétaire :</span> {{ parcelle.owner.username }}
+                {% else %}
+                <span class="bold">Pas de propriétaire !</span>
+                {% endif %}
             </li>
 
             <li>
@@ -21,7 +25,7 @@
 
 
             <li>
-                <span class="bold">Lieu :</span> <a href="">{% if parcelle.parent %} {{ parcelle.parent.name }} {% else %} Maxcraft {% endif %} <img src="{{ asset('images/map_icon.png') }}"/></a>
+                <span class="bold">Zone parente  :</span> <a href="">{% if parcelle.parent %} {{ parcelle.parent.name }} {% else %} Aucune {% endif %} <img src="{{ asset('images/map_icon.png') }}"/></a>
             </li>
         </ul>
     </div>
