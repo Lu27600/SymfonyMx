@@ -238,10 +238,10 @@ removefactionstate:
     defaults: { _controller: MaxcraftDefaultBundle:Faction:removeFactionState }
 
 parcelle:
-    path:  /parcelle/{webZoneId}
+    path:  /parcelle/{zoneId}
     defaults: { _controller: MaxcraftDefaultBundle:Zones:parcelle  }
     requirements:
-      webZoneId: \d+
+      zoneId: \d+
 
 admin_buglist:
     path:  /admin/bugs
@@ -256,22 +256,22 @@ admin_bugswitchfixed:
 #en cours
 
 editparcelle:
-    path:  /parcelle/{webZoneId}/editer
+    path:  /parcelle/{zoneId}/editer
     defaults: { _controller: MaxcraftDefaultBundle:Zones:editParcelle  }
     requirements:
-      webZoneId: \d+
+      zoneId: \d+
 
 newzoneuser:
-    path:  /parcelle/{webZoneId}/ajouter-des-droits
+    path:  /parcelle/{zoneId}/ajouter-des-droits
     defaults: { _controller: MaxcraftDefaultBundle:Zones:newZoneUser }
     requirements:
-          webZoneId: \d+
+          zoneId: \d+
 
 removezoneuser:
-    path:  /parcelle/removezoneuser/{webZoneId}
+    path:  /parcelle/removezoneuser/{zoneId}
     defaults: { _controller: MaxcraftDefaultBundle:Zones:removeZoneUser }
     requirements:
-          webZoneId: \d+
+          zoneId: \d+
 
 
 
@@ -286,5 +286,9 @@ test_wrap:
 test_addfaction:
     path: /test/{pseudo}/add/{tag}
     defaults: {_controller: MaxcraftDefaultBundle:Faction:testAdd}
+
+test_addZone:
+    path: /test/newZone/{name}/{points}/{world}
+    defaults: {_controller: MaxcraftDefaultBundle:Default:testAddZone}
 
 

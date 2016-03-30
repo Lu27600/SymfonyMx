@@ -18,21 +18,20 @@ use Symfony\Component\HttpFoundation\Request;
 class ZonesController extends Controller
 {
     /**
-     * @param $webZoneId
+     * @param $zoneId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @internal param Request $request
      * @Security("has_role('ROLE_USER')")
      */
-    public function parcelleAction($webZoneId){
+    public function parcelleAction($zoneId){
 
-        $user = $this->getUser();
 
-        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:WebZone');
-        $wzone= $rep->findOneById($webZoneId);
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone');
+        $zone= $rep->findOneById($zoneId);
 
-        if($wzone == NULL)
+        if($zone == NULL)
         {
-            throw $this->createNotFoundException('Cette parcelle n\'existe pas ! (id : '.$webZoneId.')');
+            throw $this->createNotFoundException('Cette parcelle n\'existe pas ! (id : '.$zoneId.')');
         }
 
         //$mapUrl = $this->container->getParameter('map_url');
@@ -41,22 +40,22 @@ class ZonesController extends Controller
         //cuboiders
 
         $cuboiders = $this->getDoctrine()->getManager()
-            ->createQuery('SELECT b FROM MaxcraftDefaultBundle:Builder b WHERE b.role = \'CUBO\' AND b.zone = '.$wzone->getId())
+            ->createQuery('SELECT b FROM MaxcraftDefaultBundle:Builder b WHERE b.role = \'CUBO\' AND b.zone = '.$zone->getId())
             ->getResult();
 
         $builders = $this->getDoctrine()->getManager()
-            ->createQuery('SELECT b FROM MaxcraftDefaultBundle:Builder b WHERE b.role = \'BUILD\' AND b.zone = '.$wzone->getId())
+            ->createQuery('SELECT b FROM MaxcraftDefaultBundle:Builder b WHERE b.role = \'BUILD\' AND b.zone = '.$zone->getId())
             ->getResult();
 
         //zone filles
         $filles =  $this->getDoctrine()->getManager()
-            ->createQuery('SELECT z FROM MaxcraftDefaultBundle:Zone z WHERE z.parent = '.$wzone->getId())
+            ->createQuery('SELECT z FROM MaxcraftDefaultBundle:Zone z WHERE z.parent = '.$zone->getId())
             ->getResult();
 
 
         //vente
         $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:OnSaleZone');
-        $vente = $rep->findOneByZone($wzone->getServZone());
+        $vente = $rep->findOneByZone($zone);
 
         //TODO à faire !!!! (shops)
         /*//shops
@@ -64,7 +63,7 @@ class ZonesController extends Controller
         $shops = $rep->findByZone($zone->getId());*/
 
         return $this->render('MaxcraftDefaultBundle:Zones:parcelle.html.twig', array(
-            'zone' => $wzone,
+            'zone' => $zone,
             //'mapurl' => $mapUrl,
             'cuboiders' => $cuboiders,
             'builders' => $builders,
@@ -90,24 +89,24 @@ class ZonesController extends Controller
     }
 
     /**
-     * @param $webZoneId
+     * @param $zoneId
      * @param Request $request
      * @Security("has_role('ROLE_USER')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editParcelleAction($webZoneId, Request $request){
+    public function editParcelleAction($zoneId, Request $request){
 
         $user = $this->getUser();
 
-        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:WebZone');
-        $wzone= $rep->findOneById($webZoneId);
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone');
+        $zone= $rep->findOneById($zoneId);
 
-        if($wzone == NULL)
+        if($zone == NULL)
         {
-            throw $this->createNotFoundException('Cette parcelle n\'existe pas ! (id : '.$webZoneId.')');
+            throw $this->createNotFoundException('Cette parcelle n\'existe pas ! (id : '.$zoneId.')');
         }
 
-        if(!($user->getRole() == 'ROLE_ADMIN' OR $wzone->getServZone()->getOwner() == $user))
+        if(!($user->getRole() == 'ROLE_ADMIN' OR $zone->getServZone()->getOwner() == $user))
         {
             throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cette parcelle !');
         }
@@ -115,7 +114,7 @@ class ZonesController extends Controller
         define("ID", $this->getUser()->getId());
 
         //FORM
-        $form = $this->createFormBuilder($wzone)
+        $form = $this->createFormBuilder($zone)
             ->add('name', 'text')
             ->add('description', 'froala', array('required' => false))
             ->add('album', 'entity', array(
@@ -145,9 +144,7 @@ class ZonesController extends Controller
             {
                 $em = $this->getDoctrine()->getManager();
 
-                $szone= $wzone->getServZone();
-                $szone->setName($request->request->get('name'));
-                $em->persist($wzone, $szone);
+                $em->persist($zone);
 
 
                 $em->flush();
@@ -158,11 +155,11 @@ class ZonesController extends Controller
 
 
                 $this->get('session')->getFlashBag()->add('info', 'Les informations de la parcelle ont été modifiées.');
-                return $this->redirect($this->generateUrl('parcelle', array('webZoneId' => $wzone->getId())));
+                return $this->redirect($this->generateUrl('parcelle', array('zoneId' => $zone->getId())));
             }
 
             $validator = $this->get('validator');
-            $errorList = $validator->validate($wzone);
+            $errorList = $validator->validate($zone);
 
             foreach($errorList as $error)
             {
@@ -174,7 +171,7 @@ class ZonesController extends Controller
 
         return $this->render('MaxcraftDefaultBundle:Zones:editparcelle.html.twig', array(
             'form' => $form->createView(),
-            'zone' => $wzone,
+            'zone' => $zone,
         ));
 
     }

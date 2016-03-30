@@ -106,7 +106,7 @@
     {% else %}
         <div class="parcelle_gen">
             {% for zone in zones %}
-                {{ render(controller('MaxcraftDefaultBundle:Zones:zone', {'zone' : zone.servZone})) }}
+                {{ render(controller('MaxcraftDefaultBundle:Zones:zone', {'zone' : zone})) }}
             {% endfor %}
         </div>
     {% endif %}

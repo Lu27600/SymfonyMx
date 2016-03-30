@@ -12,20 +12,11 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
 
-    public function findWebZones($user){
-        $webZones = array();
-        $servZones = $this->getEntityManager()->getRepository('MaxcraftDefaultBundle:Zone')->findBy(
-            array('owner' => $user),
-            null,
-            null,
-            0
-        );
-        foreach($servZones as $z){
-            $wz = $this->getEntityManager()->createQuery('SELECT w FROM MaxcraftDefaultBundle:WebZone w WHERE w.servZone = '.$z->getId())->getOneOrNullResult();
-            $webZones[] = $wz;
-        }
+    public function findZones($user){
 
-        return $webZones;
+        $zones = $this->getEntityManager()->createQuery('SELECT z FROM MaxcraftDefaultBundle:Zone z WHERE z.owner = '.$user->getId());
+
+        return $zones;
     }
 
 

@@ -10,6 +10,7 @@ use Maxcraft\DefaultBundle\Entity\Image;
 use Maxcraft\DefaultBundle\Entity\Player;
 use Maxcraft\DefaultBundle\Entity\User;
 use Maxcraft\DefaultBundle\Entity\Vote;
+use Maxcraft\DefaultBundle\Entity\WebZone;
 use Maxcraft\DefaultBundle\Entity\Zone;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -732,6 +733,38 @@ class DefaultController extends Controller
         $color['b'] = round($startColor['b'] + ($endColor['b']-$startColor['b'])*$value);
 
         return $color;
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @param $name
+     * @param $points
+     * @param $world
+     * @return string
+     */
+    public function testAddZoneAction($name, $points, $world){
+
+        $zone = new Zone();
+
+        $wzone = new WebZone($zone);
+        $zone->setWebZone($wzone);
+
+
+
+        $wzone->setShopDemand(false);
+        $wzone->setDescription('Zone générée pour des tests');
+        $zone->setName($name);
+        $wzone->setName($zone->getName());
+        $zone->setPoints($points);
+        $zone->setWorld($world);
+
+        dump($zone, $wzone);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($wzone, $zone);
+        $em->flush();
+
+        return 'OK';
     }
 }
 

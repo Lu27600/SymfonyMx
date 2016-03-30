@@ -154,7 +154,7 @@ class AdminController extends Controller{
             array('fixed' => false)
         ));
 
-        $nbShopsDemand = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:WebZone')->findBy(
+        $nbShopsDemand = count($this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone')->findBy(
             array('shopDemand' => true)
         ));
 

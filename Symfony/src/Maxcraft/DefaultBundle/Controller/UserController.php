@@ -147,7 +147,7 @@ class UserController extends Controller
         $albums = $rep->findAlbums($user);
 
         //Zones
-        $zones = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findWebZones($user);
+        $zones = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findZones($user);
 
         //argent
         $balance = $user->getPlayer()->getBalance();

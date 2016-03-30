@@ -6,24 +6,24 @@
     <body>
         <div>
             <div class="section" id="profil">
-                <h1><span style=" font-family:'Pirata One', cursive;font-size: 26px; color:#{{ zone.color }}">{{ zone.displayType }}</span> : {{ zone.servZone.name }}
+                <h1><span style=" font-family:'Pirata One', cursive;font-size: 26px; color:#{{ zone.color }}">{{ zone.displayType }}</span> : {{ zone.name }}
                 </h1>
 
-                <p>Localisation : <strong>{% if zone.servZone.parent %} <a href="{{ path('parcelle', {'id': zone.servZone.parent.id}) }}">{{ zone.servZone.parent.name }}</a> {% else %} Maxcraft {% endif %}</strong></p>
-                <p>Coordonnées : {{ zone.coords.x }};{{ zone.coords.z }} ({{ zone.servZone.world }})</p>
+                <p>Localisation : <strong>{% if zone.parent %} <a href="{{ path('parcelle', {'id': zone.parent.id}) }}">{{ zone.parent.name }}</a> {% else %} Maxcraft {% endif %}</strong></p>
+                <p>Coordonnées : {{ zone.coords.x }};{{ zone.coords.z }} ({{ zone.world }})</p>
                 <p style="ligne-height:25px;">Tags : {% for tag in zone.tagsArray %}<span style="color:#EEEEEE; display:inline-block;font-size:13px; font-weight:bold; margin-right:5px;margin-top:5px; padding:2px; padding-left:4px; padding-right:4px;background-color:#666666; -webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;">{{tag}}</span>{% endfor %}</span></p>
 
                 {% if vente %}
                     <p title="Se rendre sur place pour acheter la parcelle." style="margin-top:10px;padding:5px; background-color:rgba(255, 102, 0, 0.62); font-weight:bold;" >En vente actuellement : <strong style="color:white;">{{ vente.price|number_format(0, ',', ' ') }} POs</strong></p>
                 {% endif %}
 
-                {% if not zone.servZone.owner  %}<p>Propriétaire : Aucun</p>{% endif %}
+                {% if not zone.owner  %}<p>Propriétaire : Aucun</p>{% endif %}
 
-                {% if zone.servZone.owner %}
+                {% if zone.owner %}
                     <br/>
                     <div class="membre_faction">
-                        <a href="{{ path('profil', {'pseudo': zone.servZone.owner.username}) }}"><img class="tete_membre" src="{{zone.servZone.owner.avatar(60) }}" width="60" height="60"/></a>
-                        <a href="{{ path('profil', {'pseudo': zone.servZone.owner.username}) }}"><p class="name_membre" >{{ zone.servZone.owner.username }}</p></a>
+                        <a href="{{ path('profil', {'pseudo': zone.owner.username}) }}"><img class="tete_membre" src="{{zone.owner.avatar(60) }}" width="60" height="60"/></a>
+                        <a href="{{ path('profil', {'pseudo': zone.owner.username}) }}"><p class="name_membre" >{{ zone.owner.username }}</p></a>
 
                         <p class="grade_membre">Propriétaire</p>
                     </div>
@@ -123,7 +123,7 @@
 
                             {% for parcelle in filles %}
 
-                                {{ render(controller('MaxcraftDefaultBundle:Zones:zone', {'zone' : parcelle.servZone})) }}
+                                {{ render(controller('MaxcraftDefaultBundle:Zones:zone', {'zone' : parcelle})) }}
 
                             {% endfor %}
 

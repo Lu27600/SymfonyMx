@@ -25,13 +25,13 @@ class Zone
      */
     private $id;
 
-    /**
+    /*/**
      * @var WebZone
      *
      * @ORM\OneToOne(targetEntity="Maxcraft\DefaultBundle\Entity\WebZone", inversedBy="servZone", cascade={"remove", "persist"})
      * @ORM\JoinColumn(nullable=false, name="webZone", onDelete="CASCADE")
-     */
-    private $webZone;
+
+    private $webZone;*/
 
     /**
      * @var string
@@ -83,6 +83,35 @@ class Zone
      * @ORM\OneToMany(targetEntity="Maxcraft\DefaultBundle\Entity\Builder", mappedBy="zone", cascade={"persist"})
      */
     private $builders;
+
+    /**
+     * @var Album
+     *
+     * @ORM\ManyToOne(targetEntity="Maxcraft\DefaultBundle\Entity\Album")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $album;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="shopDemand", type="boolean")
+     */
+    private $shopDemand;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    public function __construct(){
+        $this->builders = new ArrayCollection();
+        $this->setAlbum(null);
+        $this->setShopDemand(false);
+        $this->setDescription(null);
+    }
 
     /**
      * Get id
@@ -191,14 +220,6 @@ class Zone
     }
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->builders = new ArrayCollection();
-    }
-
-    /**
      * Add builder
      *
      * @param \Maxcraft\DefaultBundle\Entity\Builder $builder
@@ -283,21 +304,137 @@ class Zone
         return $this->owner;
     }
 
-    /**
-     * @return mixed
-     */
+    /*/**
+     * @return WebZone
+
     public function getWebZone()
     {
         return $this->webZone;
     }
 
     /**
-     * @param mixed $webZone
-     */
+     * @param WebZone $webZone
+
     public function setWebZone($webZone)
     {
         $this->webZone = $webZone;
+    }*/
+
+    /**
+     * @return Album
+     */
+    public function getAlbum()
+    {
+        return $this->album;
     }
 
+    /**
+     * @param Album $album
+     */
+    public function setAlbum($album)
+    {
+        $this->album = $album;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isShopDemand()
+    {
+        return $this->shopDemand;
+    }
+
+    /**
+     * @param boolean $shopDemand
+     */
+    public function setShopDemand($shopDemand)
+    {
+        $this->shopDemand = $shopDemand;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDisplayType()
+    {
+
+        if($this->hasDirectlyTag('region')) return 'Region';
+        elseif($this->hasDirectlyTag('public')) return 'Zone publique';
+        elseif($this->hasDirectlyTag('shop')) return 'Commerce';
+        elseif($this->hasDirectlyTag('farm')) return 'Farm';
+        else return 'Parcelle';
+    }
+
+    public function hasDirectlyTag($tag)
+    {
+        return in_array($tag, $this->getTagsArray());
+    }
+
+    public function getTagsArray()
+    {
+        if($this->tags == null OR $this->tags == '') return array();
+        return explode(';',$this->tags);
+    }
+
+    public function getCoords()
+    {
+        //$coords = explode(';',$this->servZone->getPoints());
+        list($x,$y,$z) = explode(';',$this->points);
+        /*$pts = array();
+        $i = 0;
+
+        foreach($coords as $coord)
+        {
+            $p_pts = explode(':', $coord);
+            if(count($p_pts) != 2) continue;
+            $pts[$i]['x'] = $p_pts[0];
+            $pts[$i]['z'] = $p_pts[1];
+            $i++;
+        }*/
+
+        return array(
+            'x' => $x,
+            'y' => $y,
+            'z' => $z
+        );
+
+    }
+
+    public function getCenter()
+    {
+        // Premier point
+        return $this->getCoords();
+    }
+
+    public function getColor()
+    {
+
+        if($this->hasDirectlyTag('region')) return '5E9B59';
+        elseif($this->hasDirectlyTag('public')) return '313131';
+        elseif($this->hasDirectlyTag('shop')) return '008B9E';
+        elseif($this->hasDirectlyTag('farm')) return 'ff0055';
+        else return '00AC00';
+
+    }
+
+    public function getIcon()
+    {
+        if($this->hasDirectlyTag('shop')) return 'images/shop.png';
+        else return 'images/parcelle.png';
+
+    }
 
 }
