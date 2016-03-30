@@ -84,7 +84,7 @@
                                 <a href="{{ path('profil', {'pseudo': zonemember.user.username}) }}"><img class="tete_membre" src="{{zonemember.user.avatar(60) }}" width="60" height="60"/></a>
                                 <a href="{{ path('profil', {'pseudo': zonemember.user.username}) }}"><p class="name_membre" >{{ zonemember.user.username }}</p></a>
 
-                                <p class="grade_membre">Cuboider {% if zone.user == app.user or app.user.role == 'ROLE_ADMIN' %}<a href="{{ path('removezoneuser', {'id': zonemember.id}) }}">[X]</a>{% endif %}</p>
+                                <p class="grade_membre">Cuboider {% if zone.owner == app.user or app.user.role == 'ROLE_ADMIN' %}<a href="{{ path('removezoneuser', {'id': zonemember.id}) }}">[X]</a>{% endif %}</p>
                             </div>
                         {% endfor %}
 
@@ -105,7 +105,7 @@
                                 <a href="{{ path('profil', {'pseudo': zonemember.user.username}) }}"><img class="tete_membre" src="{{zonemember.user.avatar(60) }}" width="60" height="60"/></a>
                                 <a href="{{ path('profil', {'pseudo': zonemember.user.username}) }}"><p class="name_membre" >{{ zonemember.user.username }}</p></a>
 
-                                <p class="grade_membre">Builder {% if zone.user == app.user or app.user.role == 'ROLE_ADMIN' %}<a href="{{ path('removezoneuser', {'id': zonemember.id}) }}">[X]</a>{% endif %}</p>
+                                <p class="grade_membre">Builder {% if zone.owner == app.user or app.user.role == 'ROLE_ADMIN' %}<a href="{{ path('removezoneuser', {'id': zonemember.id}) }}">[X]</a>{% endif %}</p>
                             </div>
                         {% endfor %}
 

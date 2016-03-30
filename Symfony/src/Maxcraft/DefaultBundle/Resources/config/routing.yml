@@ -253,8 +253,6 @@ admin_bugswitchfixed:
     requirements:
       bugId: \d+
 
-#en cours
-
 editparcelle:
     path:  /parcelle/{zoneId}/editer
     defaults: { _controller: MaxcraftDefaultBundle:Zones:editParcelle  }
@@ -267,11 +265,13 @@ newzoneuser:
     requirements:
           zoneId: \d+
 
+#en cours
+
 removezoneuser:
-    path:  /parcelle/removezoneuser/{zoneId}
+    path:  /parcelle/removezoneuser/{id}
     defaults: { _controller: MaxcraftDefaultBundle:Zones:removeZoneUser }
     requirements:
-          zoneId: \d+
+          id: \d+
 
 
 

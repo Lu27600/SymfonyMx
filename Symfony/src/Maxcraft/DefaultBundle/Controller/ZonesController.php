@@ -10,6 +10,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 
 use Maxcraft\DefaultBundle\Entity\AlbumRepository;
+use Maxcraft\DefaultBundle\Entity\Builder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -174,5 +175,122 @@ class ZonesController extends Controller
             'zone' => $zone,
         ));
 
+    }
+
+    /**
+     * @param $zoneId
+     * @param Request $request
+     * @Security("has_role('ROLE_USER')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function newZoneUserAction($zoneId, Request $request){
+
+        $user = $this->getUser();
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Zone');
+        $zone= $rep->findOneById($zoneId);
+
+        if($zone == NULL)
+        {
+            throw $this->createNotFoundException('Cette parcelle n\'existe pas ! (id : '.$zoneId.')');
+        }
+
+        if(!($user->getRole() == 'ROLE_ADMIN' OR $zone->getUser() == $user))
+        {
+            throw $this->createNotFoundException('Vous ne pouvez pas modifier cette parcelle !');
+        }
+
+        $zu = new Builder();
+
+
+
+        //recuperation form
+
+        if ($request->isMethod('POST')) {
+
+            if($request->get('pseudo') AND $request->get('role'))
+            {
+                $pseudo = $request->get('pseudo');
+                $role = $request->get('role');
+                //Formulaire rempli
+
+                $builder = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findOneByUsername($pseudo);
+
+                if($builder == null)
+                {
+                    throw $this->createNotFoundException('Ce joueur n\'existe pas !');
+                }
+
+                $isalreadyuser = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(b.id) FROM MaxcraftDefaultBundle:Builder b WHERE b.user = '.$builder->getId().' AND b.zone = '.$zone->getId())->getSingleScalarResult();
+
+
+                if($isalreadyuser OR $zone->getOwner() == $builder)
+                {
+                    throw $this->createNotFoundException('Ce joueur à déjà des droits sur ce terrain ! Vous devez les retirer avant de pouvoir en ajouter !');
+                }
+
+                if($role != 'CUBO' AND $role != 'BUILD')
+                {
+                    throw $this->createNotFoundException('Ce type n\'est pas valide');
+
+                }
+
+                //CREATION
+                $zn = new Builder();
+                $zn->setUser($builder);
+                $zn->setZone($zone);
+                $zn->setRole($role);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($zn);
+                $em->flush();
+
+                //TODO WS
+                //$this->get('minecraft')->reloadZone($zone->getId());
+
+                $this->get('session')->getFlashBag()->add('info', 'Les droits ont été ajoutés à '.$builder->getUsername());
+                return $this->redirect($this->generateUrl('parcelle', array('zoneId' => $zone->getId())));
+
+
+            }
+        }
+
+
+        return $this->render('MaxcraftDefaultBundle:Zones:newzoneuser.html.twig', array(
+            'zone' => $zone,
+        ));
+    }
+
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function removeZoneUserAction($id){
+
+        $user = $this->getUser();
+
+        $rep = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Builder');
+        $zoneuser = $rep->findOneById($id);
+
+        if($zoneuser == NULL)
+        {
+            throw $this->createNotFoundException('Ce droit n\'existe pas !');
+        }
+
+        if(!($user->getRole() == 'ROLE_ADMIN' OR $zoneuser->getZone()->getOwner() == $user))
+        {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer ce droit !');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($zoneuser);
+        $em->flush();
+
+        //TODO WS
+        //$this->get('minecraft')->reloadZone($zoneuser->getZone()->getId());
+
+        $this->get('session')->getFlashBag()->add('info', 'Les droits ont étés supprimés !');
+        return $this->redirect($this->generateUrl('parcelle', array('zoneId' => $zoneuser->getZone()->getId())));
     }
 }
