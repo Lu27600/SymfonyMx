@@ -122,6 +122,9 @@ class DefaultController extends Controller
 
         //TODO Aller chercher Règlement
 
+        $page = $this->getDoctrine()->getRepository("MaxcraftDefaultBundle:Page")->findByRoute('reglements');
+        $sections = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:PageSection')->findByPage($page);
+
         $annees = array();
 
         for($i=2016;$i>=1940;$i--)
@@ -194,7 +197,9 @@ class DefaultController extends Controller
         }
 
         return $this->render('MaxcraftDefaultBundle:Default:register.html.twig', array(
-            'form' => $userForm->createView()
+            'form' => $userForm->createView(),
+            'page'=>$page,
+            'sections' =>$sections
         ));
     }
 
