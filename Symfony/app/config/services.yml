@@ -16,3 +16,7 @@ services:
 
 
 
+services:
+    app.exception_controller:
+        class: Maxcraft\DefaultBundle\Controller\ExceptionController
+        arguments: ['@twig', '%kernel.debug%']
