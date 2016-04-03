@@ -24,23 +24,8 @@ class SymfonyWSS extends NathemWSS
         $this->container = $container;
 
         //Handlers :
-        $this->registerHandler("ZONES-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ZonesInfosHandler');
-        $this->registerHandler("MODERATIONS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\ModerationsInfosHandler');
-        $this->registerHandler("JOBS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\JobsInfosHandler');
-        $this->registerHandler("FACTIONS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\FactionsInfosHandler');
-        $this->registerHandler("ALLONSALEZONE-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\AllOnSaleZoneInfosHandler');
-        $this->registerHandler("ALLPERMS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\AllPermsInfosHandler');
-        $this->registerHandler("PLAYERS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\PlayersInfosHandler');
-        $this->registerHandler("ALLRENTZONE-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\AllRentZoneInfosHandler');
-        $this->registerHandler("WORLDS-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\WorldInfosHandler');
-        $this->registerHandler("ZONE-PERSIST",'Maxcraft\\DefaultBundle\\Websocket\\PersistZoneHandler');
-        $this->registerHandler("FACTION-PERSIST",'Maxcraft\\DefaultBundle\\Websocket\\PersistFactionHandler');
-        $this->registerHandler("JOB-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistJobHandler');
-        $this->registerHandler("MODERATION-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistModerationHandler');
-        $this->registerHandler("ONSALEZONE-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistOnSaleZoneHandler');
-        $this->registerHandler("PERMS-PERSIST",'Maxcraft\\DefaultBundle\\Websocket\\PersistPermsHandler');
-        $this->registerHandler("RENTZONE-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistPermsHandler');
-        $this->registerHandler("WORLD-PERSIST", 'Maxcraft\\DefaultBundle\\Websocket\\PersistWorldHandler');
+        $this->registerHandler("JOB-INFOS", 'Maxcraft\\DefaultBundle\\Websocket\\JobInfosHandler');
+        $this->registerHandler("FACTION-INFOS", 'Maxcraft\\DefaultBundle\\WeSocket\\FactionInfosHandler');
     }
 
     /**

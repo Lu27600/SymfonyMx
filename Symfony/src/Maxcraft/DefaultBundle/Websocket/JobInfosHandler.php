@@ -15,12 +15,19 @@ class JobInfosHandler extends MaxcraftHandler
 
     protected function handle($data)
     {
-        // TODO: Implement handle() method.
         $userUuid = $data['userUuid'];
+        $user = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:User')->findByUuid($userUuid);
+        $job = $this->getDoctrine()->getRepository('MaxcraftDefaultBundle:Jobs')->findByUser($user);
+
+        return array(
+          'uuid' => $job->getUser()->getUuid(),
+          'metier' => $job->getMetier(),
+          'xp'=>$job->getXp()
+        );
     }
 
     protected function onResponseSent()
     {
-        // TODO: Implement onResponseSent() method.
+
     }
 }

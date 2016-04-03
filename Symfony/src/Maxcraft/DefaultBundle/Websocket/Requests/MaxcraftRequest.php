@@ -2,21 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: admin
- * Date: 03/12/15
- * Time: 20:50
+ * Date: 03/04/16
+ * Time: 19:09
  */
 
-namespace Maxcraft\DefaultBundle\Websocket;
+namespace Maxcraft\DefaultBundle\Websocket\Requests;
 
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Collections\ArrayCollection;
-use NathemWS\NathemWSHandler;
+use NathemWS\NathemWSRequest;
 
-
-abstract class MaxcraftHandler extends NathemWSHandler
+abstract class MaxcraftRequest extends NathemWSRequest
 {
-
 
     /**
      * @return mixed

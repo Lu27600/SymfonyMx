@@ -107,6 +107,11 @@ class User implements UserInterface
     /**
      * @var integer
      *
+     * '1' => 'Recrue',
+     *'2' => 'Membre',
+     *'9' => 'Chef',
+     *'10' => 'Fondateur (Attention ! Vous perdrez votre grade !)',
+     *
      * @ORM\Column(name="factionrole", type="integer")
      */
     private $factionrole;
