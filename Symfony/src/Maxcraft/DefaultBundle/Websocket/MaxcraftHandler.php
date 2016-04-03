@@ -19,7 +19,7 @@ abstract class MaxcraftHandler extends NathemWSHandler
 
 
     /**
-     * @return mixed
+     * @return Registry
      */
     public function getDoctrine() {
 

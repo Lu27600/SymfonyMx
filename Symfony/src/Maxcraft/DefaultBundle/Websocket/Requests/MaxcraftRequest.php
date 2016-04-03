@@ -15,7 +15,7 @@ abstract class MaxcraftRequest extends NathemWSRequest
 {
 
     /**
-     * @return mixed
+     * @return Registry
      */
     public function getDoctrine() {
 

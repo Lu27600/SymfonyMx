@@ -75,7 +75,6 @@ class FactionInfosHandler extends MaxcraftHandler
 
     protected function onResponseSent()
     {
-        // TODO: Implement onResponseSent() method.
     }
 
 

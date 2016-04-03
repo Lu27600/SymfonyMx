@@ -67,6 +67,12 @@ class Moderation
      */
     private $banend;
 
+    /**
+     * @var string
+     * @ORM\Column(name="banreason", type="string")
+     */
+    private $banreason;
+
     public function __construct(){
         $this->ismute = false;
         $this->isjail = false;
@@ -74,6 +80,7 @@ class Moderation
         $this->muteend = -1;
         $this->jailend = -1;
         $this->banend = -1;
+        $this->banreason = "";
     }
 
 
@@ -274,4 +281,22 @@ class Moderation
     {
         return $this->user;
     }
+
+    /**
+     * @return string
+     */
+    public function getBanreason()
+    {
+        return $this->banreason;
+    }
+
+    /**
+     * @param string $banreason
+     */
+    public function setBanreason($banreason)
+    {
+        $this->banreason = $banreason;
+    }
+
+
 }
