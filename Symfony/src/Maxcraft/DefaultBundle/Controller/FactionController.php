@@ -14,6 +14,7 @@ use Maxcraft\DefaultBundle\Entity\Faction;
 use Maxcraft\DefaultBundle\Entity\FactionRole;
 use Maxcraft\DefaultBundle\Entity\MP;
 use Maxcraft\DefaultBundle\Entity\Notification;
+use Maxcraft\DefaultBundle\Websocket\Requests\LoadFactionRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -140,10 +141,7 @@ class FactionController extends Controller {
                 $em->flush();
 
                 //maxcraft
-
-                //TODO webSocket : load nouvelle faction
-                /*$this->get('minecraft')->loadFaction($faction->getId());
-                $this->get('minecraft')->loadPlayer($user->getId());*/
+                new LoadFactionRequest($faction);
 
                 return $this->redirect($this->generateUrl('maxcraft_faction', array('factionTag' => $faction->getTag())));
             }
@@ -742,8 +740,7 @@ class FactionController extends Controller {
                 $em->flush();
 
                 //maxcraft
-                //$this->get('minecraft')->loadFaction($faction->getId());
-                //TODO Update avec WS
+                new LoadFactionRequest($faction);
 
                 $this->get('session')->getFlashBag()->add('info', 'Les paramètres de la faction on étés modifiés.');
 
@@ -814,8 +811,8 @@ class FactionController extends Controller {
         $em->flush();
 
         //maxcraft
-        //$this->get('minecraft')->loadFactionState($fs->getId());
-        //TODO WS
+        new LoadFactionRequest($user->getFaction());
+        new LoadFactionRequest($faction);
 
 
         $this->get('session')->getFlashBag()->add('info', 'Vous avez ajouté la faction '.strtoupper($factionTag).' aux factions enemies !');

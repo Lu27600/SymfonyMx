@@ -11,6 +11,7 @@ namespace Maxcraft\DefaultBundle\Controller;
 
 use Maxcraft\DefaultBundle\Entity\AlbumRepository;
 use Maxcraft\DefaultBundle\Entity\Builder;
+use Maxcraft\DefaultBundle\Websocket\Requests\LoadZoneRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -151,8 +152,7 @@ class ZonesController extends Controller
                 $em->flush();
 
                 //maxcraft
-                //TODO WS
-                //$this->get('minecraft')->reloadZone($zone->getId());
+                new LoadZoneRequest($zone);
 
 
                 $this->get('session')->getFlashBag()->add('info', 'Les informations de la parcelle ont été modifiées.');
@@ -245,8 +245,7 @@ class ZonesController extends Controller
                 $em->persist($zn);
                 $em->flush();
 
-                //TODO WS
-                //$this->get('minecraft')->reloadZone($zone->getId());
+                new LoadZoneRequest($zone);
 
                 $this->get('session')->getFlashBag()->add('info', 'Les droits ont été ajoutés à '.$builder->getUsername());
                 return $this->redirect($this->generateUrl('parcelle', array('zoneId' => $zone->getId())));
@@ -287,8 +286,7 @@ class ZonesController extends Controller
         $em->remove($zoneuser);
         $em->flush();
 
-        //TODO WS
-        //$this->get('minecraft')->reloadZone($zoneuser->getZone()->getId());
+        new LoadZoneRequest($zoneuser->getZone());
 
         $this->get('session')->getFlashBag()->add('info', 'Les droits ont étés supprimés !');
         return $this->redirect($this->generateUrl('parcelle', array('zoneId' => $zoneuser->getZone()->getId())));

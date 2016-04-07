@@ -20,7 +20,7 @@ abstract class MaxcraftRequest extends NathemWSRequest
     public function getDoctrine() {
 
 
-        return $this->client->getServer()->getContainer()->get('doctrine');
+        return $this->getServer()->getContainer()->get('doctrine');
     }
 
     protected function arrayToString(Array $array){

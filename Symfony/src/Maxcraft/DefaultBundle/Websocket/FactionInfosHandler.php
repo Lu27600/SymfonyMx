@@ -62,7 +62,7 @@ class FactionInfosHandler extends MaxcraftHandler
             'balance' => $faction->getBalance(),
             'spawn' => $faction->getSpawn(),
             'jail' => $faction->getJail(),
-            'owner' => $facOwner->getuuid(),
+            'owner' => $facOwner->getUuid(),
             'heads' => $this->arrayToString($heads),
             'members' => $this->arrayToString($members),
             'recruits' => $this->arrayToString($recruits),
