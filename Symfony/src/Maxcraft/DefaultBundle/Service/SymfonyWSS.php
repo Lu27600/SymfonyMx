@@ -31,6 +31,8 @@ class SymfonyWSS extends NathemWSS
         $this->registerHandler("MERCHANT-INFOS", 'Maxcraft\\DefaultBundle\\WeSocket\\MerchantInfosHandler');
         $this->registerHandler("PERMS-INFOS", 'Maxcraft\\DefaultBundle\\WeSocket\\PermsInfosHandler');
         $this->registerHandler("PLAYER-INFOS", 'Maxcraft\\DefaultBundle\\WeSocket\\PlayerInfosHandler');
+        $this->registerHandler("QUESTER-INFOS", 'Maxcraft\\DefaultBundle\\WeSocket\\QuesterInfosHandler');
+        $this->registerHandler("SALE-INFOS", 'Maxcraft\\DefaultBundle\\WeSocket\\SaleInfosHandler');
     }
 
     /**
